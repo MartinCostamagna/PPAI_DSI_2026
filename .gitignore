@@ -1,0 +1,94 @@
+# compiled output
+ppai_back_end/dist
+ppai_back_end/node_modules
+ppai_back_end/build
+
+# Logs
+ppai_back_end/logs
+ppai_back_end/*.log
+ppai_back_end/npm-debug.log*
+ppai_back_end/pnpm-debug.log*
+ppai_back_end/yarn-debug.log*
+ppai_back_end/yarn-error.log*
+ppai_back_end/lerna-debug.log*
+
+# OS
+ppai_back_end/.DS_Store
+
+# Tests
+ppai_back_end/coverage
+ppai_back_end/.nyc_output
+
+# IDEs and editors
+ppai_back_end/.idea
+ppai_back_end/.project
+ppai_back_end/.classpath
+ppai_back_end/.c9/
+ppai_back_end/*.launch
+ppai_back_end/.settings/
+ppai_back_end/*.sublime-workspace
+
+# IDE - VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# dotenv environment variable files
+ppai_back_end/.env
+ppai_back_end/.env.development.local
+ppai_back_end/.env.test.local
+ppai_back_end/.env.production.local
+ppai_back_end/.env.local
+
+# temp directory
+ppai_back_end/.temp
+ppai_back_end/.tmp
+
+# Runtime data
+ppai_back_end/pids
+ppai_back_end/*.pid
+ppai_back_end/*.seed
+ppai_back_end/*.pid.lock
+
+# Compiled output
+PPAI_Front_End/dist
+PPAI_Front_End/tmp
+PPAI_Front_End/out-tsc
+PPAI_Front_End/bazel-out
+
+# Node
+PPAI_Front_End/node_modules
+PPAI_Front_End/npm-debug.log
+PPAI_Front_End/yarn-error.log
+
+# IDEs and editors
+PPAI_Front_End/.idea/
+PPAI_Front_End/.project
+PPAI_Front_End/.classpath
+PPAI_Front_End/.c9/
+PPAI_Front_End/*.launch
+PPAI_Front_End/.settings/
+PPAI_Front_End/*.sublime-workspace
+
+# Visual Studio Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.history/*
+
+# Miscellaneous
+PPAI_Front_End/.angular/cache
+PPAI_Front_End/.sass-cache/
+PPAI_Front_End/connect.lock
+PPAI_Front_End/coverage
+PPAI_Front_End/libpeerconnection.log
+PPAI_Front_End/testem.log
+PPAI_Front_End/typings
+
+# System files
+PPAI_Front_End/.DS_Store
+PPAI_Front_End/Thumbs.db

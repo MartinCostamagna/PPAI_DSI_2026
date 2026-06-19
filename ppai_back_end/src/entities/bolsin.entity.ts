@@ -7,4 +7,6 @@ export class Bolsin {
     private comisionMedicaOrigen!: ComisionMedica;
     private comisionMedicaDestino!: ComisionMedica;
     private remito!: Remito;
+
+    
 }
