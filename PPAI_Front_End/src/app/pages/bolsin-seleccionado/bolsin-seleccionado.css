@@ -1,0 +1,196 @@
+.divComision {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    height: 100px;
+    background-color: aqua;
+    margin-bottom: 50px;
+    padding-left: 30px;
+    padding-right: 30px;
+    box-sizing: border-box;
+}
+
+.btn-cancelar-nav {
+    background: transparent;
+    border: none;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 18px;
+    color: black;
+    cursor: pointer;
+}
+
+.btn-cancelar-nav:hover {
+    font-weight: bold;
+}
+
+.labelComision {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 18px;
+}
+
+.detalle-bolsin {
+    width: 80%;
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.detalle-bolsin h3 {
+    margin-top: 0;
+    color: #333;
+    border-bottom: 2px solid aqua;
+    padding-bottom: 10px;
+}
+
+.tarjeta-remito {
+    background-color: white;
+    border-left: 5px solid aqua;
+    padding: 15px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.tarjeta-remito h4 {
+    margin: 0 0 15px 0;
+    color: #555;
+}
+
+.tabla-documentos {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.tabla-documentos th {
+    background-color: #f1f1f1;
+    text-align: left;
+    padding: 8px;
+    border-bottom: 1px solid #ccc;
+}
+
+.tabla-documentos td {
+    padding: 8px;
+    border-bottom: 1px solid #eee;
+}
+
+.divSelect {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 80%;
+    max-width: 900px;
+    margin: auto;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+select {
+    width: 600px;
+    padding: 12px 15px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 15px;
+    color: #333;
+    background-color: white;
+    border: 2px solid aqua;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+select:focus {
+    outline: none;
+    border-color: #00b3b3;
+    box-shadow: 0 0 8px rgba(0, 255, 255, 0.4);
+}
+
+.label-opciones {
+    display: block;
+    font-family: Arial, Helvetica, sans-serif;
+    margin-bottom: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+}
+
+.btnConfirmacion {
+    margin-top: 10px;
+    font-size: 20px;
+    border-radius: 6px;
+    background-color: aqua;
+    border: none;
+    width: 150px;
+    height: 50px;
+    cursor: pointer;
+}
+
+.overlay-confirmacion {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.caja-confirmacion {
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    width: 400px;
+    max-width: 90%;
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    border-top: 5px solid aqua;
+}
+
+.caja-confirmacion h3 {
+    margin-top: 0;
+    color: #333;
+}
+
+.caja-confirmacion p {
+    color: #666;
+    margin-bottom: 25px;
+    line-height: 1.5;
+}
+
+.botones-confirmacion {
+    display: flex;
+    justify-content: space-around;
+}
+
+.btn-cancelar {
+    background-color: #f1f1f1;
+    color: #333;
+    border: 1px solid #ccc;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.btn-cancelar:hover {
+    background-color: #e2e2e2;
+}
+
+.btn-aceptar {
+    background-color: #00b3b3;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.btn-aceptar:hover {
+    background-color: #008888;
+}

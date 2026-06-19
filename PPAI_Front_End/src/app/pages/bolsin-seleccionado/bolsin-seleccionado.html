@@ -1,0 +1,58 @@
+<div class="divComision">
+    <button type="button" class="btn-cancelar-nav" routerLink="/inicio">Cancelar</button>
+    <span class="labelComision">Comision Medica: <!--{{ ComisionMedica.nombre }}-->
+    </span>
+</div>
+
+<div class="detalle-bolsin">
+
+    <h3>Remitos del Bolsín <!-- (Precinto: {{ bolsinSeleccionado.numeroDePrecinto }}) --></h3>
+
+    <div class="tarjeta-remito">
+        <h4>Número de Remito: <!-- {{ remito.numero }} --></h4>
+
+        <table class="tabla-documentos">
+            <thead>
+                <tr>
+                    <th>Asunto</th>
+                    <th>Tipo de Documentación</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="divSelect">
+    <label class="label-opciones" for="opRecepBolsin">Opciones de recepción del bolsín:</label>
+    <select name="opRecepBolsin">
+        <option value=" El contenido del bolsín es igual al registrado">El contenido del bolsín es igual al registrado
+        </option>
+        <option value="No se recibe toda la documentación asociada a los remitos que contiene el bolsín">No se recibe
+            toda
+            la documentación asociada a los remitos que contiene el bolsín</option>
+        <option value="Existe documentación que no corresponde al destino (CM del usuario logueado)">Existe
+            documentación
+            que no corresponde al destino (CM del usuario logueado)</option>
+        <option value="La documentación se debe redirigir a otra área.">La documentación se debe redirigir a otra área.
+        </option>
+    </select>
+
+    <button type="button" class="btnConfirmacion">Confirmar</button>
+</div>
+
+<!--<div class="overlay-confirmacion">
+    <div class="caja-confirmacion">
+        <h3>¿Confirmar registro?</h3>
+        <p>¿Está seguro que desea registrar la recepción de este bolsín con la opción seleccionada?</p>
+        <div class="botones-confirmacion">
+            <button class="btn-cancelar">Cancelar</button>
+            <button class="btn-aceptar">Sí, confirmar</button>
+        </div>
+    </div>
+</div>-->

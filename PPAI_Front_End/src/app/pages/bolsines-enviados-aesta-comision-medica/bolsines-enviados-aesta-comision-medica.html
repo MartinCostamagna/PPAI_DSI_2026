@@ -1,0 +1,26 @@
+<div class="divComision">
+    <button type="button" class="btn-cancelar-nav" routerLink="/inicio">Cancelar</button>
+    <span class="labelComision">Comision Medica: <!--{{ ComisionMedica.nombre }}-->
+    </span>
+</div>
+
+<div class="divBolsines">
+    <table class="bolsines">
+        <thead>
+            <th></th>
+            <th>Comision Medica de Origen</th>
+            <th>N° Precinto</th>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    <input type="radio" name="bolsinSelector">
+                </td>
+                <td><!--{{ bolsin.comicionMedicaDeOrigen }}--></td>
+                <td><!--{{ bolsin.numeroDePrecinto }}--></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <button type="button" class="btnSeleccion" routerLink="/bolsinSeleccionado">Seleccionar Bolsin</button>
+</div>
