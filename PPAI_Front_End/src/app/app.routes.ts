@@ -4,8 +4,8 @@ import { BolsinesEnviadosAEstaComisionMedica } from './pages/bolsines-enviados-a
 import { BolsinSeleccionado } from './pages/bolsin-seleccionado/bolsin-seleccionado';
 
 export const routes: Routes = [
-    { path: '', redirectTo: 'inicio', pathMatch: 'full' },
-    { path: 'inicio', component: Inicio },
-    { path: 'bolsines-enviados-a-esta-comision-medica', component: BolsinesEnviadosAEstaComisionMedica },
-    { path: 'bolsinSeleccionado', component: BolsinSeleccionado }
+  { path: '', redirectTo: 'inicio', pathMatch: 'full' },
+  { path: 'inicio', component: Inicio },
+  { path: 'bolsines-enviados-a-esta-comision-medica', component: BolsinesEnviadosAEstaComisionMedica },
+  { path: 'bolsinSeleccionado', component: BolsinSeleccionado }
 ];
