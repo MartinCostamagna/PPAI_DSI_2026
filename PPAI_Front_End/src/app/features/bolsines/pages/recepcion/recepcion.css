@@ -1,0 +1,64 @@
+.panel {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  max-width: 500px;
+  margin: 2rem auto;
+}
+
+.panel-header {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  color: #374151;
+}
+
+.cm-field {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.cm-field .label {
+  font-weight: 600;
+  color: #6b7280;
+}
+
+.cm-field .value {
+  font-weight: 500;
+  color: #111827;
+}
+
+.fecha-hora {
+  color: #6b7280;
+}
+
+.bolsines-scroll {
+  max-height: 280px;
+  overflow-y: auto;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+}
+
+.bolsin-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.6rem 1rem;
+  border-bottom: 1px solid #f3f4f6;
+  font-size: 0.9rem;
+}
+
+.bolsin-item:last-child {
+  border-bottom: none;
+}
+
+.empty-state {
+  padding: 1rem;
+  text-align: center;
+  color: #9ca3af;
+  font-size: 0.85rem;
+}
