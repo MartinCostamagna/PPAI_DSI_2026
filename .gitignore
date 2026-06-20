@@ -1,3 +1,6 @@
+node_modules
+.vscode
+.idea
 # compiled output
 ppai_back_end/dist
 ppai_back_end/node_modules

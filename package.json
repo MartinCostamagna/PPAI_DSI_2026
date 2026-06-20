@@ -1,5 +1,11 @@
 {
   "devDependencies": {
-    "@types/node": "^26.0.0"
+    "@types/node": "^26.0.0",
+    "concurrently": "^10.0.3"
+  },
+  "scripts": {
+    "frontend": "npm run start --prefix PPAI_Front_End",
+    "backend": "npm run start:dev --prefix ppai_back_end",
+    "start": "concurrently \"npm run frontend\" \"npm run backend\""
   }
 }

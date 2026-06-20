@@ -8,7 +8,7 @@ import { Sesion } from "../entities/sesion.entity";
 import { InMemoryRepository } from "../repository/inMemory.repository";
 
 @Injectable()
-export class GestorRecepcionBolsin implements OnModuleInit {
+export class GestorRecepcionBolsin {
     private bolsines!: Bolsin[];
     private empleados!: Empleado[];
     private estados!: Estado[];
@@ -25,19 +25,27 @@ export class GestorRecepcionBolsin implements OnModuleInit {
 
     constructor(private readonly store: InMemoryRepository) {}
 
-    onModuleInit() {
+    nuevaRecepcionBolsin() {
         this.bolsines = this.store.getBolsines();
         this.empleados = this.store.getEmpleados();
         this.estados = this.store.getEstados();
         this.sesion = this.store.getSesion();
+        this.obtenerEmpleadoLog();
+        return {
+            nombreCMEmpleado: this.obtenerNombreCMEmpleado(),
+            bolsinesInfo: this.buscarBolsinesEnviadosParaCM()
+        } 
     }
+
+
 
     obtenerEmpleadoLog(): void {
         this.empleado = this.sesion.obtenerEmpleadoLog();
-    }
+        }
 
     obtenerNombreCMEmpleado() {
         this.nombreCMEmpleado = this.empleado.mostrarCM();
+        return this.nombreCMEmpleado;
     }
 
     buscarBolsinesEnviadosParaCM() {
