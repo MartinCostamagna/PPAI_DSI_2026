@@ -1,5 +1,4 @@
-html, body {
+body {
   margin: 0;
-  height: 100%;
-  background: #5d77aa;
+  padding: 0;
 }
