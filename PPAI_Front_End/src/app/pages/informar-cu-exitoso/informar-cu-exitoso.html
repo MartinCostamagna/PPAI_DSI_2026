@@ -1,0 +1,19 @@
+@if(!quiereSalir){
+<div class="overlay">
+        <div class="card">
+            <div class="icono">✔</div>
+            <h2 class="titulo">{{ mensaje() }}</h2>
+            <div>
+                <button class="btnVolver" (click)="volver()">Volver al inicio</button>
+                <button class="btnFinCU" (click)="finCU()">Fin CU</button>
+            </div>
+        </div>
+    </div>
+}@else {
+    <div class="overlay">
+        <div class="card">
+            <div class="icono">✔</div>
+            <h2 class="titulo">{{ mensaje() }}</h2>
+        </div>
+    </div>
+}

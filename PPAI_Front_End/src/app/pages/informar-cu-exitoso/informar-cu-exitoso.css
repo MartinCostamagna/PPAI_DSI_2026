@@ -1,0 +1,85 @@
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #f0f4f8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card {
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    padding: 3rem;
+    text-align: center;
+    width: 400px;
+    max-width: 90%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.icono {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    color: white;
+    background-color: #27ae60;
+}
+
+.titulo {
+    font-family: Arial, Helvetica, sans-serif;
+    color: #333;
+    margin: 0;
+    font-size: 1.2rem;
+    line-height: 1.5;
+}
+
+.card div {
+    display: flex;
+    gap: 1rem;
+}
+
+.btnVolver {
+    font-size: 16px;
+    border-radius: 6px;
+    background-color: transparent;
+    color: #2c3e50;
+    border: 2px solid #2c3e50;
+    width: 150px;
+    height: 45px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.btnVolver:hover {
+    background-color: #2c3e50;
+    color: white;
+}
+
+.btnFinCU {
+    font-size: 16px;
+    border-radius: 6px;
+    background-color: #2c3e50;
+    color: white;
+    border: none;
+    width: 150px;
+    height: 45px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.btnFinCU:hover {
+    background-color: #3d5166;
+}

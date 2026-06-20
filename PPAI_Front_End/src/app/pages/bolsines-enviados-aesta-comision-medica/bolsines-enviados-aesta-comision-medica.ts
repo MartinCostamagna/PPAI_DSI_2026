@@ -1,23 +1,53 @@
-import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Component, computed, inject, Injectable, signal } from '@angular/core';
+import { Router } from '@angular/router';
 import { RecepcionBolsinService } from '../../services/recepcion-bolsin.service';
+
+
+interface Bolsin {
+  nombreCMOrigen: string,
+  numeroPrecinto: number
+}
+
 
 @Component({
   selector: 'app-bolsines-enviados-aesta-comision-medica',
-  imports: [RouterLink],
+  imports: [],
   templateUrl: './bolsines-enviados-aesta-comision-medica.html',
   styleUrl: './bolsines-enviados-aesta-comision-medica.css',
 })
 export class BolsinesEnviadosAEstaComisionMedica {
-  ComisionMedica = { nombre: '' };
-  bolsines: any[] = [];
-
-  constructor(private recepcionService: RecepcionBolsinService) {}
+  private router = inject(Router);
+  private recepcionService = inject(RecepcionBolsinService);
+  comisionMedica = this.recepcionService.getComisionMedica();
+  bolsines = this.recepcionService.getBolsines();
+  bolsinSeleccionado: Bolsin | undefined = undefined;
+  filtro = signal<string>('');
 
   ngOnInit() {
-    this.recepcionService.mostrarCMYBolsines().subscribe(data => {
-      this.ComisionMedica = { nombre: data.nombreCMEmpleado };
-      this.bolsines = data.bolsinesInfo;
+    this.recepcionService.mostrarCMYBolsines();
+  }
+
+  seleccionar(bolsin: Bolsin){
+    this.bolsinSeleccionado = bolsin;
+  }
+
+  tomarSeleccionBolsin() {
+    if(!this.bolsinSeleccionado) return;
+    this.recepcionService.tomarSeleccionBolsin(this.bolsinSeleccionado)
+    .subscribe(() => {
+      this.router.navigate(['/bolsinSeleccionado']);
     });
   }
+
+  cancelar() {
+    this.router.navigate(["/inicio"])
+  }
+
+  bolsinesFiltrados = computed(() =>
+    this.bolsines().filter(b =>
+      b.nombreCMOrigen.toLowerCase().includes(this.filtro().toLowerCase()) ||
+      b.numeroPrecinto.toString().includes(this.filtro())
+    )
+  );
+
 }

@@ -1,12 +1,16 @@
-import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Component, inject } from '@angular/core';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-inicio',
-  imports: [RouterLink],
+  imports: [],
   templateUrl: './inicio.html',
   styleUrl: './inicio.css',
 })
 export class Inicio {
+  private router = inject(Router);
 
+  irABolsines() {
+    this.router.navigate(['/bolsines-enviados-a-esta-comision-medica'])
+  }
 }

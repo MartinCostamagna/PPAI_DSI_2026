@@ -3,8 +3,8 @@
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    height: 100px;
-    background-color: aqua;
+    height: 80px;
+    background-color: #2c3e50;
     margin-bottom: 50px;
     padding-left: 30px;
     padding-right: 30px;
@@ -16,17 +16,19 @@
     border: none;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 18px;
-    color: black;
+    color: white;
     cursor: pointer;
 }
 
 .btn-cancelar-nav:hover {
     font-weight: bold;
+    color: #a0aec0;
 }
 
 .labelComision {
     font-family: Arial, Helvetica, sans-serif;
     font-size: 18px;
+    color: white;
 }
 
 .divBolsines {
@@ -35,23 +37,46 @@
     align-items: center;
 }
 
+.buscador {
+    width: 76%;
+    max-width: 865px;
+    margin-bottom: 0.5rem;
+    margin-right: 2rem;
+}
+
+.buscador input {
+    width: 100%;
+    padding: 0.6rem 1rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.buscador input:focus {
+    border-color: #2c3e50;
+    box-shadow: 0 0 0 3px rgba(44, 62, 80, 0.15);
+}
+
 .bolsines {
     width: 80%;
     max-width: 900px;
-    margin: 40px auto;
+    margin: 0 auto 40px auto;
     border-collapse: collapse;
     font-family: Arial, Helvetica, sans-serif;
     background-color: white;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
 }
 
 .bolsines thead th {
-    background-color: aqua;
-    color: black;
+    background-color: #2c3e50;
+    color: white;
     padding: 15px;
     text-align: left;
     font-weight: bold;
-    border-bottom: 2px solid #00cccc;
 }
 
 .bolsines th:first-child,
@@ -63,19 +88,27 @@
 .bolsines tbody td {
     padding: 12px 15px;
     border-bottom: 1px solid #eeeeee;
+    color: #333;
 }
 
 .bolsines tbody tr:hover {
-    background-color: #e0ffff;
+    background-color: #f0f4f8;
     cursor: pointer;
 }
 
 .btnSeleccion {
-    font-size: 24px;
+    font-size: 18px;
     border-radius: 6px;
-    background-color: aqua;
+    background-color: #2c3e50;
+    color: white;
     border: none;
     width: 250px;
     height: 50px;
     cursor: pointer;
+    margin-top: 1rem;
+    transition: background-color 0.2s;
+}
+
+.btnSeleccion:hover {
+    background-color: #3d5166;
 }

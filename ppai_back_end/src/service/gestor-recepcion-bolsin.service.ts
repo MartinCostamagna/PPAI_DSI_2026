@@ -20,9 +20,11 @@ export class GestorRecepcionBolsin {
     private estadoRecibidoEnCMDestino!: Estado;
     private estadoRecibidoYAceptado!: Estado;
     private estadoRecibidaYAceptada!: Estado;
-    private confirmacion: boolean = false;
     private fechaYHoraActual!: Date;
-
+    private estadoRegistrada!: Estado;
+    private estadoRecibidaYRechazada!: Estado;
+    private estadoParaRedirigir!: Estado;
+    
     constructor(private readonly store: InMemoryRepository) {}
 
     nuevaRecepcionBolsin() {
@@ -36,8 +38,6 @@ export class GestorRecepcionBolsin {
             bolsinesInfo: this.buscarBolsinesEnviadosParaCM()
         } 
     }
-
-
 
     obtenerEmpleadoLog(): void {
         this.empleado = this.sesion.obtenerEmpleadoLog();
@@ -57,7 +57,7 @@ export class GestorRecepcionBolsin {
 
     tomarSeleccionBolsin(nroPrecinto: number) {
         this.bolsinSeleccionado = this.bolsines.find(b => b.getNumeroPrecinto() === nroPrecinto)!;
-        this.buscarNroRemitosYDocumentacion();
+        return this.buscarNroRemitosYDocumentacion();
     }
 
     buscarNroRemitosYDocumentacion() {
@@ -69,10 +69,7 @@ export class GestorRecepcionBolsin {
     }
 
     tomarConfirmacion() {
-        this.confirmacion = true;
-        if (this.confirmacion){
-            this.registrarRecepcionBolsin();
-        }
+        return this.registrarRecepcionBolsin();
     }
 
     registrarRecepcionBolsin() {
@@ -91,14 +88,38 @@ export class GestorRecepcionBolsin {
                     this.estadoRecibidaYAceptada,
                     this.empleado
                 )
+                break
             case 2:
-                mensaje = ""
+            //skip por ahora falta saber estado remito
+                mensaje = "Documentacion faltante"
+                this.estadoRegistrada = this.buscarEstadoRegistrada();
+                break
             case 3:
-                mensaje = ""
+                mensaje = `Documentacion no corresponde a la CM destino ${this.nombreCMEmpleado}`
+                this.estadoRecibidaYRechazada = this.buscarEstadoRecibidaYRechazada();
+                //estado remito buscar cuando sepamos
+                this.bolsinSeleccionado.registrarRecepcion(
+                    this.fechaYHoraActual,
+                    this.estadoRecibidoEnCMDestino, 
+                    this.estadoRecibidaYAceptada,// cambiar, no sabemos va el estado remito cuando sepamos, 
+                    this.estadoRecibidaYRechazada,
+                    this.empleado
+                )
+                break
             case 4:
-                mensaje = ""
+                mensaje = "Documentación para redirigir a otra área"
+                this.estadoParaRedirigir = this.buscarEstadoParaRedirigir();
+                //estado remito buscar cuando sepamos
+                this.bolsinSeleccionado.registrarRecepcion(
+                    this.fechaYHoraActual,
+                    this.estadoRecibidoEnCMDestino, 
+                    this.estadoRecibidaYRechazada, // cambiar, no sabemos va el estado remito cuando sepamos,
+                    this.estadoParaRedirigir, 
+                    this.empleado
+                )
+                break
         }
-        this.llamarCUNotificarRecepcionBolsin(mensaje);
+        return this.llamarCUNotificarRecepcionBolsin(mensaje);
     }
 
     tomarFechaYHoraActual(): Date {
@@ -116,12 +137,24 @@ export class GestorRecepcionBolsin {
     buscarEstadoRecibidaYAceptada(): Estado {
         return this.estados.filter(e => e.esAmbitoDocumentacion()).find(e => e.esRecibidaYAceptada())!;
     }
+    
+    buscarEstadoRegistrada(): Estado {
+        return this.estados.filter(e => e.esAmbitoDocumentacion()).find(e => e.esRegistrada())!;
+    }
+
+    buscarEstadoRecibidaYRechazada(): Estado {
+        return this.estados.filter(e => e.esAmbitoDocumentacion()).find(e => e.esRecibidaYRechazada())!;
+    }
+
+    buscarEstadoParaRedirigir(): Estado {
+        return this.estados.filter(e => e.esAmbitoDocumentacion()).find(e => e.esParaRedirigir())!;
+    }
 
     llamarCUNotificarRecepcionBolsin(mensaje: string): { mensaje: string } {
         return {mensaje};
     }
 
-    finCU(): {message: string} {
-        return {message : "Fin CU"}
+    finCU(): {mensaje: string} {
+        return {mensaje : "Fin CU"}
     }
 }

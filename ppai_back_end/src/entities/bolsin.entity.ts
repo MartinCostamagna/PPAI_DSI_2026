@@ -39,15 +39,15 @@ export class Bolsin {
     public mostrarRemitos(): Object {
         return this.remitos.map(r => ({
             numerosRemitos: r.getNumero(),
-            datosDocumentacion: this.buscarDatosDocumentacion()
+            datosDocumentacion: this.buscarDatosDocumentacion(r)
         }))
     }
 
-    public buscarDatosDocumentacion(): Object{
-        return this.remitos.map(r => r.mostrarDocumentacion())
+    public buscarDatosDocumentacion(remito: Remito): Object{
+        return remito.mostrarDocumentacion();
     }
 
-    public registrarRecepcion(fechaYHoraActual: Date, estado: Estado, estadoRemito: Estado ,estadoDocumentacion: Estado, empleado: Empleado): void{
+    public registrarRecepcion(fechaYHoraActual: Date, estado: Estado, estadoRemito: Estado, estadoDocumentacion: Estado, empleado: Empleado): void{
         this.crearCEBolsin(fechaYHoraActual, estado, empleado);
         this.remitos.forEach(r => {
             r.setEstado(estadoRemito);
@@ -62,6 +62,4 @@ export class Bolsin {
         const nuevo: CambioEstadoBolsin = new CambioEstadoBolsin(estado, empleado, fechaYHoraActual);
         this.cambiosEstado.push(nuevo);
     }
-
-
 }

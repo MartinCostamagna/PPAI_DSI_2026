@@ -42,9 +42,12 @@ export class InMemoryRepository implements OnModuleInit {
         // Ámbito Remito
         const estadoEnviadoRemito = new Estado('Enviado', 'Remito');
         const estadoRecibidoYAceptado = new Estado('RecibidoYAceptado', 'Remito');
+        //agregar los estado que faltan cuando tengamos mquina de estado
         // Ámbito Documentación
-        const estadoEnviadaDocumentacion = new Estado('Enviado', 'Documentacion');
+        const estadoEnviadaDocumentacion = new Estado('Enviada', 'Documentacion');
         const estadoRecibidaYAceptada = new Estado('RecibidaYAceptada', 'Documentacion');
+        const estadoParaRedirigir = new Estado('ParaRedirigir', 'Documentacion');
+        const estadoRecibidaYRechazada = new Estado('RecibidaYRechazada', 'Documentacion');
 
         this.estados = [
             estadoEnviadoBolsin,
@@ -53,6 +56,8 @@ export class InMemoryRepository implements OnModuleInit {
             estadoRecibidoYAceptado,
             estadoEnviadaDocumentacion,
             estadoRecibidaYAceptada,
+            estadoParaRedirigir,
+            estadoRecibidaYRechazada
         ];
 
         /**
@@ -160,7 +165,19 @@ export class InMemoryRepository implements OnModuleInit {
             estadoEnviadoRemito
         );
 
-        this.remitos = [remito1001, remito1002];
+        const remito1004 = new Remito(
+            1004,
+            [detalleEstudioMedico1],
+            estadoEnviadoRemito
+        );
+
+        const remito1005 = new Remito(
+            1005,
+            [detalleEstudioMedico1],
+            estadoEnviadoRemito
+        );
+
+        this.remitos = [remito1001, remito1002,remito1004, remito1005];
 
         /**
          * - Cambios de estado de bolsín
@@ -178,9 +195,16 @@ export class InMemoryRepository implements OnModuleInit {
             new Date('2025-06-11T07:30:00'),
         );
 
+        const ceBolsinEnviado3 = new CambioEstadoBolsin(
+            estadoEnviadoBolsin,
+            empleadoEncargadoBolsinesBsAs,
+            new Date('2025-06-11T07:30:00'),
+        );
+
         this.cambiosEstadoBolsin = [
             ceBolsinEnviado,
-            ceBolsinEnviado2
+            ceBolsinEnviado2,
+            ceBolsinEnviado3
         ];
 
         /**
@@ -202,7 +226,15 @@ export class InMemoryRepository implements OnModuleInit {
             12800
         );
 
-        this.bolsines = [bolsinEnviadoABsAs, bolsinEnviado2ABsAs];
+        const bolsinEnviado3ABsAs = new Bolsin(
+            [ceBolsinEnviado3],
+            cmCentral,      // origen: CM Central
+            cmBuenosAires,  // destino
+            [remito1004, remito1005],
+            12900
+        );
+
+        this.bolsines = [bolsinEnviadoABsAs, bolsinEnviado2ABsAs, bolsinEnviado3ABsAs];
 
         /**
          * - Sesión activa

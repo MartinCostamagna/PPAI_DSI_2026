@@ -20,7 +20,7 @@ export class DetalleRemito  {
     }
 
     public actualizarEstadoDoc(fechaYHoraActual: Date, estado: Estado, empleado: Empleado): void {
-        this.documentacion.actualizarEstadoDoc(fechaYHoraActual, estado, empleado)
+        this.documentacion.aceptar(fechaYHoraActual, estado, empleado)
     }
 
 }

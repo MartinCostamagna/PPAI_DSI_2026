@@ -24,9 +24,11 @@ export class Documentacion  {
         return this.asunto;
     }
 
-    public actualizarEstadoDoc(fechaYHoraActual: Date, estado: Estado, empleado: Empleado): void{
+    public aceptar(fechaYHoraActual: Date, estado: Estado, empleado: Empleado): void{
         this.cambioEstadoDocumentacion.find(cea => cea.sosActual())?.setFechaYHoraFin(fechaYHoraActual);
         const nuevo: CambioEstadoDocumentacion = new CambioEstadoDocumentacion (estado, empleado, fechaYHoraActual);
         this.cambioEstadoDocumentacion.push(nuevo);
     }
+
+    //agregar metodo maquinas de estado y cambiar nombre diagrama
 }
