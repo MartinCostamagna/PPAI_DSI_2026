@@ -167,7 +167,7 @@ export class InMemoryRepository implements OnModuleInit {
 
         const remito1004 = new Remito(
             1004,
-            [detalleEstudioMedico1],
+            [detalleDictamen1, detalleExpediente1],
             estadoEnviadoRemito
         );
 
