@@ -2,12 +2,10 @@ import { Documentacion } from "./documentacion.entity";
 import { Empleado } from "./empleado.entity";
 import { Estado } from "./estado.entity";
 
-
-
-export class DetalleRemito  {
+export class DetalleRemito {
     private documentacion: Documentacion;
 
-    constructor(documentacion: Documentacion){
+    constructor(documentacion: Documentacion) {
         this.documentacion = documentacion;
     }
 
@@ -15,16 +13,16 @@ export class DetalleRemito  {
         return this.documentacion.mostrarTipoDocumento();
     }
 
-    public mostrarAsunto(): string {
+    public mostrarAsuntoDoc(): string {
         return this.documentacion.getAsunto();
     }
 
-    public actualizarEstadoDocRecibidaYAceptada(fechaYHoraActual: Date, estado: Estado, empleado: Empleado): void {
+    public actualizarEstadoDocARecibidaYAceptada(fechaYHoraActual: Date, estado: Estado, empleado: Empleado): void {
         this.documentacion.aceptar(fechaYHoraActual, estado, empleado);
     }
 
     public actualizarEstadoDocARecibidaYRechazada(fechaYHoraActual: Date, estado: Estado, empleado: Empleado): void {
-        this.documentacion.aceptar(fechaYHoraActual, estado, empleado);
+        this.documentacion.rechazar(fechaYHoraActual, estado, empleado);
     }
 
     public actualizarEstadoDocAParaRedirigir(fechaYHoraActual: Date, estado: Estado, empleado: Empleado): void {

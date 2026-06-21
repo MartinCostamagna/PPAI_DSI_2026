@@ -1,10 +1,9 @@
 <div class="divComision">
     <button type="button" class="btn-cancelar-nav" routerLink="/inicio">Cancelar</button>
-    <span class="labelComision">Comision Medica: {{ comisionMedica() }} </span>
+    <span class="labelComision">Comision Medica: {{ comisionMedica() }}</span>
 </div>
 
 <div class="detalle-bolsin">
-
     @if (bolsinSeleccionado){
     <h3>Remitos del Bolsín (Número de Precinto: {{ bolsinSeleccionado.numeroPrecinto }})</h3>
 
@@ -27,7 +26,7 @@
                     }
                 </tbody>
             </table>
-        <hr class="espacio">
+            <hr class="espacio">
         }
     </div>
     }

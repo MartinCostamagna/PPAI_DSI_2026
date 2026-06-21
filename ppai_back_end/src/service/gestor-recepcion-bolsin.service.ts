@@ -41,7 +41,7 @@ export class GestorRecepcionBolsin {
 
     obtenerEmpleadoLog(): void {
         this.empleado = this.sesion.obtenerEmpleadoLog();
-        }
+    }
 
     obtenerNombreCMEmpleado() {
         this.nombreCMEmpleado = this.empleado.mostrarCM();
@@ -87,12 +87,12 @@ export class GestorRecepcionBolsin {
                     this.estadoRecibidoYAceptado, 
                     this.estadoRecibidaYAceptada,
                     this.empleado
-                )
-                break
+                );
+                break;
             case 2:
                 //no realizada debido a que no sabemos quien decide si se registra o se da de baja la documentación
             case 3:
-                mensaje = `Documentacion no corresponde a la CM destino ${this.nombreCMEmpleado}`
+                mensaje = `Documentacion no corresponde a la CM destino ${this.nombreCMEmpleado}`;
                 this.estadoRecibidoYAceptado = this.buscarEstadoRecibidoYAceptado();
                 this.estadoRecibidaYRechazada = this.buscarEstadoRecibidaYRechazada();
                 this.bolsinSeleccionado.registrarRecepcion(
@@ -101,10 +101,10 @@ export class GestorRecepcionBolsin {
                     this.estadoRecibidoYAceptado,
                     this.estadoRecibidaYRechazada,
                     this.empleado
-                )
-                break
+                );
+                break;
             case 4:
-                mensaje = "Documentación para redirigir a otra área"
+                mensaje = "Documentación para redirigir a otra área";
                 this.estadoRecibidoYAceptado = this.buscarEstadoRecibidoYAceptado();
                 this.estadoParaRedirigir = this.buscarEstadoParaRedirigir();
                 this.bolsinSeleccionado.registrarRecepcion(
@@ -113,9 +113,10 @@ export class GestorRecepcionBolsin {
                     this.estadoRecibidoYAceptado, 
                     this.estadoParaRedirigir, 
                     this.empleado
-                )
-                break
+                );
+                break;
         }
+
         return this.llamarCUNotificarRecepcionBolsin(mensaje);
     }
 
@@ -148,10 +149,10 @@ export class GestorRecepcionBolsin {
     }
 
     llamarCUNotificarRecepcionBolsin(mensaje: string): { mensaje: string } {
-        return {mensaje};
+        return { mensaje };
     }
 
     finCU(): {mensaje: string} {
-        return {mensaje : "Fin CU"}
+        return { mensaje : "Fin CU" };
     }
 }

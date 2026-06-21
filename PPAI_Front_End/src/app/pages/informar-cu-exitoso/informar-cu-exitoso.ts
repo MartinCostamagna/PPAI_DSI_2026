@@ -10,22 +10,24 @@ import { RecepcionBolsinService } from '../../services/recepcion-bolsin.service'
 })
 export class InformarCuExitoso {
   private recepcionService = inject(RecepcionBolsinService);
-  mensaje = this.recepcionService.getMensajeExito();
   private router = inject(Router);
+
+  mensaje = this.recepcionService.getMensajeExito();
   quiereSalir = false;
 
-  ngOnInit(){
+  ngOnInit() {
     this.recepcionService.tomarConfirmacion().subscribe();
   }
 
-  finCU(){
+  finCU() {
     if (!this.quiereSalir) this.quiereSalir = true;
+
     this.recepcionService.finCU().subscribe(data => {
       this.mensaje.set(data.mensaje);
     });
   }
 
-  volver(){
+  volver() {
     this.router.navigate(['/bolsines-enviados-a-esta-comision-medica']);
   }
 }

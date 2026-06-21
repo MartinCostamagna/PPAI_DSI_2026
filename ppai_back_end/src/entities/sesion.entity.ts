@@ -6,7 +6,7 @@ export class Sesion {
     private fechaYHoraFin?: Date;
     private usuario: Usuario;
 
-    constructor (usuario: Usuario, fechaYHoraInicio: Date, fechaYHoraFin?: Date){
+    constructor(usuario: Usuario, fechaYHoraInicio: Date, fechaYHoraFin?: Date) {
         this.fechaYHoraInicio = fechaYHoraInicio;
         this.fechaYHoraFin = fechaYHoraFin;
         this.usuario = usuario;
@@ -15,5 +15,4 @@ export class Sesion {
     public obtenerEmpleadoLog(): Empleado {
         return this.usuario.obtenerEmpleado();        
     }
-
 }

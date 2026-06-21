@@ -1,61 +1,64 @@
-export type EstadoType = "Enviado" | "Enviada" | "RecibidoEnCMDestino" | "RecibidoYAceptado" | "RecibidaYAceptada" | "Registrada" | "DeBaja" | "RecibidoYAceptadoParcial" | "ParaRedirigir" | "RecibidaYRechazada";
+export type EstadoType = "Enviado" | "Enviada" | "RecibidoEnCMDestino" |
+                        "RecibidoYAceptado" | "RecibidaYAceptada" |
+                        "Registrada" | "DeBaja" | "RecibidoYAceptadoParcial" |
+                        "ParaRedirigir" | "RecibidaYRechazada";
+
 export type AmbitoType = "Bolsin" | "Documentacion" | "Remito";
 
-
 export class Estado {
-    private nombre: EstadoType
-    private ambito: AmbitoType
+    private nombre: EstadoType;
+    private ambito: AmbitoType;
     
-    constructor(nombre: EstadoType , ambito: AmbitoType ){
+    constructor(nombre: EstadoType, ambito: AmbitoType) {
         this.nombre = nombre;
         this.ambito = ambito;
     }
 
-    public sosEnviado(): boolean{
+    public sosEnviado(): boolean {
         return (this.nombre === "Enviado");
     }
 
-    public esAmbitoBolsin(): boolean{
+    public esAmbitoBolsin(): boolean {
         return (this.ambito === "Bolsin");
     }
 
-    public esRecibidoEnCMDestino(): boolean{
+    public esRecibidoEnCMDestino(): boolean {
         return (this.nombre === "RecibidoEnCMDestino");
     }
 
-    public esAmbitoRemito(): boolean{
+    public esAmbitoRemito(): boolean {
         return (this.ambito === "Remito");
     }
 
-    public esRecibidoYAceptado(): boolean{
+    public esRecibidoYAceptado(): boolean {
         return (this.nombre === "RecibidoYAceptado");
     }
 
-    public esRecibidoYAceptadoParcial(): boolean{
+    public esRecibidoYAceptadoParcial(): boolean {
         return (this.nombre === "RecibidoYAceptadoParcial");
     }
 
-    public esAmbitoDocumentacion(): boolean{
+    public esAmbitoDocumentacion(): boolean {
         return (this.ambito === "Documentacion");
     }
 
-    public esRecibidaYAceptada(): boolean{
+    public esRecibidaYAceptada(): boolean {
         return (this.nombre === "RecibidaYAceptada");
     }
 
-    public esRegistrada(): boolean{
+    public esRegistrada(): boolean {
         return (this.nombre === "Registrada");
     }
 
-    public esDeBaja(): boolean{
+    public esDeBaja(): boolean {
         return (this.nombre === "DeBaja");
     }
 
-    public esParaRedirigir(): boolean{
+    public esParaRedirigir(): boolean {
         return (this.nombre === "ParaRedirigir");
     }
 
-    public esRecibidaYRechazada(): boolean{
+    public esRecibidaYRechazada(): boolean {
         return (this.nombre === "RecibidaYRechazada");
     }
 }

@@ -1,14 +1,11 @@
-
-
-
-export class ComisionMedica  {
+export class ComisionMedica {
     private nombre: string;
 
-    constructor(nombre: string){
+    constructor(nombre: string) {
         this.nombre = nombre;
     }
 
-    public getNombre(): string{
+    public getNombre(): string {
         return this.nombre;
     }
 }

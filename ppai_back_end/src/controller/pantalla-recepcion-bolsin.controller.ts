@@ -10,27 +10,27 @@ export class PantallaRecepcionBolsin {
     ) {}
 
     @Get()
-    habilitarVentana(){
+    habilitarVentana() {
         return this.gestorRecepcionBolsin.nuevaRecepcionBolsin();
     }
 
     @Get('finalizar')
-    finCU(){
+    finCU() {
         return this.gestorRecepcionBolsin.finCU();
     }
 
     @Get(':numeroPrecinto')
-    mostrarDatosRemitos(@Param('numeroPrecinto') numeroPrecinto: string){
+    mostrarDatosRemitos(@Param('numeroPrecinto') numeroPrecinto: string) {
         return this.gestorRecepcionBolsin.tomarSeleccionBolsin(+numeroPrecinto);
     }
 
     @Post()
-    tomarSeleccionOpcRecBolsin(@Body() body: {opcion: string}){
+    tomarSeleccionOpcRecBolsin(@Body() body: { opcion: string }) {
         this.gestorRecepcionBolsin.tomarSeleccionOpcRecBolsin(+body.opcion);
     }
 
     @Post('confirmar')
-    tomarConfirmacion(){
+    tomarConfirmacion() {
         return this.gestorRecepcionBolsin.tomarConfirmacion();
     }
 }

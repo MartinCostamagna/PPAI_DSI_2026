@@ -16,9 +16,11 @@
         <tbody>
             @for (bolsin of bolsinesFiltrados(); track bolsin.numeroPrecinto) {
                 <tr (click)="seleccionar(bolsin)">
-                <td><input type="radio" name="bolsinSelector" [checked]="bolsinSeleccionado === bolsin"></td>
-                <td>{{ bolsin.nombreCMOrigen }}</td>
-                <td>{{ bolsin.numeroPrecinto }}</td>
+                    <td>
+                        <input type="radio" name="bolsinSelector" [checked]="bolsinSeleccionado === bolsin">
+                    </td>
+                    <td>{{ bolsin.nombreCMOrigen }}</td>
+                    <td>{{ bolsin.numeroPrecinto }}</td>
                 </tr>
             }
         </tbody>

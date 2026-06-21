@@ -11,7 +11,7 @@ export class Bolsin {
     private remitos: Remito[];
     private numeroPrecinto: number;
 
-    constructor(cambiosEstado: CambioEstadoBolsin[], comisionMedicaOrigen: ComisionMedica, comisionMedicaDestino: ComisionMedica, remitos: Remito[], numeroPrecinto: number){
+    constructor(cambiosEstado: CambioEstadoBolsin[], comisionMedicaOrigen: ComisionMedica, comisionMedicaDestino: ComisionMedica, remitos: Remito[], numeroPrecinto: number) {
         this.cambiosEstado = cambiosEstado;
         this.comisionMedicaOrigen = comisionMedicaOrigen;
         this.comisionMedicaDestino = comisionMedicaDestino;
@@ -24,11 +24,11 @@ export class Bolsin {
         return (actual?.sosEnviado()) ?? false;
     }
 
-    public esTuCMDestino(cm: string): boolean{
+    public esTuCMDestino(cm: string): boolean {
         return (this.comisionMedicaDestino.getNombre() === cm);
     }
 
-    public mostrarCMOrigen(): string{
+    public mostrarCMOrigen(): string {
         return this.comisionMedicaOrigen.getNombre();
     }
 
@@ -36,29 +36,49 @@ export class Bolsin {
         return this.numeroPrecinto;
     }
 
-    public mostrarRemitos(): Object {
+    public mostrarRemitos() {
         return this.remitos.map(r => ({
             numerosRemitos: r.getNumero(),
             datosDocumentacion: this.buscarDatosDocumentacion(r)
-        }))
+        }));
     }
 
-    public buscarDatosDocumentacion(remito: Remito): Object{
+    public buscarDatosDocumentacion(remito: Remito) {
         return remito.mostrarDocumentacion();
     }
 
-    public registrarRecepcion(fechaYHoraActual: Date, estado: Estado, estadoRemito: Estado, estadoDocumentacion: Estado, empleado: Empleado): void{
-        this.crearCEBolsin(fechaYHoraActual, estado, empleado);
+    public registrarRecepcion(fechaYHoraActual: Date, estado: Estado, estadoRemito: Estado, estadoDocumentacion: Estado, empleado: Empleado): void {
+        this.crearCEBolsin(fechaYHoraActual, estado, empleado, estadoRemito);
         this.remitos.forEach(r => {
-            r.recibir(estadoRemito, fechaYHoraActual, estadoDocumentacion, empleado);
+            r.actualizarEstadoDoc(fechaYHoraActual, estadoDocumentacion, empleado);
         });
     }
 
-    public crearCEBolsin(fechaYHoraActual: Date, estado: Estado, empleado: Empleado): void{
+    public crearCEBolsin(fechaYHoraActual: Date, estado: Estado, empleado: Empleado, estadoRemito: Estado): void {
         const actual = this.cambiosEstado.find(ce => ce.sosActual());
         actual?.setFechaYHoraFin(fechaYHoraActual);
-        this.remitos.forEach(r => r.setEstado(estado));
+
+        this.remitos.forEach(r => r.recibir(estadoRemito));
+
         const nuevo: CambioEstadoBolsin = new CambioEstadoBolsin(estado, empleado, fechaYHoraActual);
         this.cambiosEstado.push(nuevo);
     }
+
+    /**
+     * ESTO ESTABA ASÍ, ESTABA MAL EL FLUJO
+     */
+    // public registrarRecepcion(fechaYHoraActual: Date, estado: Estado, estadoRemito: Estado, estadoDocumentacion: Estado, empleado: Empleado): void {
+    //     this.crearCEBolsin(fechaYHoraActual, estado, empleado);
+    //     this.remitos.forEach(r => {
+    //         r.recibir(estadoRemito, fechaYHoraActual, estadoDocumentacion, empleado);
+    //     });
+    // }
+
+    // public crearCEBolsin(fechaYHoraActual: Date, estado: Estado, empleado: Empleado): void {
+    //     const actual = this.cambiosEstado.find(ce => ce.sosActual());
+    //     actual?.setFechaYHoraFin(fechaYHoraActual);
+    //     this.remitos.forEach(r => r.setEstado(estado));
+    //     const nuevo: CambioEstadoBolsin = new CambioEstadoBolsin(estado, empleado, fechaYHoraActual);
+    //     this.cambiosEstado.push(nuevo);
+    // }
 }

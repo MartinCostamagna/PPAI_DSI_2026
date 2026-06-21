@@ -9,5 +9,5 @@ export const routes: Routes = [
   { path: 'inicio', component: Inicio },
   { path: 'bolsines-enviados-a-esta-comision-medica', component: BolsinesEnviadosAEstaComisionMedica },
   { path: 'bolsinSeleccionado', component: BolsinSeleccionado },
-  {path: 'informar-cu-exitoso', component: InformarCuExitoso}
+  { path: 'informar-cu-exitoso', component: InformarCuExitoso }
 ];
