@@ -2,6 +2,11 @@ import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { RecepcionBolsinService } from '../../services/recepcion-bolsin.service';
 
+/**
+ * Métodos mapeados del diagrama de secuencia de `PantallaRecepcionBolsin`:
+ *  39. tomarConfirmacion()
+ *  64. informarEjecucionExitosaCU()
+ */
 @Component({
   selector: 'app-informar-cu-exitoso',
   imports: [],
@@ -15,14 +20,16 @@ export class InformarCuExitoso {
   mensaje = this.recepcionService.getMensajeExito();
   quiereSalir = false;
 
+  // LLamada automática, por medio de la navegación a este componente, a la llamada http tomarConfirmacion()
   ngOnInit() {
     this.recepcionService.tomarConfirmacion().subscribe();
   }
 
-  finCU() {
+  // Se muestra el mensaje de éxito de la ejecución del caso de uso de inclusión.
+  informarEjecucionExitosaCU() {
     if (!this.quiereSalir) this.quiereSalir = true;
 
-    this.recepcionService.finCU().subscribe(data => {
+    this.recepcionService.informarEjecucionExitosaCU().subscribe(data => {
       this.mensaje.set(data.mensaje);
     });
   }

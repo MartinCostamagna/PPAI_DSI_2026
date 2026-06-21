@@ -15,11 +15,11 @@ export class CambioEstadoBolsin {
     }
 
     public sosActual(): boolean {
-        return (!this.fechaYHoraFin);
+        return !this.fechaYHoraFin;
     }
 
     public sosEnviado(): boolean {
-        return (this.estado.sosEnviado());
+        return this.estado.sosEnviado();
     }
 
     public setFechaYHoraFin(fechaYHoraFin: Date): void {

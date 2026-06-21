@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import { Inicio } from './pages/inicio/inicio';
-import { BolsinesEnviadosAEstaComisionMedica } from './pages/bolsines-enviados-aesta-comision-medica/bolsines-enviados-aesta-comision-medica';
+import { BolsinesEnviadosAEstaComisionMedica } from './pages/bolsines-enviados-a-esta-comision-medica/bolsines-enviados-a-esta-comision-medica';
 import { BolsinSeleccionado } from './pages/bolsin-seleccionado/bolsin-seleccionado';
 import { InformarCuExitoso } from './pages/informar-cu-exitoso/informar-cu-exitoso';
 

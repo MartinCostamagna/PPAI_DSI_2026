@@ -17,6 +17,7 @@ export class Remito {
         return this.numero;
     }
 
+    // Mostramos datos esenciales de cada documentación, el tipo de documento y el asunto.
     public mostrarDocumentacion() {
         return this.detallesRemito.map(dr => ({
             tipoDocumento: dr.mostrarTipoDocumento(), 
@@ -32,6 +33,10 @@ export class Remito {
         this.estado = estado;
     }
 
+    /**
+     * Dependiendo del estado deseado para la documentación, se ejecuta su método de la máquina de estados.
+     * El cambio se realiza para la documentación correspondiente a cada detalle del remito.
+     */
     public actualizarEstadoDoc(fechaYHoraActual: Date, estadoDocumentacion: Estado, empleado: Empleado): void {
         if (estadoDocumentacion.esRecibidaYAceptada()) { 
             this.detallesRemito.forEach(dr => dr.actualizarEstadoDocARecibidaYAceptada(fechaYHoraActual, estadoDocumentacion, empleado));

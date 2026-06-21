@@ -9,6 +9,7 @@ export class DetalleRemito {
         this.documentacion = documentacion;
     }
 
+    // Obtenemos únicamente el nombre del tipo de documento asociado a la documentación.
     public mostrarTipoDocumento(): string {
         return this.documentacion.mostrarTipoDocumento();
     }

@@ -12,6 +12,7 @@ export class Sesion {
         this.usuario = usuario;
     }
 
+    // Solicita el puntero al empledo logueado al usuario actual.
     public obtenerEmpleadoLog(): Empleado {
         return this.usuario.obtenerEmpleado();        
     }

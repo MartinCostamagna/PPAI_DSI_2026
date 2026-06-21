@@ -1,9 +1,5 @@
-export type EstadoType = "Enviado" | "Enviada" | "RecibidoEnCMDestino" |
-                        "RecibidoYAceptado" | "RecibidaYAceptada" |
-                        "Registrada" | "DeBaja" | "RecibidoYAceptadoParcial" |
-                        "ParaRedirigir" | "RecibidaYRechazada";
-
-export type AmbitoType = "Bolsin" | "Documentacion" | "Remito";
+import { AmbitoType } from "../types/ambito.type";
+import { EstadoType } from "../types/estado.type";
 
 export class Estado {
     private nombre: EstadoType;

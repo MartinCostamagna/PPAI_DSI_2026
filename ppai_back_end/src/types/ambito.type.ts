@@ -1,0 +1,1 @@
+export type AmbitoType = "Bolsin" | "Documentacion" | "Remito";

@@ -1,3 +1,9 @@
+<!-- Métodos mapeados del diagrama de secuencia de `PantallaRecepcionBolsin`: -->
+<!-- 34. mostrarDatosRemitos() -->
+<!-- 35. mostrarOpcionesRecBolsinPSelec() -->
+<!-- 38. solicitarConfirmacionSelec() -->
+<!-- 39. tomarConfirmacion() -->
+
 <div class="divComision">
     <button type="button" class="btn-cancelar-nav" routerLink="/inicio">Cancelar</button>
     <span class="labelComision">Comision Medica: {{ comisionMedica() }}</span>
@@ -6,7 +12,7 @@
 <div class="detalle-bolsin">
     @if (bolsinSeleccionado){
     <h3>Remitos del Bolsín (Número de Precinto: {{ bolsinSeleccionado.numeroPrecinto }})</h3>
-
+    <!-- `remitos()` muestra el resultado de la consulta de datos de remitos de `34. mostrarDatosRemitos()` del diagrama de secuencia -->
     <div class="tarjeta-remito">
         @for (remito of remitos(); track remito.numerosRemitos) {
             <h4>Número de Remito: {{ remito.numerosRemitos }}</h4>
@@ -32,7 +38,7 @@
     }
 </div>
 
-
+<!-- Opciones para selección: -->
 <div class="divSelect">
     <label class="label-opciones" for="opRecepBolsin">Opciones de recepción del bolsín:</label>
     <select name="opRecepBolsin" (change)="tomarSeleccionOpcRecBolsin($event)">
@@ -42,12 +48,14 @@
         <option value="3">Existe documentación que no corresponde al destino (CM del usuario logueado)</option>
         <option value="4">La documentación se debe redirigir a otra área.</option>
     </select>
+    <!-- Solicitamos la confirmación del usuario -->
     <div class="botones">
         <button type="button" class="btnRegresar" (click)="regresar()">Regresar</button>
-        <button type="button" class="btnConfirmacion" (click)="solicitarConfirmacion()">Confirmar</button>
+        <button type="button" class="btnConfirmacion" (click)="solicitarConfirmacionSelec()">Confirmar</button>
     </div>
 </div>
 
+<!-- Tomamos la confirmación del usuario, iniciando el flujo de registro de la recepción -->
 @if (mostrarConfirmacion) {
     <div class="overlay-confirmacion">
         <div class="caja-confirmacion">

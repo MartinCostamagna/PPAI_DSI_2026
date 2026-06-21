@@ -1,6 +1,7 @@
 node_modules
 .vscode
 .idea
+
 # compiled output
 ppai_back_end/dist
 ppai_back_end/node_modules
@@ -84,6 +85,8 @@ PPAI_Front_End/*.sublime-workspace
 .history/*
 
 # Miscellaneous
+PPAI_Front_End/.angular
+PPAI_Front_End/.vscode
 PPAI_Front_End/.angular/cache
 PPAI_Front_End/.sass-cache/
 PPAI_Front_End/connect.lock

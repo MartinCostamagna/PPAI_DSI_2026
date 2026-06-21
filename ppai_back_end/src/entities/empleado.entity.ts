@@ -9,6 +9,7 @@ export class Empleado {
         this.comisionMedica = comisionMedica;
     }
 
+    // Obtiene únicamente el nombre de la comisión médica asociada.
     public mostrarCM(): string {
         return this.comisionMedica.getNombre();
     }

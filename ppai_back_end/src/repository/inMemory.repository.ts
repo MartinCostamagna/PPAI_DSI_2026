@@ -42,7 +42,6 @@ export class InMemoryRepository implements OnModuleInit {
         // Ámbito Remito
         const estadoEnviadoRemito = new Estado('Enviado', 'Remito');
         const estadoRecibidoYAceptado = new Estado('RecibidoYAceptado', 'Remito');
-        //agregar los estado que faltan cuando tengamos mquina de estado
         // Ámbito Documentación
         const estadoEnviadaDocumentacion = new Estado('Enviada', 'Documentacion');
         const estadoRecibidaYAceptada = new Estado('RecibidaYAceptada', 'Documentacion');
