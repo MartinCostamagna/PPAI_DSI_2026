@@ -50,8 +50,7 @@ export class Bolsin {
     public registrarRecepcion(fechaYHoraActual: Date, estado: Estado, estadoRemito: Estado, estadoDocumentacion: Estado, empleado: Empleado): void{
         this.crearCEBolsin(fechaYHoraActual, estado, empleado);
         this.remitos.forEach(r => {
-            r.setEstado(estadoRemito);
-            r.actualizarEstadoDoc(fechaYHoraActual, estadoDocumentacion, empleado);
+            r.recibir(estadoRemito, fechaYHoraActual, estadoDocumentacion, empleado);
         });
     }
 

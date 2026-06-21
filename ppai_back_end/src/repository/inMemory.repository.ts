@@ -234,7 +234,31 @@ export class InMemoryRepository implements OnModuleInit {
             12900
         );
 
-        this.bolsines = [bolsinEnviadoABsAs, bolsinEnviado2ABsAs, bolsinEnviado3ABsAs];
+        const bolsinEnviadoACba = new Bolsin(
+            [ceBolsinEnviado],
+            cmBuenosAires, // origen
+            cmCordoba, // destino (CM del usuario logueado)
+            [remito1001],
+            11010
+        );
+
+        const bolsinEnviado2ACba = new Bolsin(
+            [ceBolsinEnviado2],
+            cmCentral,      // origen: CM Central
+            cmCordoba,  // destino
+            [remito1002],
+            13800
+        );
+
+        const bolsinEnviado3ACba = new Bolsin(
+            [ceBolsinEnviado3],
+            cmCentral,      // origen: CM Central
+            cmCordoba,  // destino
+            [remito1004, remito1005],
+            13900
+        );
+
+        this.bolsines = [bolsinEnviadoABsAs, bolsinEnviado2ABsAs, bolsinEnviado3ABsAs, bolsinEnviadoACba, bolsinEnviado2ACba, bolsinEnviado3ACba];
 
         /**
          * - Sesión activa

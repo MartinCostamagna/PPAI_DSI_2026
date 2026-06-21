@@ -19,8 +19,15 @@ export class DetalleRemito  {
         return this.documentacion.getAsunto();
     }
 
-    public actualizarEstadoDoc(fechaYHoraActual: Date, estado: Estado, empleado: Empleado): void {
-        this.documentacion.aceptar(fechaYHoraActual, estado, empleado)
+    public actualizarEstadoDocRecibidaYAceptada(fechaYHoraActual: Date, estado: Estado, empleado: Empleado): void {
+        this.documentacion.aceptar(fechaYHoraActual, estado, empleado);
     }
 
+    public actualizarEstadoDocARecibidaYRechazada(fechaYHoraActual: Date, estado: Estado, empleado: Empleado): void {
+        this.documentacion.aceptar(fechaYHoraActual, estado, empleado);
+    }
+
+    public actualizarEstadoDocAParaRedirigir(fechaYHoraActual: Date, estado: Estado, empleado: Empleado): void {
+        this.documentacion.redirigir(fechaYHoraActual, estado, empleado);
+    }
 }

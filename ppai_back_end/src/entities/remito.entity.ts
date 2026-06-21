@@ -31,7 +31,19 @@ export class Remito  {
         this.estado = estado;
     }
 
-    public actualizarEstadoDoc(fechaYHoraActual: Date, estado: Estado, empleado: Empleado): void{
-        this.detallesRemito.forEach(dr => dr.actualizarEstadoDoc(fechaYHoraActual, estado, empleado));
+    public recibir(estado: Estado, fechaYHoraActual: Date, estadoDocumentacion: Estado, empleado: Empleado): void{
+        this.setEstado(estado);
+        if (estadoDocumentacion.esRecibidaYAceptada()){ 
+            this.detallesRemito.forEach(dr => dr.actualizarEstadoDocRecibidaYAceptada(fechaYHoraActual, estadoDocumentacion, empleado));
+        }else if(estadoDocumentacion.esRecibidaYRechazada()){
+            this.detallesRemito.forEach(dr => dr.actualizarEstadoDocARecibidaYRechazada(fechaYHoraActual, estadoDocumentacion, empleado));
+        }else if(estadoDocumentacion.esParaRedirigir()){
+            this.detallesRemito.forEach(dr => dr.actualizarEstadoDocAParaRedirigir(fechaYHoraActual, estadoDocumentacion, empleado));
+        };
     }
+    
+
+
+    
+
 }

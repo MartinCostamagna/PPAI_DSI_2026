@@ -90,30 +90,27 @@ export class GestorRecepcionBolsin {
                 )
                 break
             case 2:
-            //skip por ahora falta saber estado remito
-                mensaje = "Documentacion faltante"
-                this.estadoRegistrada = this.buscarEstadoRegistrada();
-                break
+                //no realizada debido a que no sabemos quien decide si se registra o se da de baja la documentación
             case 3:
                 mensaje = `Documentacion no corresponde a la CM destino ${this.nombreCMEmpleado}`
+                this.estadoRecibidoYAceptado = this.buscarEstadoRecibidoYAceptado();
                 this.estadoRecibidaYRechazada = this.buscarEstadoRecibidaYRechazada();
-                //estado remito buscar cuando sepamos
                 this.bolsinSeleccionado.registrarRecepcion(
                     this.fechaYHoraActual,
                     this.estadoRecibidoEnCMDestino, 
-                    this.estadoRecibidaYAceptada,// cambiar, no sabemos va el estado remito cuando sepamos, 
+                    this.estadoRecibidoYAceptado,
                     this.estadoRecibidaYRechazada,
                     this.empleado
                 )
                 break
             case 4:
                 mensaje = "Documentación para redirigir a otra área"
+                this.estadoRecibidoYAceptado = this.buscarEstadoRecibidoYAceptado();
                 this.estadoParaRedirigir = this.buscarEstadoParaRedirigir();
-                //estado remito buscar cuando sepamos
                 this.bolsinSeleccionado.registrarRecepcion(
                     this.fechaYHoraActual,
                     this.estadoRecibidoEnCMDestino, 
-                    this.estadoRecibidaYRechazada, // cambiar, no sabemos va el estado remito cuando sepamos,
+                    this.estadoRecibidoYAceptado, 
                     this.estadoParaRedirigir, 
                     this.empleado
                 )

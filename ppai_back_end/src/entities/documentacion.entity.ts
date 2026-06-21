@@ -30,5 +30,25 @@ export class Documentacion  {
         this.cambioEstadoDocumentacion.push(nuevo);
     }
 
-    //agregar metodo maquinas de estado y cambiar nombre diagrama
+    public redirigir(fechaYHoraActual: Date, estado: Estado, empleado: Empleado): void{
+        this.cambioEstadoDocumentacion.find(cea => cea.sosActual())?.setFechaYHoraFin(fechaYHoraActual);
+        const nuevo: CambioEstadoDocumentacion = new CambioEstadoDocumentacion (estado, empleado, fechaYHoraActual);
+        this.cambioEstadoDocumentacion.push(nuevo);
+    }
+
+    public rechazar(fechaYHoraActual: Date, estado: Estado, empleado: Empleado): void{
+        this.cambioEstadoDocumentacion.find(cea => cea.sosActual())?.setFechaYHoraFin(fechaYHoraActual);
+        const nuevo: CambioEstadoDocumentacion = new CambioEstadoDocumentacion (estado, empleado, fechaYHoraActual);
+        this.cambioEstadoDocumentacion.push(nuevo);
+    }
+
+    public incluirABolsin(fechaYHoraActual: Date, estado: Estado, empleado: Empleado): void{}
+    public enviar(fechaYHoraActual: Date, estado: Estado, empleado: Empleado): void{}
+    public eliminarDocumentacionBolsin(fechaYHoraActual: Date, estado: Estado, empleado: Empleado): void{}
+    public cancelar(fechaYHoraActual: Date, estado: Estado, empleado: Empleado): void{}
+    public marcarNoRecibida(fechaYHoraActual: Date, estado: Estado, empleado: Empleado): void{}
+    public reenviar(fechaYHoraActual: Date, estado: Estado, empleado: Empleado): void{}
+    public darDeBaja(fechaYHoraActual: Date, estado: Estado, empleado: Empleado): void{}
+    public agregarARemito(fechaYHoraActual: Date, estado: Estado, empleado: Empleado): void{}    
+
 }
