@@ -17,7 +17,7 @@ import { Remito } from "../interfaces/remito.interface";
  *  
  */
 @Injectable({ providedIn: 'root' })
-export class RecepcionBolsinService {
+export class PantallaRecepcionBolsin {
     private readonly http = inject(HttpClient);
     private readonly url = "http://localhost:3000/bolsines/recepcion";
 

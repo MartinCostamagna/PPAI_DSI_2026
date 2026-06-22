@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { RecepcionBolsinService } from '../../services/recepcion-bolsin.service';
+import { PantallaRecepcionBolsin } from '../../services/pantalla-recepcion-bolsin.service';
 
 /**
  * Métodos mapeados del diagrama de secuencia de `PantallaRecepcionBolsin`:
@@ -14,22 +14,22 @@ import { RecepcionBolsinService } from '../../services/recepcion-bolsin.service'
   styleUrl: './informar-cu-exitoso.css',
 })
 export class InformarCuExitoso {
-  private recepcionService = inject(RecepcionBolsinService);
+  private pantallaRecepcionBolsin = inject(PantallaRecepcionBolsin);
   private router = inject(Router);
 
-  mensaje = this.recepcionService.getMensajeExito();
+  mensaje = this.pantallaRecepcionBolsin.getMensajeExito();
   quiereSalir = false;
 
   // LLamada automática, por medio de la navegación a este componente, a la llamada http tomarConfirmacion()
   ngOnInit() {
-    this.recepcionService.tomarConfirmacion().subscribe();
+    this.pantallaRecepcionBolsin.tomarConfirmacion().subscribe();
   }
 
   // Se muestra el mensaje de éxito de la ejecución del caso de uso de inclusión.
   informarEjecucionExitosaCU() {
     if (!this.quiereSalir) this.quiereSalir = true;
 
-    this.recepcionService.informarEjecucionExitosaCU().subscribe(data => {
+    this.pantallaRecepcionBolsin.informarEjecucionExitosaCU().subscribe(data => {
       this.mensaje.set(data.mensaje);
     });
   }

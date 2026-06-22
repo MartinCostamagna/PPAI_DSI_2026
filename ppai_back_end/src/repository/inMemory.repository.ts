@@ -78,19 +78,19 @@ export class InMemoryRepository implements OnModuleInit {
          * - Comisiones médicas
          */
         const cmCordoba = new ComisionMedica('CM Córdoba');
-        const cmBuenosAires = new ComisionMedica('CM Buenos Aires');
+        const cmMisiones = new ComisionMedica('CM Misiones');
         const cmCentral = new ComisionMedica('CM Central');
 
         this.comisionesMedicas = [
             cmCordoba,
-            cmBuenosAires,
+            cmMisiones,
             cmCentral
         ];
         
         /**
          * - Empleados
         */
-        const empleadoEncargadoBolsinesBsAs = new Empleado('Laura Méndez', cmBuenosAires);
+        const empleadoEncargadoBolsinesBsAs = new Empleado('Laura Méndez', cmMisiones);
         const empleadoEncargadoDocCordoba = new Empleado('Carlos Gómez', cmCordoba);
         
         this.empleados = [
@@ -255,7 +255,7 @@ export class InMemoryRepository implements OnModuleInit {
         const bolsinEnviadoABsAs = new Bolsin(
             [ceBolsinEnviado],
             cmCordoba, // origen
-            cmBuenosAires, // destino (CM del usuario logueado)
+            cmMisiones, // destino (CM del usuario logueado)
             [remito1001],
             10010
         );
@@ -263,7 +263,7 @@ export class InMemoryRepository implements OnModuleInit {
         const bolsinEnviado2ABsAs = new Bolsin(
             [ceBolsinEnviado2],
             cmCentral,      // origen: CM Central
-            cmBuenosAires,  // destino
+            cmMisiones,  // destino
             [remito1002],
             12800
         );
@@ -271,14 +271,14 @@ export class InMemoryRepository implements OnModuleInit {
         const bolsinEnviado3ABsAs = new Bolsin(
             [ceBolsinEnviado3],
             cmCentral,      // origen: CM Central
-            cmBuenosAires,  // destino
+            cmMisiones,  // destino
             [remito1004, remito1005],
             12900
         );
 
         const bolsinEnviadoACba = new Bolsin(
             [ceBolsinEnviado4],
-            cmBuenosAires, // origen
+            cmMisiones, // origen
             cmCordoba, // destino (CM del usuario logueado)
             [remito1001],
             11010

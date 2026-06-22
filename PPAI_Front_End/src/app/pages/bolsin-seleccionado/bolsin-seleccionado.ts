@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-import { RecepcionBolsinService } from '../../services/recepcion-bolsin.service';
+import { PantallaRecepcionBolsin } from '../../services/pantalla-recepcion-bolsin.service';
 
 /**
  * Métodos mapeados del diagrama de secuencia de `PantallaRecepcionBolsin`:
@@ -16,18 +16,18 @@ import { RecepcionBolsinService } from '../../services/recepcion-bolsin.service'
   styleUrl: './bolsin-seleccionado.css',
 })
 export class BolsinSeleccionado {
-  private recepcionService = inject(RecepcionBolsinService);
+  private pantallaRecepcionService = inject(PantallaRecepcionBolsin);
   private router = inject(Router);
 
-  bolsinSeleccionado = this.recepcionService.getBolsinSeleccionado();
+  bolsinSeleccionado = this.pantallaRecepcionService.getBolsinSeleccionado();
   // Esta información de los remitos, se corresponde con el retorno de `34. mostrarDatosRemitos()` del diagrama de secuencia.
-  remitos = this.recepcionService.getRemitos();
-  comisionMedica = this.recepcionService.getComisionMedica();
+  remitos = this.pantallaRecepcionService.getRemitos();
+  comisionMedica = this.pantallaRecepcionService.getComisionMedica();
   mostrarConfirmacion = false;
   opcion: number = 0;
 
   ngOnInit() {
-    if ((this.recepcionService.getRemitos())().length === 0) {
+    if ((this.pantallaRecepcionService.getRemitos())().length === 0) {
       this.router.navigate(['/inicio']);
     }
   }
@@ -52,7 +52,7 @@ export class BolsinSeleccionado {
 
   // Comienza el flujo de confirmación, navegando a la pantalla de finalización del caso de uso.
   tomarConfirmacion() {
-    this.recepcionService.tomarSeleccionOpcRecBolsin(this.opcion)
+    this.pantallaRecepcionService.tomarSeleccionOpcRecBolsin(this.opcion)
         .subscribe(() => {
             this.mostrarConfirmacion = false;
             this.router.navigate(['/informar-cu-exitoso']);

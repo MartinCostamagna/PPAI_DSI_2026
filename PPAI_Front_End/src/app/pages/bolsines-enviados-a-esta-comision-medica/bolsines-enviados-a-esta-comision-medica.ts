@@ -1,6 +1,6 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { RecepcionBolsinService } from '../../services/recepcion-bolsin.service';
+import { PantallaRecepcionBolsin } from '../../services/pantalla-recepcion-bolsin.service';
 import { Bolsin } from '../../interfaces/bolsin.interface';
 
 /**
@@ -18,10 +18,10 @@ import { Bolsin } from '../../interfaces/bolsin.interface';
 })
 export class BolsinesEnviadosAEstaComisionMedica {
   private router = inject(Router);
-  private recepcionService = inject(RecepcionBolsinService);
+  private pantallaRecepcionService = inject(PantallaRecepcionBolsin);
 
-  comisionMedica = this.recepcionService.getComisionMedica();
-  bolsines = this.recepcionService.getBolsines();
+  comisionMedica = this.pantallaRecepcionService.getComisionMedica();
+  bolsines = this.pantallaRecepcionService.getBolsines();
   bolsinSeleccionado: Bolsin | undefined = undefined;
   filtro = signal<string>('');
 
@@ -37,7 +37,7 @@ export class BolsinesEnviadosAEstaComisionMedica {
    * Esto se hace mediante una primer llamada http al backend, quien inicia el proceso con la habilitación de la ventana de parte del controlador.
    */
   ngOnInit() {
-    this.recepcionService.mostrarCMYBolsines();
+    this.pantallaRecepcionService.mostrarCMYBolsines();
   }
 
   seleccionar(bolsin: Bolsin) {
@@ -48,7 +48,7 @@ export class BolsinesEnviadosAEstaComisionMedica {
   tomarSeleccionBolsin() {
     if(!this.bolsinSeleccionado) return;
 
-    this.recepcionService.tomarSeleccionBolsin(this.bolsinSeleccionado)
+    this.pantallaRecepcionService.tomarSeleccionBolsin(this.bolsinSeleccionado)
         .subscribe(() => {
           this.router.navigate(['/bolsinSeleccionado']);
         });
