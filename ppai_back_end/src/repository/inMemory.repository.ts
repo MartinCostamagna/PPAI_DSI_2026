@@ -43,7 +43,7 @@ export class InMemoryRepository implements OnModuleInit {
         const estadoEnviadoRemito = new Estado('Enviado', 'Remito');
         const estadoRecibidoYAceptado = new Estado('RecibidoYAceptado', 'Remito');
         // Ámbito Documentación
-        const estadoEnviadaDocumentacion = new Estado('Enviada', 'Documentacion');
+        const estadoEnviadaDocumentacion = new Estado('EnBolsinEnviado', 'Documentacion');
         const estadoRecibidaYAceptada = new Estado('RecibidaYAceptada', 'Documentacion');
         const estadoParaRedirigir = new Estado('ParaRedirigir', 'Documentacion');
         const estadoRecibidaYRechazada = new Estado('RecibidaYRechazada', 'Documentacion');
@@ -116,23 +116,37 @@ export class InMemoryRepository implements OnModuleInit {
         const ceDocDictamen1 = new CambioEstadoDocumentacion(estadoEnviadaDocumentacion, empleadoEncargadoDocCordoba, new Date('2025-06-10T08:00:00'));
         const ceDocEstudioMedico1 = new CambioEstadoDocumentacion(estadoEnviadaDocumentacion, empleadoEncargadoDocCordoba, new Date('2025-06-10T08:00:00'));
 
+        const ceDocExpediente2 = new CambioEstadoDocumentacion(estadoEnviadaDocumentacion, empleadoEncargadoDocCordoba, new Date('2025-06-10T08:00:00'));
+        const ceDocDictamen2 = new CambioEstadoDocumentacion(estadoEnviadaDocumentacion, empleadoEncargadoDocCordoba, new Date('2025-06-10T08:00:00'));
+        const ceDocEstudioMedico2 = new CambioEstadoDocumentacion(estadoEnviadaDocumentacion, empleadoEncargadoDocCordoba, new Date('2025-06-10T08:00:00'));
+
         this.cambiosEstadoDocumentacion = [
             ceDocExpediente1,
             ceDocDictamen1,
-            ceDocEstudioMedico1
+            ceDocEstudioMedico1,
+            ceDocExpediente2,
+            ceDocDictamen2,
+            ceDocEstudioMedico2
         ];
 
         /**
          * - Documentaciones
          */
-        const docExpediente1 = new Documentacion(tipoExpediente, 'Expediente1', [ceDocExpediente1]);
-        const docDictamen1 = new Documentacion(tipoDictamen, 'Dictamen1', [ceDocDictamen1]);
-        const docEstudioMedico1 = new Documentacion(tipoEstudioMedico, 'EstudioMedico1', [ceDocEstudioMedico1]);
+        const docExpediente1 = new Documentacion(tipoExpediente, 'Expediente', [ceDocExpediente1]);
+        const docDictamen1 = new Documentacion(tipoDictamen, 'Dictamen', [ceDocDictamen1]);
+        const docEstudioMedico1 = new Documentacion(tipoEstudioMedico, 'EstudioMedico', [ceDocEstudioMedico1]);
+
+        const docExpediente2 = new Documentacion(tipoExpediente, 'Expediente', [ceDocExpediente2]);
+        const docDictamen2 = new Documentacion(tipoDictamen, 'Dictamen', [ceDocDictamen2]);
+        const docEstudioMedico2 = new Documentacion(tipoEstudioMedico, 'EstudioMedico', [ceDocEstudioMedico2]);
 
         this.documentaciones = [
             docExpediente1,
             docDictamen1,
-            docEstudioMedico1
+            docEstudioMedico1,
+            docExpediente2,
+            docDictamen2,
+            docEstudioMedico2
         ];
 
 
@@ -143,10 +157,17 @@ export class InMemoryRepository implements OnModuleInit {
         const detalleDictamen1 = new DetalleRemito(docDictamen1);
         const detalleEstudioMedico1 = new DetalleRemito(docEstudioMedico1);
 
+        const detalleExpediente2 = new DetalleRemito(docExpediente2);
+        const detalleDictamen2 = new DetalleRemito(docDictamen2);
+        const detalleEstudioMedico2 = new DetalleRemito(docEstudioMedico2);
+
         this.detallesRemito = [
             detalleExpediente1,
             detalleDictamen1,
-            detalleEstudioMedico1
+            detalleEstudioMedico1,
+            detalleExpediente2,
+            detalleDictamen2,
+            detalleEstudioMedico2
         ];
 
         /**
@@ -166,7 +187,7 @@ export class InMemoryRepository implements OnModuleInit {
 
         const remito1004 = new Remito(
             1004,
-            [detalleDictamen1, detalleExpediente1],
+            [detalleEstudioMedico2, detalleExpediente2],
             estadoEnviadoRemito
         );
 
@@ -200,10 +221,32 @@ export class InMemoryRepository implements OnModuleInit {
             new Date('2025-06-11T07:30:00'),
         );
 
+        const ceBolsinEnviado4 = new CambioEstadoBolsin(
+            estadoEnviadoBolsin,
+            empleadoEncargadoBolsinesBsAs,
+            new Date('2025-06-10T07:00:00'),
+            // estado actual: sigue Enviado
+        );
+
+        const ceBolsinEnviado5 = new CambioEstadoBolsin(
+            estadoEnviadoBolsin,
+            empleadoEncargadoBolsinesBsAs,
+            new Date('2025-06-11T07:30:00'),
+        );
+
+        const ceBolsinEnviado6 = new CambioEstadoBolsin(
+            estadoEnviadoBolsin,
+            empleadoEncargadoBolsinesBsAs,
+            new Date('2025-06-11T07:30:00'),
+        );
+
         this.cambiosEstadoBolsin = [
             ceBolsinEnviado,
             ceBolsinEnviado2,
-            ceBolsinEnviado3
+            ceBolsinEnviado3,
+            ceBolsinEnviado4,
+            ceBolsinEnviado5,
+            ceBolsinEnviado6
         ];
 
         /**
@@ -234,7 +277,7 @@ export class InMemoryRepository implements OnModuleInit {
         );
 
         const bolsinEnviadoACba = new Bolsin(
-            [ceBolsinEnviado],
+            [ceBolsinEnviado4],
             cmBuenosAires, // origen
             cmCordoba, // destino (CM del usuario logueado)
             [remito1001],
@@ -242,7 +285,7 @@ export class InMemoryRepository implements OnModuleInit {
         );
 
         const bolsinEnviado2ACba = new Bolsin(
-            [ceBolsinEnviado2],
+            [ceBolsinEnviado5],
             cmCentral,      // origen: CM Central
             cmCordoba,  // destino
             [remito1002],
@@ -250,12 +293,12 @@ export class InMemoryRepository implements OnModuleInit {
         );
 
         const bolsinEnviado3ACba = new Bolsin(
-            [ceBolsinEnviado3],
+            [ceBolsinEnviado6],
             cmCentral,      // origen: CM Central
             cmCordoba,  // destino
             [remito1004, remito1005],
             13900
-        );
+        ); 
 
         this.bolsines = [bolsinEnviadoABsAs, bolsinEnviado2ABsAs, bolsinEnviado3ABsAs, bolsinEnviadoACba, bolsinEnviado2ACba, bolsinEnviado3ACba];
 

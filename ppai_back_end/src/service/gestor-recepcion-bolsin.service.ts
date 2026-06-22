@@ -6,6 +6,7 @@ import { Estado } from "../entities/estado.entity";
 import { Sesion } from "../entities/sesion.entity";
 
 import { InMemoryRepository } from "../repository/inMemory.repository";
+import { dateTimestampProvider } from "rxjs/internal/scheduler/dateTimestampProvider";
 
 /* *
  * Métodos mapeados del diagrama de secuencia de `GestorRecepcionBolsin`:
@@ -24,14 +25,14 @@ import { InMemoryRepository } from "../repository/inMemory.repository";
  *  49. buscarEstadoRecibidaYAceptada()
  *  63. llamarCUNotificarRecepcionBolsin()
  *  65. finCU()
- */
+*/
 @Injectable()
 export class GestorRecepcionBolsin {
     private bolsines!: Bolsin[];
     private empleados!: Empleado[];
     private estados!: Estado[];
     private sesion!: Sesion;
-
+    
     private empleado!: Empleado;
     private nombreCMEmpleado!: string;
     private opcion!: number;
@@ -40,18 +41,18 @@ export class GestorRecepcionBolsin {
     private estadoRecibidoEnCMDestino!: Estado;
     private estadoRecibidoYAceptado!: Estado;
     private estadoRecibidaYAceptada!: Estado;
-
+    
     private estadoRegistrada!: Estado;
     private estadoRecibidaYRechazada!: Estado;
     private estadoParaRedirigir!: Estado;
     
     constructor(private readonly store: InMemoryRepository) {}
-
+    
     /**
      * Comienza los envíos de mensajes.
-     */
+    */
     public nuevaRecepcionBolsin() {
-        // Primero, carga datos del repositorio en memoria (para simular persistencia)
+       // Primero, carga datos del repositorio en memoria (para simular persistencia)
         this.bolsines = this.store.getBolsines();
         this.empleados = this.store.getEmpleados();
         this.estados = this.store.getEstados();
@@ -59,7 +60,7 @@ export class GestorRecepcionBolsin {
         
         // Luego, se obtiene el puntero al empleado logueado en este momento.
         this.obtenerEmpleadoLog();
-
+        
         // Retornamos la CM del empleado y los bolsines para seleccionar.
         return {
             nombreCMEmpleado: this.obtenerNombreCMEmpleado(),

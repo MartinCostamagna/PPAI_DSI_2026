@@ -22,8 +22,8 @@ export class Bolsin {
     // Busca el cambio de estado actual, mediante un mensaje hacia el (sosActual()).
     // Luego de encontrado el cambio actual, se pregunta si su estado es "Enviado".
     public sosEnviado(): boolean {
-        const actual = this.cambiosEstado.find(ce => ce.sosActual())!;
-        return actual.sosEnviado();
+        const actual = this.cambiosEstado.find(ce => ce.sosActual());   
+        return actual!.sosEnviado();
     }
 
     // Para corroborar la CM, utilizamos la ya almacenada en la busqueda anterior, la CM del empleado.
@@ -65,19 +65,20 @@ export class Bolsin {
         this.remitos.forEach(r => {
             r.actualizarEstadoDoc(fechaYHoraActual, estadoDocumentacion, empleado);
         });
+        console.log(JSON.stringify(this));
     }
-
+    
     /**
      * Seteamos la fecha y hora de fin del cambio de estado actual.
      * Cada remito pasa al estado RecibidoYAceptado.
      * Creamos un nuevo cambio de estado, asignandole la fecha actual, el nuevo estado, y el empleado responsable del cambio.
-     */
+    */
     public crearCEBolsin(fechaYHoraActual: Date, estado: Estado, empleado: Empleado, estadoRemito: Estado): void {
         const actual = this.cambiosEstado.find(ce => ce.sosActual())!;
         actual.setFechaYHoraFin(fechaYHoraActual);
 
         this.remitos.forEach(r => r.recibir(estadoRemito));
-
+        
         const nuevo: CambioEstadoBolsin = new CambioEstadoBolsin(estado, empleado, fechaYHoraActual);
         this.cambiosEstado.push(nuevo);
     }
