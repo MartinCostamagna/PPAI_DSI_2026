@@ -22,7 +22,10 @@ export class InformarCuExitoso {
 
   // LLamada automática, por medio de la navegación a este componente, a la llamada http tomarConfirmacion()
   ngOnInit() {
-    this.pantallaRecepcionBolsin.tomarConfirmacion().subscribe();
+    if ((this.pantallaRecepcionBolsin.getRemitos())().length === 0) {
+      this.router.navigate(['/inicio']);
+    }
+    else this.pantallaRecepcionBolsin.tomarConfirmacion().subscribe();
   }
 
   // Se muestra el mensaje de éxito de la ejecución del caso de uso de inclusión.
