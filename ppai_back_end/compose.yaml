@@ -1,0 +1,16 @@
+services:
+  db:
+    image: postgres:17
+    container_name: ppai_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ppai
+      POSTGRES_PASSWORD: ppai
+      POSTGRES_DB: ppai
+    ports:
+      - "5433:5432"
+    volumes:
+      - ppai_db_data:/var/lib/postgresql/data
+
+volumes:
+  ppai_db_data:

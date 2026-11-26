@@ -13,4 +13,12 @@ export class Empleado {
     public mostrarCM(): string {
         return this.comisionMedica.getNombre();
     }
+
+    public getNombre(): string {
+        return this.nombre;
+    }
+
+    public getComisionMedica(): ComisionMedica {
+        return this.comisionMedica;
+    }
 }

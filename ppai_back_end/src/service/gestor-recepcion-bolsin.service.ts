@@ -1,13 +1,10 @@
-import { Injectable } from "@nestjs/common";
+import { Inject, Injectable, NotFoundException } from "@nestjs/common";
 
-import { Bolsin } from "../entities/bolsin.entity";
+import { Bolsin } from "../bolsin/entities/bolsin.entity";
 import { Empleado } from "../entities/empleado.entity";
-import { Estado } from "../entities/estado.entity";
 import { Sesion } from "../entities/sesion.entity";
-
-import { InMemoryRepository } from "../repository/inMemory.repository";
-import { dateTimestampProvider } from "rxjs/internal/scheduler/dateTimestampProvider";
-
+import { BOLSIN_REPOSITORY, type BolsinRepository } from "../persistence/repository/bolsin.repository";
+import { SESION_REPOSITORY, type SesionRepository } from "../persistence/repository/sesion.repository";
 /* *
  * Métodos mapeados del diagrama de secuencia de `GestorRecepcionBolsin`:
  *  3. nuevaRecepcionBolsin()
@@ -29,8 +26,6 @@ import { dateTimestampProvider } from "rxjs/internal/scheduler/dateTimestampProv
 @Injectable()
 export class GestorRecepcionBolsin {
     private bolsines!: Bolsin[];
-    private empleados!: Empleado[];
-    private estados!: Estado[];
     private sesion!: Sesion;
     
     private empleado!: Empleado;
@@ -38,26 +33,23 @@ export class GestorRecepcionBolsin {
     private opcion!: number;
     private bolsinSeleccionado!: Bolsin;
     private fechaYHoraActual!: Date;
-    private estadoRecibidoEnCMDestino!: Estado;
-    private estadoRecibidoYAceptado!: Estado;
-    private estadoRecibidaYAceptada!: Estado;
-    
-    private estadoRegistrada!: Estado;
-    private estadoRecibidaYRechazada!: Estado;
-    private estadoParaRedirigir!: Estado;
-    
-    constructor(private readonly store: InMemoryRepository) {}
-    
+
+    constructor(
+        @Inject(BOLSIN_REPOSITORY) private readonly bolsinRepository: BolsinRepository,
+        @Inject(SESION_REPOSITORY) private readonly sesionRepository: SesionRepository
+    ) {}
+
     /**
      * Comienza los envíos de mensajes.
     */
-    public nuevaRecepcionBolsin() {
-       // Primero, carga datos del repositorio en memoria (para simular persistencia)
-        this.bolsines = this.store.getBolsines();
-        this.empleados = this.store.getEmpleados();
-        this.estados = this.store.getEstados();
-        this.sesion = this.store.getSesion();
-        
+    public async nuevaRecepcionBolsin() {
+        const sesion = await this.sesionRepository.buscarSesionActiva();
+        if (!sesion) {
+            throw new NotFoundException("No hay una sesión activa");
+        }
+        this.sesion = sesion;
+        this.bolsines = await this.bolsinRepository.buscarTodos();
+
         // Luego, se obtiene el puntero al empleado logueado en este momento.
         this.obtenerEmpleadoLog();
         
@@ -116,84 +108,46 @@ export class GestorRecepcionBolsin {
      * Luego se ejecuta el registro de recepción mediante un mensaje al bolsín seleccionado.
      * El mensaje de llamada al caso de uso "Notificar recepción de bolsín" varía dependiendo de la opción elegida.
      */
-    public registrarRecepcionBolsin() {
+    public async registrarRecepcionBolsin() {
         this.fechaYHoraActual = this.tomarFechaYHoraActual();
-        this.estadoRecibidoEnCMDestino = this.buscarEstadoRecibidoEnCMDestino();
+        this.bolsinSeleccionado.recibir(
+                    this.fechaYHoraActual,
+                    this.empleado
+                );
         let mensaje = "";
         switch (this.opcion){
             case 1:
                 mensaje = "Recepción bolsín Exitosa";
-                this.estadoRecibidoYAceptado = this.buscarEstadoRecibidoYAceptado();
-                this.estadoRecibidaYAceptada = this.buscarEstadoRecibidaYAceptada();
-                this.bolsinSeleccionado.registrarRecepcion(
+                this.bolsinSeleccionado.aceptarDocumentacion(
                     this.fechaYHoraActual,
-                    this.estadoRecibidoEnCMDestino, 
-                    this.estadoRecibidoYAceptado, 
-                    this.estadoRecibidaYAceptada,
                     this.empleado
-                );
+                )
                 break;
             case 2:
                 //no realizada debido a que no sabemos quien decide si se registra o se da de baja la documentación
             case 3:
                 mensaje = `Documentacion no corresponde a la CM destino ${this.nombreCMEmpleado}`;
-                this.estadoRecibidoYAceptado = this.buscarEstadoRecibidoYAceptado();
-                this.estadoRecibidaYRechazada = this.buscarEstadoRecibidaYRechazada();
-                this.bolsinSeleccionado.registrarRecepcion(
+                this.bolsinSeleccionado.rechazarDocumentacion(
                     this.fechaYHoraActual,
-                    this.estadoRecibidoEnCMDestino, 
-                    this.estadoRecibidoYAceptado,
-                    this.estadoRecibidaYRechazada,
-                    this.empleado
-                );
+                    this.empleado,
+                )
                 break;
             case 4:
                 mensaje = "Documentación para redirigir a otra área";
-                this.estadoRecibidoYAceptado = this.buscarEstadoRecibidoYAceptado();
-                this.estadoParaRedirigir = this.buscarEstadoParaRedirigir();
-                this.bolsinSeleccionado.registrarRecepcion(
+                this.bolsinSeleccionado.redirigirDocumentacion(
                     this.fechaYHoraActual,
-                    this.estadoRecibidoEnCMDestino, 
-                    this.estadoRecibidoYAceptado, 
-                    this.estadoParaRedirigir, 
                     this.empleado
                 );
                 break;
         }
+
+        await this.bolsinRepository.guardar(this.bolsinSeleccionado);
 
         return this.llamarCUNotificarRecepcionBolsin(mensaje);
     }
 
     public tomarFechaYHoraActual(): Date {
         return new Date();
-    }
-
-    /**
-     * Los siguientes métodos siguen el mismo patrón.
-     * Buscan el estado necesario, filtrando la lista de estados disponibles por su ámbito, y luego por su nombre.
-     */
-    public buscarEstadoRecibidoEnCMDestino(): Estado {
-        return this.estados.filter(e => e.esAmbitoBolsin()).find(e => e.esRecibidoEnCMDestino())!;
-    }
-
-    public buscarEstadoRecibidoYAceptado(): Estado {
-        return this.estados.filter(e => e.esAmbitoRemito()).find(e => e.esRecibidoYAceptado())!;
-    }
-
-    public buscarEstadoRecibidaYAceptada(): Estado {
-        return this.estados.filter(e => e.esAmbitoDocumentacion()).find(e => e.esRecibidaYAceptada())!;
-    }
-    
-    public buscarEstadoRegistrada(): Estado {
-        return this.estados.filter(e => e.esAmbitoDocumentacion()).find(e => e.esRegistrada())!;
-    }
-
-    public buscarEstadoRecibidaYRechazada(): Estado {
-        return this.estados.filter(e => e.esAmbitoDocumentacion()).find(e => e.esRecibidaYRechazada())!;
-    }
-
-    public buscarEstadoParaRedirigir(): Estado {
-        return this.estados.filter(e => e.esAmbitoDocumentacion()).find(e => e.esParaRedirigir())!;
     }
 
     // Se retorna el mensaje armado, simulando una llamada al caso de uso "Notificar recepción de bolsín".
