@@ -1,6 +1,5 @@
 import { DetalleRemito } from "./detalle-remito.entity";
 import { Empleado } from "../../entities/empleado.entity";
-import { EstadoDocumentacion } from "../../documentacion/state/estado-documentacion.abstract";
 import { EstadoRemito } from "../state/estado-remito.abstract";
 
 export class Remito {

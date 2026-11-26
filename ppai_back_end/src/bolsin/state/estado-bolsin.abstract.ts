@@ -8,26 +8,26 @@ export abstract class EstadoBolsin {
     }
 
     cerrar(): void{
-
+        throw new Error("Transición no válida");
     }
     
     reabrir(): void{
-
+        throw new Error("Transición no válida");
     }
 
     enviar(): void{
-
+        throw new Error("Transición no válida");
     }
 
-    recibir(bolsin: Bolsin, fechaYHoraActual: Date): void{
-
+    recibir(bolsin: Bolsin, fechaYHoraActual: Date, cambiosEstado: CambioEstadoBolsin[], empleado: Empleado): void{
+        throw new Error("Transición no válida");
     }
 
     darDeBaja(): void{
-
+        throw new Error("Transición no válida");
     }
 
     quitarRemito(): void{
-        
+        throw new Error("Transición no válida");
     }   
 }

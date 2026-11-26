@@ -22,11 +22,11 @@ export class DetalleRemito {
         this.documentacion.aceptar(fechaYHoraActual, empleado);
     }
 
-    public actualizarEstadoDocARecibidaYRechazada(fechaYHoraActual: Date, empleado: Empleado): void {
+    public rechazarDocumentacion(fechaYHoraActual: Date, empleado: Empleado): void {
         this.documentacion.rechazar(fechaYHoraActual, empleado);
     }
 
-    public actualizarEstadoDocAParaRedirigir(fechaYHoraActual: Date, empleado: Empleado): void {
+    public redirigirDocumentacion(fechaYHoraActual: Date, empleado: Empleado): void {
         this.documentacion.redirigir(fechaYHoraActual, empleado);
     }
 }
