@@ -1,0 +1,162 @@
+<app-shell
+  seccionActiva="consulta"
+  tituloPagina="Consulta de estados"
+  [breadcrumbs]="[
+    { label: 'Inicio', route: '/inicio' },
+    { label: 'Consulta de estados' }
+  ]"
+>
+  <section class="panel contenedor-lista">
+    <div class="lista-header">
+      <div>
+        <span class="badge badge-neutral">Funcionalidad de apoyo — fuera del CU 28</span>
+        <h2>Consulta de estados de bolsines</h2>
+        <p>
+          Hacé click en «Ver historial» de un bolsín para ver el historial de estados de él, de sus remitos y de su documentación.
+        </p>
+      </div>
+      <div>
+        <button type="button" class="btn btn-secondary" (click)="recargar()" [disabled]="cargando()">
+          <app-icon name="refresh" [size]="16" />
+          <span>Actualizar</span>
+        </button>
+      </div>
+    </div>
+
+    @if (error()) {
+      <div class="alert alert-error alerta-margen" role="alert">
+        <app-icon name="alert-triangle" [size]="19" />
+        <div class="alerta-contenido">
+          <strong>Error de conexión</strong>
+          <p>{{ error() }}</p>
+        </div>
+        <button type="button" class="btn btn-secondary" (click)="recargar()">Reintentar</button>
+      </div>
+    }
+
+    @if (cargando() && bolsines().length === 0) {
+      <div class="estado-vacio" role="status">
+        <p class="estado-titulo">Cargando bolsines...</p>
+      </div>
+    } @else {
+      <div class="tabla-wrap">
+        <table class="tabla">
+          <thead>
+            <tr>
+              <th>N° Precinto</th>
+              <th>CM origen</th>
+              <th>CM destino</th>
+              <th>Estado</th>
+              <th>Remitos</th>
+              <th>Detalle</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (bolsin of bolsines(); track bolsin.numeroPrecinto) {
+              <tr
+                (click)="alternarDetalle(bolsin)"
+                [class.seleccionada]="precintoSeleccionado() === bolsin.numeroPrecinto"
+              >
+                <td><span class="precinto-tag">#{{ bolsin.numeroPrecinto }}</span></td>
+                <td>{{ bolsin.cmOrigen }}</td>
+                <td>{{ bolsin.cmDestino }}</td>
+                <td><span class="badge" [class]="'badge ' + claseBadge(bolsin.estadoActual)">{{ bolsin.estadoActual }}</span></td>
+                <td>{{ bolsin.cantidadRemitos }}</td>
+                <td>
+                  <button type="button" class="btn btn-secondary btn-sm" (click)="alternarDetalle(bolsin); $event.stopPropagation()">
+                    {{ precintoSeleccionado() === bolsin.numeroPrecinto ? 'Ocultar' : 'Ver historial' }}
+                  </button>
+                </td>
+              </tr>
+            } @empty {
+              @if (!error()) {
+              <tr>
+                <td colspan="6" class="celda-vacia">
+                  <div class="estado-vacio">
+                    <p class="estado-titulo">No hay bolsines para mostrar</p>
+                    <p class="estado-sub">No se encontraron bolsines de la Comisión Médica del usuario.</p>
+                  </div>
+                </td>
+              </tr>
+              }
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </section>
+
+  @if (precintoSeleccionado() !== null) {
+    <section class="panel detalle" #panelDetalle>
+      <h3>Detalle del bolsín #{{ precintoSeleccionado() }}</h3>
+
+      @if (cargandoDetalle() && !detalle()) {
+        <p class="estado-sub" role="status">Cargando detalle...</p>
+      } @else if (errorDetalle()) {
+        <div class="alert alert-error" role="alert">
+          <app-icon name="alert-triangle" [size]="19" />
+          <div class="alerta-contenido">{{ errorDetalle() }}</div>
+        </div>
+      } @else if (detalle(); as d) {
+        <h4>Historial del bolsín</h4>
+        <ng-container *ngTemplateOutlet="historialTpl; context: { $implicit: d.historial }" />
+
+        <h4>Remitos</h4>
+        @for (remito of d.remitos; track remito.numero) {
+          <div class="remito">
+            <div class="remito-cabecera">
+              <strong>Remito N° {{ remito.numero }}</strong>
+              <span class="badge" [class]="'badge ' + claseBadge(remito.estadoActual)">{{ remito.estadoActual }}</span>
+            </div>
+            @for (doc of remito.documentaciones; track $index) {
+              <div class="documentacion">
+                <div class="remito-cabecera">
+                  <span>{{ doc.tipoDocumento }} — {{ doc.asunto }}</span>
+                  <span class="badge" [class]="'badge ' + claseBadge(doc.estadoActual)">{{ doc.estadoActual }}</span>
+                </div>
+                <ng-container *ngTemplateOutlet="historialTpl; context: { $implicit: doc.historial }" />
+              </div>
+            } @empty {
+              <p class="estado-sub">Sin documentaciones.</p>
+            }
+          </div>
+        } @empty {
+          <p class="estado-sub">El bolsín no tiene remitos.</p>
+        }
+      }
+    </section>
+  }
+</app-shell>
+
+<ng-template #historialTpl let-historial>
+  <div class="tabla-wrap">
+    <table class="tabla tabla-historial">
+      <thead>
+        <tr>
+          <th>Estado</th>
+          <th>Desde</th>
+          <th>Hasta</th>
+          <th>Empleado</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (cambio of historial; track $index) {
+          <tr>
+            <td><span class="badge" [class]="'badge ' + claseBadge(cambio.estado)">{{ cambio.estado }}</span></td>
+            <td>{{ cambio.fechaYHoraInicio | date: 'dd/MM/yyyy HH:mm' }}</td>
+            <td>
+              @if (cambio.fechaYHoraFin) {
+                {{ cambio.fechaYHoraFin | date: 'dd/MM/yyyy HH:mm' }}
+              } @else {
+                <strong>actual</strong>
+              }
+            </td>
+            <td>{{ cambio.empleado }}</td>
+          </tr>
+        } @empty {
+          <tr><td colspan="4" class="estado-sub">Sin historial.</td></tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</ng-template>

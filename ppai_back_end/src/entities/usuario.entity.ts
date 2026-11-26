@@ -1,4 +1,5 @@
 import { Empleado } from "./empleado.entity";
+import { verificarContrasenia } from "../util/contrasenia.util";
 
 export class Usuario {
     private nombre: string;
@@ -21,5 +22,9 @@ export class Usuario {
 
     public getHashContrasenia(): string {
         return this.hashContrasenia;
+    }
+
+    public validarContrasenia(contrasenia: string): boolean {
+        return verificarContrasenia(contrasenia, this.hashContrasenia);
     }
 }

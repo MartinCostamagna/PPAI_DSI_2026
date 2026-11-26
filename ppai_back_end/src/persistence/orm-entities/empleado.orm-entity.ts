@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { ComisionMedicaOrm } from "./comision-medica.orm-entity";
 
 @Entity('empleado')
@@ -9,7 +9,7 @@ export class EmpleadoOrm {
     @Column({ type: 'varchar', length: 150 })
     nombre!: string;
 
-    @OneToOne(() => ComisionMedicaOrm, (comision) => comision.empleado)
+    @ManyToOne(() => ComisionMedicaOrm, (comision) => comision.empleados)
     @JoinColumn({ name: 'comision_medica_id' })
     comisionMedica!: ComisionMedicaOrm;
 

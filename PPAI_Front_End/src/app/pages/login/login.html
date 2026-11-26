@@ -36,7 +36,7 @@
       <form class="login-form" (ngSubmit)="iniciarSesion()">
         <div class="campo">
           <label for="usuario">Usuario de empleado</label>
-          <input id="usuario" name="usuario" type="text" [(ngModel)]="usuario" placeholder="Ej. eb_cordoba o jperez"
+          <input id="usuario" name="usuario" type="text" [(ngModel)]="usuario" placeholder="Ej. jperez"
             autocomplete="username" />
         </div>
 
@@ -62,7 +62,11 @@
           </button>
         </div>
 
-        <button type="submit" class="btn btn-primary btn-ingresar">
+        @if (errorLogin()) {
+        <p class="login-error" role="alert">{{ errorLogin() }}</p>
+        }
+
+        <button type="submit" class="btn btn-primary btn-ingresar" [disabled]="ingresando()">
           Ingresar al sistema
         </button>
       </form>

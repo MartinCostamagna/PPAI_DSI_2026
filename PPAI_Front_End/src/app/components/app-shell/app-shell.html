@@ -42,8 +42,8 @@
           <app-icon class="nav-icono" name="map-pin" [size]="17" />
           <span>Seguimiento GPS</span>
         </button>
-        <button type="button" class="nav-item relleno"
-          (click)="accionRelleno('Consultar / Modificar / Eliminar Bolsín (CU 20-22)')">
+        <button type="button" class="nav-item" [class.activo]="seccionActiva() === 'consulta'"
+          (click)="irAConsulta()">
           <app-icon class="nav-icono" name="search" [size]="17" />
           <span>Consultar bolsines</span>
         </button>

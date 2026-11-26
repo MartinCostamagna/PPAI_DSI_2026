@@ -1,8 +1,8 @@
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { AppIcon, IconName } from '../../components/app-icon/app-icon';
 import { AppShell } from '../../components/app-shell/app-shell';
-import { PantallaRecepcionBolsin } from '../../services/pantalla-recepcion-bolsin.service';
+import { AuthService } from '../../services/auth.service';
 import { ToastService } from '../../services/toast.service';
 
 interface AccionMenu {
@@ -26,9 +26,9 @@ interface AccionMenu {
 export class Inicio {
   private router = inject(Router);
   private toastService = inject(ToastService);
-  private pantallaRecepcionService = inject(PantallaRecepcionBolsin);
+  private authService = inject(AuthService);
 
-  usuario = this.pantallaRecepcionService.getUsuarioFicticio();
+  usuario = computed(() => this.authService.sesion()?.nombreEmpleado ?? '');
 
   // Casos de uso del actor principal: Encargado de Bolsines (EB)
   readonly accionesBolsines: AccionMenu[] = [
@@ -81,6 +81,10 @@ export class Inicio {
    */
   seleccionOpcRegistRecepBolsin() {
     this.router.navigate(['/bolsines-enviados-a-esta-comision-medica']);
+  }
+
+  irAConsultaEstados() {
+    this.router.navigate(['/consulta-estados']);
   }
 
   ejecutarAccion(accion: AccionMenu) {

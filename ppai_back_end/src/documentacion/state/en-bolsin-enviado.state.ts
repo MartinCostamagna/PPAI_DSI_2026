@@ -19,19 +19,19 @@ export class EnBolsinEnviado extends EstadoDocumentacion{
     redirigir(documentacion: Documentacion, fechaYHoraActual: Date, cambiosEstado: CambioEstadoDocumentacion[], empleado: Empleado): void {
         const ceActual = cambiosEstado.find(c => c.sosActual());
         ceActual?.setFechaYHoraFin(fechaYHoraActual);
-        const recibida = this.crearEstadoRecibidaYRechazada();
-        const nuevo = this.crearCambioEstado(recibida, empleado, fechaYHoraActual);
+        const paraRedirigir = this.crearEstadoParaRedirigir();
+        const nuevo = this.crearCambioEstado(paraRedirigir, empleado, fechaYHoraActual);
         documentacion.agregarCambioEstado(nuevo);
-        documentacion.setEstado(recibida);
+        documentacion.setEstado(paraRedirigir);
     }
 
     rechazar(documentacion: Documentacion, fechaYHoraActual: Date, cambiosEstado: CambioEstadoDocumentacion[], empleado: Empleado): void {
         const ceActual = cambiosEstado.find(c => c.sosActual());
         ceActual?.setFechaYHoraFin(fechaYHoraActual);
-        const paraRedirigir = this.crearEstadoParaRedirigir();
-        const nuevo = this.crearCambioEstado(paraRedirigir, empleado, fechaYHoraActual);
+        const rechazada = this.crearEstadoRecibidaYRechazada();
+        const nuevo = this.crearCambioEstado(rechazada, empleado, fechaYHoraActual);
         documentacion.agregarCambioEstado(nuevo);
-        documentacion.setEstado(paraRedirigir);
+        documentacion.setEstado(rechazada);
     }
 
     private crearEstadoRecibidaYAceptada(): RecibidaYAceptada{

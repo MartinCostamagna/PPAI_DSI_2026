@@ -28,7 +28,6 @@ export class PantallaRecepcionBolsin {
 
     private cargando = signal<boolean>(false);
     private error = signal<string | null>(null);
-    private usuarioFicticio = signal<string>("Encargado de Bolsines");
 
     /**
      * Muestra la CM del usuario logueado y los bolsines para seleccionar.
@@ -114,13 +113,6 @@ export class PantallaRecepcionBolsin {
             finalize(() => this.cargando.set(false))
         );
     }
-
-    setUsuarioFicticio(nombre: string) {
-        const limpio = nombre.trim();
-        this.usuarioFicticio.set(limpio || "Encargado de Bolsines");
-    }
-
-    getUsuarioFicticio() { return this.usuarioFicticio.asReadonly(); }
 
     getComisionMedica() { return this.comisionMedica; }
 
