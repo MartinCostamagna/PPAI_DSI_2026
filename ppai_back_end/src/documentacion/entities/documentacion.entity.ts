@@ -28,11 +28,11 @@ export class Documentacion {
     }
 
     public redirigir(fechaYHoraActual: Date, empleado: Empleado): void {
-        this.estadoActual.redirigir();
+        this.estadoActual.redirigir(this, fechaYHoraActual, this.cambiosEstadoDocumentacion, empleado);
     }
 
     public rechazar(fechaYHoraActual: Date, empleado: Empleado): void {
-        this.estadoActual.rechazar();
+        this.estadoActual.rechazar(this, fechaYHoraActual, this.cambiosEstadoDocumentacion, empleado);
     }
 
     public agregarCambioEstado(cambioEstado: CambioEstadoDocumentacion): void {

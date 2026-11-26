@@ -27,10 +27,10 @@ export abstract class EstadoDocumentacion {
     reenviar(): void {
         throw new Error("Transición no válida");
     }
-    rechazar(): void {
+    rechazar(documentacion: Documentacion, fechaYHoraActual: Date, cambiosEstado: CambioEstadoDocumentacion[], empleado: Empleado): void {
         throw new Error("Transición no válida");
     }
-    redirigir(): void {
+    redirigir(documentacion: Documentacion, fechaYHoraActual: Date, cambiosEstado: CambioEstadoDocumentacion[], empleado: Empleado): void {
         throw new Error("Transición no válida");
     }
     aceptar(documentacion: Documentacion, fechaYHoraActual: Date, cambiosEstado: CambioEstadoDocumentacion[], empleado: Empleado): void {
