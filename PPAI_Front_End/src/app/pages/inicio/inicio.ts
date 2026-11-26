@@ -76,52 +76,6 @@ export class Inicio {
     },
   ];
 
-  // Otros módulos y actores definidos en la ERS (Encargado de Documentación, GCM y Parametrizador)
-  readonly accionesDominio: AccionMenu[] = [
-    {
-      titulo: 'Registrar y gestionar documentación',
-      descripcion: 'Cargar documentación (expediente, dictamen, estudio médico, carta documento) con fecha de pase y archivos PDF/imágenes.',
-      icono: 'folder',
-      disponible: false,
-      etiqueta: 'CU 7 - 10',
-    },
-    {
-      titulo: 'Generar y administrar remitos',
-      descripcion: 'Agrupar documentación registrada en un remito por CM destino, modificarlo o cancelarlo mientras esté en estado Creado.',
-      icono: 'file-text',
-      disponible: false,
-      etiqueta: 'CU 15 - 18',
-    },
-    {
-      titulo: 'Registrar revisión de documentación',
-      descripcion: 'Gestionar documentación rechazada o no recibida por una CM destino para su reenvío en nuevo remito o su baja.',
-      icono: 'rotate-ccw',
-      disponible: false,
-      etiqueta: 'CU 31',
-    },
-    {
-      titulo: 'Reporte de bolsines en tránsito',
-      descripcion: 'Generar en Power BI el listado de bolsines en tránsito entre una CM origen y una CM destino para un período.',
-      icono: 'trending-up',
-      disponible: false,
-      etiqueta: 'CU 37 · GCM',
-    },
-    {
-      titulo: 'Estadística de movimiento de bolsines',
-      descripcion: 'Generar en Power BI estadísticas de cantidad de bolsines intercambiados entre comisiones médicas.',
-      icono: 'bar-chart',
-      disponible: false,
-      etiqueta: 'CU 38 · GCM',
-    },
-    {
-      titulo: 'Parametrización del sistema',
-      descripcion: 'Administrar Comisiones Médicas (CMJ y CMC), Tipos de Documento y usuarios con sus permisos por CM.',
-      icono: 'building',
-      disponible: false,
-      etiqueta: 'CU 1 · 11 · 23',
-    },
-  ];
-
   /**
    * Comienza la ejecución de todo el caso de uso.
    */
