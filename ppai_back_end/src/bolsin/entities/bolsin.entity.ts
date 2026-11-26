@@ -22,7 +22,7 @@ export class Bolsin {
         this.estadoActual = estado;
     }
 
-    // Para corroborar la CM, utilizamos la ya almacenada en la busqueda anterior, la CM del empleado.
+    // Comprueba si el bolsín tiene como destino la CM indicada.
     public esTuCMDestino(cm: string): boolean {
         return this.comisionMedicaDestino.getNombre() === cm;
     }
@@ -60,6 +60,7 @@ export class Bolsin {
         this.estadoActual = estado;
     }
 
+    // Delega el registro de la recepción al estado actual del bolsín.
     public recibir(fechaYHoraActual: Date, empleado: Empleado): void{
         this.estadoActual.recibir(this, fechaYHoraActual, this.cambiosEstado, empleado);
     }

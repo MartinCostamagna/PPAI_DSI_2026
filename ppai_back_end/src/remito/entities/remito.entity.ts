@@ -29,16 +29,19 @@ export class Remito {
         this.estadoActual = estado;
     }
 
+    // Registra la recepción del remito y acepta toda su documentación.
     public recibir(fechaYHoraActual: Date, empleado: Empleado): void {
         this.estadoActual.recibir(this);
         this.detallesRemito.forEach(d => d.aceptarDocumentacion(fechaYHoraActual, empleado));
     }
 
+    // Registra la recepción del remito y rechaza toda su documentación.
     public rechazar(fechaYHoraActual: Date, empleado: Empleado): void {
         this.estadoActual.recibir(this);
         this.detallesRemito.forEach(d => d.rechazarDocumentacion(fechaYHoraActual, empleado));
     }
 
+    // Registra la recepción del remito y deja su documentación para redirigir.
     public redirigir(fechaYHoraActual: Date, empleado: Empleado): void {
         this.estadoActual.recibir(this);
         this.detallesRemito.forEach(d => d.redirigirDocumentacion(fechaYHoraActual, empleado));

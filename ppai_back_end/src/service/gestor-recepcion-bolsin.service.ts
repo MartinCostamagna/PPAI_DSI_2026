@@ -5,24 +5,21 @@ import { Empleado } from "../entities/empleado.entity";
 import { Sesion } from "../entities/sesion.entity";
 import { BOLSIN_REPOSITORY, type BolsinRepository } from "../persistence/repository/bolsin.repository";
 import { SESION_REPOSITORY, type SesionRepository } from "../persistence/repository/sesion.repository";
-/* *
- * Métodos mapeados del diagrama de secuencia de `GestorRecepcionBolsin`:
- *  3. nuevaRecepcionBolsin()
- *  4. obtenerEmpleadoLog()
- *  7. obtenerNombreCMEmpleado()
- *  11. buscarBolsinesEnviadosParaCM()
- *  23. tomarSeleccionBolsin()
- *  24. buscarNroRemitosYDocumentacion()
- *  37. tomarSeleccionOpcRecBolsin()
- *  40. tomarConfirmacion()
- *  41. registrarRecepcionBolsin()
- *  42. tomarFechaYHoraActual()
- *  43. buscarEstadoRecibidoEnCMDestino()
- *  46. buscarEstadoRecibidoYAceptado()
- *  49. buscarEstadoRecibidaYAceptada()
- *  63. llamarCUNotificarRecepcionBolsin()
- *  65. finCU()
-*/
+/**
+ * Métodos mapeados del diagrama de secuencia de GestorRecepcionBolsin:
+ * nuevaRecepcionBolsin()
+ * obtenerEmpleadoLog()
+ * obtenerNombreCMEmpleado()
+ * buscarBolsinesEnviadosParaCM()
+ * tomarSeleccionBolsin()
+ * buscarNroRemitosYDocumentacion()
+ * tomarSeleccionOpcRecBolsin()
+ * tomarConfirmacion()
+ * registrarRecepcionBolsin()
+ * tomarFechaYHoraActual()
+ * llamarCUNotificarRecepcionBolsin()
+ * finCU()
+ */
 @Injectable()
 export class GestorRecepcionBolsin {
     private bolsines!: Bolsin[];
@@ -39,9 +36,7 @@ export class GestorRecepcionBolsin {
         @Inject(SESION_REPOSITORY) private readonly sesionRepository: SesionRepository
     ) {}
 
-    /**
-     * Comienza los envíos de mensajes.
-    */
+    // Busca la sesión activa y los bolsines disponibles para iniciar la recepción.
     public async nuevaRecepcionBolsin() {
         const sesion = await this.sesionRepository.buscarSesionActiva();
         if (!sesion) {
@@ -50,7 +45,6 @@ export class GestorRecepcionBolsin {
         this.sesion = sesion;
         this.bolsines = await this.bolsinRepository.buscarTodos();
 
-        // Luego, se obtiene el puntero al empleado logueado en este momento.
         this.obtenerEmpleadoLog();
         
         // Retornamos la CM del empleado y los bolsines para seleccionar.
@@ -60,18 +54,18 @@ export class GestorRecepcionBolsin {
         }
     }
 
-    // Orquesta el envío de mensajes a la sesión, y esta al usuario.
+    // Obtiene el empleado asociado a la sesión activa.
     public obtenerEmpleadoLog(): void {
         this.empleado = this.sesion.obtenerEmpleadoLog();
     }
 
-    // Se obtiene la CM del empleado mediante un envío de mensaje a este.
+    // Guarda el nombre de la CM del empleado para filtrar los bolsines.
     public obtenerNombreCMEmpleado() {
         this.nombreCMEmpleado = this.empleado.mostrarCM();
         return this.nombreCMEmpleado;
     }
 
-    // Se buscan los bolsines, iniciando el loop "Bolsines enviados para CM usuario Logueado" del diagrama de secuencia.
+    // Selecciona los bolsines enviados a la CM del empleado.
     public buscarBolsinesEnviadosParaCM() {
         return this.bolsines.filter(b => b.sosEnviado()).filter(b => b.esTuCMDestino(this.nombreCMEmpleado)).map(b => ({
             nombreCMOrigen: b.mostrarCMOrigen(),
@@ -80,8 +74,8 @@ export class GestorRecepcionBolsin {
     }
 
     /**
-     * Obtenemos el puntero al bolsín seleccionado mediante su número de precinto.
-     * Luego obtenemos la información de cada remito y toda su documentación.
+     * Busca el bolsín por su número de precinto y devuelve sus remitos
+     * con el tipo y el asunto de cada documento.
      */
     public tomarSeleccionBolsin(nroPrecinto: number) {
         this.bolsinSeleccionado = this.bolsines.find(b => b.getNumeroPrecinto() === nroPrecinto)!;
@@ -102,11 +96,9 @@ export class GestorRecepcionBolsin {
     }
 
     /**
-     * Obtenemos los datos necesarios para operar, siendo estos:
-     *  - Fecha y hora actual.
-     *  - Estados necesarios para los cambios de estado.
-     * Luego se ejecuta el registro de recepción mediante un mensaje al bolsín seleccionado.
-     * El mensaje de llamada al caso de uso "Notificar recepción de bolsín" varía dependiendo de la opción elegida.
+     * Registra la recepción del bolsín y aplica la opción elegida a su documentación.
+     * Usa la misma fecha y hora para los cambios de estado.
+     * Guarda el bolsín y devuelve el mensaje de la recepción.
      */
     public async registrarRecepcionBolsin() {
         this.fechaYHoraActual = this.tomarFechaYHoraActual();
@@ -124,7 +116,7 @@ export class GestorRecepcionBolsin {
                 )
                 break;
             case 2:
-                //no realizada debido a que no sabemos quien decide si se registra o se da de baja la documentación
+                // Las opciones 2 y 3 siguen el mismo flujo de rechazo.
             case 3:
                 mensaje = `Documentacion no corresponde a la CM destino ${this.nombreCMEmpleado}`;
                 this.bolsinSeleccionado.rechazarDocumentacion(

@@ -4,11 +4,11 @@ import { RemitoDatos } from "../types/remito-datos.type";
 
 /**
  * Métodos mapeados del diagrama de secuencia de `PantallaRecepcionBolsin`:
- *  2. habilitarVentana()
- *  34. mostrarDatosRemitos()
- *  36. tomarSeleccionOpcRecBolsin()
- *  39. tomarConfirmacion()
- *  64. informarEjecucionExitosaCU()
+ * habilitarVentana()
+ * mostrarDatosRemitos()
+ * tomarSeleccionOpcRecBolsin()
+ * tomarConfirmacion()
+ * informarEjecucionExitosaCU()
  */
 @Controller('bolsines/recepcion')
 export class PantallaRecepcionBolsin {
@@ -16,17 +16,13 @@ export class PantallaRecepcionBolsin {
         private readonly gestorRecepcionBolsin: GestorRecepcionBolsin
     ) {}
 
-    /**
-     * Comienza en definitiva el flujo del diagrama de secuencia.
-     * Se llama al gestor para iniciar una nueva recepción de bolsín.
-     * Finalmente, el retorno es la CM y los bolsines a seleccionar.
-     */
+    // Inicia la recepción y devuelve la CM del empleado y los bolsines que puede elegir.
     @Get()
     habilitarVentana() {
         return this.gestorRecepcionBolsin.nuevaRecepcionBolsin();
     }
 
-    // Método de optención del mensaje de finalización del caso de uso.
+    // Devuelve el mensaje de finalización del caso de uso.
     @Get('finalizar')
     informarEjecucionExitosaCU() {
         return this.gestorRecepcionBolsin.finCU();
@@ -47,10 +43,7 @@ export class PantallaRecepcionBolsin {
         this.gestorRecepcionBolsin.tomarSeleccionOpcRecBolsin(+body.opcion);
     }
     
-    /**
-     * Toma la confirmación del usuario y comienza la ejecución de la recepción.
-     * Obtenemos un mensaje como respuesta, resultado de la "llamada" al caso de uso de inclusión correspondiente.
-     */
+    // Confirma la recepción y devuelve el mensaje correspondiente a la opción elegida.
     @Post('confirmar')
     tomarConfirmacion() {
         return this.gestorRecepcionBolsin.tomarConfirmacion();

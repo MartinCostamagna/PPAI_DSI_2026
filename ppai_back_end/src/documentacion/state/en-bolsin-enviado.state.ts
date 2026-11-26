@@ -6,6 +6,7 @@ import { RecibidaYAceptada } from "./recibida-y-aceptada.state";
 import { RecibidaYRechazada } from "./recibida-y-rechazada.state";
 import { ParaRedirigir } from "./para-redirigir.state";
 
+// Al aceptar, rechazar o redirigir, se cierra el estado anterior y se registra el nuevo.
 export class EnBolsinEnviado extends EstadoDocumentacion {
     aceptar(documentacion: Documentacion, fechaYHoraActual: Date, cambiosEstado: CambioEstadoDocumentacion[], empleado: Empleado): void {
         const ceActual = cambiosEstado.find(c => c.sosActual());
