@@ -71,11 +71,11 @@ export class Bolsin {
     }
 
     public rechazarDocumentacion(fechaYHoraActual: Date, empleado: Empleado): void {
-        
+        this.remitos.forEach(r => r.rechazarDocumentacion(fechaYHoraActual, empleado));
     }
 
     public redirigirDocumentacion(fechaYHoraActual: Date, empleado: Empleado): void {
-        
+        this.remitos.forEach(r => r.redirigirDocumentacion(fechaYHoraActual, empleado));
     }
 
     public sosEnviado(): boolean {
