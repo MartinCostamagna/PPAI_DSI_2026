@@ -120,7 +120,7 @@ export class GestorRecepcionBolsin {
                 break;
             case 4:
                 mensaje = "Documentación para redirigir a otra área";
-                this.bolsinSeleccionado.rechazarDocumentacion(
+                this.bolsinSeleccionado.redirigirDocumentacion(
                     this.fechaYHoraActual,
                     this.empleado
                 );
