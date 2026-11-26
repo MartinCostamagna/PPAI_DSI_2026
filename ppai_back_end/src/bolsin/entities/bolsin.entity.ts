@@ -1,8 +1,10 @@
 import { CambioEstadoBolsin } from "./cambio-estado-bolsin.entity";
-import { ComisionMedica } from "./comision-medica.entity";
-import { Empleado } from "./empleado.entity";
-import { Estado } from "./estado.entity";
-import { Remito } from "./remito.entity";
+import { ComisionMedica } from "../../entities/comision-medica.entity";
+import { Empleado } from "../../entities/empleado.entity";
+import { EstadoBolsin } from "../state/estado-bolsin.abstract";
+import { EstadoDocumentacion } from "../../documentacion/state/estado-documentacion.abstract";
+import { EstadoRemito } from "../../remito/state/estado-remito.abstract";
+import { Remito } from "../../remito/entities/remito.entity";
 
 export class Bolsin {
     private cambiosEstado: CambioEstadoBolsin[];
@@ -60,7 +62,7 @@ export class Bolsin {
      * Se crea un nuevo cambio de estado para el bolsín seleccionado y se cambia de estado al remito.
      * Por cada remito, actualizamos el estado de todas sus documentaciones.
      */
-    public registrarRecepcion(fechaYHoraActual: Date, estado: Estado, estadoRemito: Estado, estadoDocumentacion: Estado, empleado: Empleado): void {
+    public registrarRecepcion(fechaYHoraActual: Date, estado: EstadoBolsin, estadoRemito: EstadoRemito, estadoDocumentacion: EstadoDocumentacion, empleado: Empleado): void {
         this.crearCEBolsin(fechaYHoraActual, estado, empleado, estadoRemito);
         this.remitos.forEach(r => {
             r.actualizarEstadoDoc(fechaYHoraActual, estadoDocumentacion, empleado);
@@ -73,7 +75,7 @@ export class Bolsin {
      * Cada remito pasa al estado RecibidoYAceptado.
      * Creamos un nuevo cambio de estado, asignandole la fecha actual, el nuevo estado, y el empleado responsable del cambio.
     */
-    public crearCEBolsin(fechaYHoraActual: Date, estado: Estado, empleado: Empleado, estadoRemito: Estado): void {
+    public crearCEBolsin(fechaYHoraActual: Date, estado: EstadoBolsin, empleado: Empleado, estadoRemito: EstadoRemito): void {
         const actual = this.cambiosEstado.find(ce => ce.sosActual())!;
         actual.setFechaYHoraFin(fechaYHoraActual);
 

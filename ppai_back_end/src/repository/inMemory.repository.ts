@@ -1,16 +1,18 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
 
-import { Bolsin } from '../entities/bolsin.entity';
-import { CambioEstadoBolsin } from '../entities/cambio-estado-bolsin.entity';
-import { CambioEstadoDocumentacion } from '../entities/cambio-estado-documentacion.entity';
+import { Bolsin } from '../bolsin/entities/bolsin.entity';
+import { CambioEstadoBolsin } from '../bolsin/entities/cambio-estado-bolsin.entity';
+import { CambioEstadoDocumentacion } from '../documentacion/entities/cambio-estado-documentacion.entity';
 import { ComisionMedica } from '../entities/comision-medica.entity';
-import { DetalleRemito } from '../entities/detalle-remito.entity';
-import { Documentacion } from '../entities/documentacion.entity';
+import { DetalleRemito } from '../remito/entities/detalle-remito.entity';
+import { Documentacion } from '../documentacion/entities/documentacion.entity';
 import { Empleado } from '../entities/empleado.entity';
-import { Estado } from '../entities/estado.entity';
-import { Remito } from '../entities/remito.entity';
+import { EstadoBolsin } from '../bolsin/state/estado-bolsin.abstract';
+import { EstadoDocumentacion } from '../documentacion/state/estado-documentacion.abstract';
+import { EstadoRemito } from '../remito/state/estado-remito.abstract';
+import { Remito } from '../remito/entities/remito.entity';
 import { Sesion } from '../entities/sesion.entity';
-import { TipoDocumento } from '../entities/tipo-documento.entity';
+import { TipoDocumento } from '../documentacion/entities/tipo-documento.entity';
 import { Usuario } from '../entities/usuario.entity';
 
 @Injectable()
@@ -22,7 +24,9 @@ export class InMemoryRepository implements OnModuleInit {
     private detallesRemito: DetalleRemito[] = [];
     private documentaciones: Documentacion[] = [];
     private empleados: Empleado[] = [];
-    private estados: Estado[] = [];
+    private estadosBolsin: EstadoBolsin[] = [];
+    private estadosRemito: EstadoRemito[] = [];
+    private estadosDocumentacion: EstadoDocumentacion[] = [];
     private remitos: Remito[] = [];
     private sesion!: Sesion;
     private tiposDocumento: TipoDocumento[] = [];
@@ -37,22 +41,28 @@ export class InMemoryRepository implements OnModuleInit {
          * - Estados
          */
         // Ámbito Bolsín
-        const estadoEnviadoBolsin = new Estado('Enviado', 'Bolsin');
-        const estadoRecibidoEnCMDestino = new Estado('RecibidoEnCMDestino', 'Bolsin');
+        const estadoEnviadoBolsin = new EstadoBolsin('Enviado');
+        const estadoRecibidoEnCMDestino = new EstadoBolsin('RecibidoEnCMDestino');
         // Ámbito Remito
-        const estadoEnviadoRemito = new Estado('Enviado', 'Remito');
-        const estadoRecibidoYAceptado = new Estado('RecibidoYAceptado', 'Remito');
+        const estadoEnviadoRemito = new EstadoRemito('Enviado');
+        const estadoRecibidoYAceptado = new EstadoRemito('RecibidoYAceptado');
         // Ámbito Documentación
-        const estadoEnviadaDocumentacion = new Estado('EnBolsinEnviado', 'Documentacion');
-        const estadoRecibidaYAceptada = new Estado('RecibidaYAceptada', 'Documentacion');
-        const estadoParaRedirigir = new Estado('ParaRedirigir', 'Documentacion');
-        const estadoRecibidaYRechazada = new Estado('RecibidaYRechazada', 'Documentacion');
+        const estadoEnviadaDocumentacion = new EstadoDocumentacion('EnBolsinEnviado');
+        const estadoRecibidaYAceptada = new EstadoDocumentacion('RecibidaYAceptada');
+        const estadoParaRedirigir = new EstadoDocumentacion('ParaRedirigir');
+        const estadoRecibidaYRechazada = new EstadoDocumentacion('RecibidaYRechazada');
 
-        this.estados = [
+        this.estadosBolsin = [
             estadoEnviadoBolsin,
-            estadoRecibidoEnCMDestino,
+            estadoRecibidoEnCMDestino
+        ];
+
+        this.estadosRemito = [
             estadoEnviadoRemito,
-            estadoRecibidoYAceptado,
+            estadoRecibidoYAceptado
+        ];
+
+        this.estadosDocumentacion = [
             estadoEnviadaDocumentacion,
             estadoRecibidaYAceptada,
             estadoParaRedirigir,
@@ -327,8 +337,16 @@ export class InMemoryRepository implements OnModuleInit {
         return this.remitos;
     }
 
-    getEstados(): Estado[] {
-        return this.estados;
+    getEstadosBolsin(): EstadoBolsin[] {
+        return this.estadosBolsin;
+    }
+
+    getEstadosRemito(): EstadoRemito[] {
+        return this.estadosRemito;
+    }
+
+    getEstadosDocumentacion(): EstadoDocumentacion[] {
+        return this.estadosDocumentacion;
     }
 
     getSesion(): Sesion {

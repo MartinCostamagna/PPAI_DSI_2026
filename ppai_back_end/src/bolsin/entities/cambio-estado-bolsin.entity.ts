@@ -1,13 +1,13 @@
-import { Empleado } from "./empleado.entity";
-import { Estado } from "./estado.entity";
+import { Empleado } from "../../entities/empleado.entity";
+import { EstadoBolsin } from "../state/estado-bolsin.abstract";
 
 export class CambioEstadoBolsin {
-    private estado: Estado;
+    private estado: EstadoBolsin;
     private empleado: Empleado;
     private fechaYHoraInicio: Date;
     private fechaYHoraFin?: Date;
 
-    constructor(estado: Estado, empleado: Empleado, fechaYHoraInicio: Date, fechaYHoraFin?: Date) {
+    constructor(estado: EstadoBolsin, empleado: Empleado, fechaYHoraInicio: Date, fechaYHoraFin?: Date) {
         this.estado = estado;
         this.fechaYHoraInicio = fechaYHoraInicio;
         this.fechaYHoraFin = fechaYHoraFin;

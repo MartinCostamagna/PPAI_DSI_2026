@@ -1,8 +1,10 @@
 import { Injectable } from "@nestjs/common";
 
-import { Bolsin } from "../entities/bolsin.entity";
+import { Bolsin } from "../bolsin/entities/bolsin.entity";
+import { EstadoBolsin } from "../bolsin/state/estado-bolsin.abstract";
+import { EstadoDocumentacion } from "../documentacion/state/estado-documentacion.abstract";
+import { EstadoRemito } from "../remito/state/estado-remito.abstract";
 import { Empleado } from "../entities/empleado.entity";
-import { Estado } from "../entities/estado.entity";
 import { Sesion } from "../entities/sesion.entity";
 
 import { InMemoryRepository } from "../repository/inMemory.repository";
@@ -30,7 +32,9 @@ import { dateTimestampProvider } from "rxjs/internal/scheduler/dateTimestampProv
 export class GestorRecepcionBolsin {
     private bolsines!: Bolsin[];
     private empleados!: Empleado[];
-    private estados!: Estado[];
+    private estadosBolsin!: EstadoBolsin[];
+    private estadosRemito!: EstadoRemito[];
+    private estadosDocumentacion!: EstadoDocumentacion[];
     private sesion!: Sesion;
     
     private empleado!: Empleado;
@@ -38,13 +42,13 @@ export class GestorRecepcionBolsin {
     private opcion!: number;
     private bolsinSeleccionado!: Bolsin;
     private fechaYHoraActual!: Date;
-    private estadoRecibidoEnCMDestino!: Estado;
-    private estadoRecibidoYAceptado!: Estado;
-    private estadoRecibidaYAceptada!: Estado;
+    private estadoRecibidoEnCMDestino!: EstadoBolsin;
+    private estadoRecibidoYAceptado!: EstadoRemito;
+    private estadoRecibidaYAceptada!: EstadoDocumentacion;
     
-    private estadoRegistrada!: Estado;
-    private estadoRecibidaYRechazada!: Estado;
-    private estadoParaRedirigir!: Estado;
+    private estadoRegistrada!: EstadoDocumentacion;
+    private estadoRecibidaYRechazada!: EstadoDocumentacion;
+    private estadoParaRedirigir!: EstadoDocumentacion;
     
     constructor(private readonly store: InMemoryRepository) {}
     
@@ -55,7 +59,9 @@ export class GestorRecepcionBolsin {
        // Primero, carga datos del repositorio en memoria (para simular persistencia)
         this.bolsines = this.store.getBolsines();
         this.empleados = this.store.getEmpleados();
-        this.estados = this.store.getEstados();
+        this.estadosBolsin = this.store.getEstadosBolsin();
+        this.estadosRemito = this.store.getEstadosRemito();
+        this.estadosDocumentacion = this.store.getEstadosDocumentacion();
         this.sesion = this.store.getSesion();
         
         // Luego, se obtiene el puntero al empleado logueado en este momento.
@@ -170,30 +176,30 @@ export class GestorRecepcionBolsin {
 
     /**
      * Los siguientes métodos siguen el mismo patrón.
-     * Buscan el estado necesario, filtrando la lista de estados disponibles por su ámbito, y luego por su nombre.
+     * Buscan el estado necesario en la lista de estados de su ámbito, según su nombre.
      */
-    public buscarEstadoRecibidoEnCMDestino(): Estado {
-        return this.estados.filter(e => e.esAmbitoBolsin()).find(e => e.esRecibidoEnCMDestino())!;
+    public buscarEstadoRecibidoEnCMDestino(): EstadoBolsin {
+        return this.estadosBolsin.find(e => e.esRecibidoEnCMDestino())!;
     }
 
-    public buscarEstadoRecibidoYAceptado(): Estado {
-        return this.estados.filter(e => e.esAmbitoRemito()).find(e => e.esRecibidoYAceptado())!;
+    public buscarEstadoRecibidoYAceptado(): EstadoRemito {
+        return this.estadosRemito.find(e => e.esRecibidoYAceptado())!;
     }
 
-    public buscarEstadoRecibidaYAceptada(): Estado {
-        return this.estados.filter(e => e.esAmbitoDocumentacion()).find(e => e.esRecibidaYAceptada())!;
+    public buscarEstadoRecibidaYAceptada(): EstadoDocumentacion {
+        return this.estadosDocumentacion.find(e => e.esRecibidaYAceptada())!;
     }
     
-    public buscarEstadoRegistrada(): Estado {
-        return this.estados.filter(e => e.esAmbitoDocumentacion()).find(e => e.esRegistrada())!;
+    public buscarEstadoRegistrada(): EstadoDocumentacion {
+        return this.estadosDocumentacion.find(e => e.esRegistrada())!;
     }
 
-    public buscarEstadoRecibidaYRechazada(): Estado {
-        return this.estados.filter(e => e.esAmbitoDocumentacion()).find(e => e.esRecibidaYRechazada())!;
+    public buscarEstadoRecibidaYRechazada(): EstadoDocumentacion {
+        return this.estadosDocumentacion.find(e => e.esRecibidaYRechazada())!;
     }
 
-    public buscarEstadoParaRedirigir(): Estado {
-        return this.estados.filter(e => e.esAmbitoDocumentacion()).find(e => e.esParaRedirigir())!;
+    public buscarEstadoParaRedirigir(): EstadoDocumentacion {
+        return this.estadosDocumentacion.find(e => e.esParaRedirigir())!;
     }
 
     // Se retorna el mensaje armado, simulando una llamada al caso de uso "Notificar recepción de bolsín".

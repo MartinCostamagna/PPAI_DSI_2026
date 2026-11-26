@@ -1,13 +1,13 @@
-import { Empleado } from "./empleado.entity";
-import { Estado } from "./estado.entity";
+import { Empleado } from "../../entities/empleado.entity";
+import { EstadoDocumentacion } from "../state/estado-documentacion.abstract";
 
 export class CambioEstadoDocumentacion {
-    private estado: Estado;
+    private estado: EstadoDocumentacion;
     private empleado: Empleado;
     private fechaYHoraInicio: Date;
     private fechaYHoraFin?: Date;
 
-    constructor(estado: Estado, empleado: Empleado, fechaYHoraInicio: Date, fechaYHoraFin?: Date) {
+    constructor(estado: EstadoDocumentacion, empleado: Empleado, fechaYHoraInicio: Date, fechaYHoraFin?: Date) {
         this.estado = estado;
         this.fechaYHoraInicio = fechaYHoraInicio;
         this.empleado = empleado;
@@ -15,7 +15,7 @@ export class CambioEstadoDocumentacion {
     }
 
     public sosActual(): boolean {
-        return (!this.fechaYHoraFin);
+        return (this.fechaYHoraFin === null);
     }
 
     public setFechaYHoraFin(fechaYHoraFin: Date): void {
