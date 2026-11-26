@@ -66,6 +66,18 @@ export class Bolsin {
         this.estadoActual.recibir(this, fechaYHoraActual, this.cambiosEstado, empleado);
     }
 
+    public aceptarDocumentacion(fechaYHoraActual: Date, empleado: Empleado): void {
+        this.remitos.forEach(r => r.aceptarDocumentacion(fechaYHoraActual, empleado));
+    }
+
+    public rechazarDocumentacion(fechaYHoraActual: Date, empleado: Empleado): void {
+        
+    }
+
+    public redirigirDocumentacion(fechaYHoraActual: Date, empleado: Empleado): void {
+        
+    }
+
     public sosEnviado(): boolean {
         return this.estadoActual instanceof Enviado;
     }

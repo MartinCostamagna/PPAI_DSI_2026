@@ -1,15 +1,8 @@
 import { Injectable } from "@nestjs/common";
 
 import { Bolsin } from "../bolsin/entities/bolsin.entity";
-import { EstadoBolsin } from "../bolsin/state/estado-bolsin.abstract";
-import { EstadoDocumentacion } from "../documentacion/state/estado-documentacion.abstract";
-import { EstadoRemito } from "../remito/state/estado-remito.abstract";
 import { Empleado } from "../entities/empleado.entity";
 import { Sesion } from "../entities/sesion.entity";
-
-import { InMemoryRepository } from "../repository/inMemory.repository";
-import { dateTimestampProvider } from "rxjs/internal/scheduler/dateTimestampProvider";
-
 /* *
  * Métodos mapeados del diagrama de secuencia de `GestorRecepcionBolsin`:
  *  3. nuevaRecepcionBolsin()
@@ -31,10 +24,6 @@ import { dateTimestampProvider } from "rxjs/internal/scheduler/dateTimestampProv
 @Injectable()
 export class GestorRecepcionBolsin {
     private bolsines!: Bolsin[];
-    private empleados!: Empleado[];
-    private estadosBolsin!: EstadoBolsin[];
-    private estadosRemito!: EstadoRemito[];
-    private estadosDocumentacion!: EstadoDocumentacion[];
     private sesion!: Sesion;
     
     private empleado!: Empleado;
@@ -42,28 +31,11 @@ export class GestorRecepcionBolsin {
     private opcion!: number;
     private bolsinSeleccionado!: Bolsin;
     private fechaYHoraActual!: Date;
-    private estadoRecibidoEnCMDestino!: EstadoBolsin;
-    private estadoRecibidoYAceptado!: EstadoRemito;
-    private estadoRecibidaYAceptada!: EstadoDocumentacion;
-    
-    private estadoRegistrada!: EstadoDocumentacion;
-    private estadoRecibidaYRechazada!: EstadoDocumentacion;
-    private estadoParaRedirigir!: EstadoDocumentacion;
-    
-    constructor(private readonly store: InMemoryRepository) {}
-    
+ 
     /**
      * Comienza los envíos de mensajes.
     */
     public nuevaRecepcionBolsin() {
-       // Primero, carga datos del repositorio en memoria (para simular persistencia)
-        this.bolsines = this.store.getBolsines();
-        this.empleados = this.store.getEmpleados();
-        this.estadosBolsin = this.store.getEstadosBolsin();
-        this.estadosRemito = this.store.getEstadosRemito();
-        this.estadosDocumentacion = this.store.getEstadosDocumentacion();
-        this.sesion = this.store.getSesion();
-        
         // Luego, se obtiene el puntero al empleado logueado en este momento.
         this.obtenerEmpleadoLog();
         
@@ -124,27 +96,31 @@ export class GestorRecepcionBolsin {
      */
     public registrarRecepcionBolsin() {
         this.fechaYHoraActual = this.tomarFechaYHoraActual();
+        this.bolsinSeleccionado.recibir(
+                    this.fechaYHoraActual,
+                    this.empleado
+                );
         let mensaje = "";
         switch (this.opcion){
             case 1:
                 mensaje = "Recepción bolsín Exitosa";
-                this.bolsinSeleccionado.recibir(
+                this.bolsinSeleccionado.aceptarDocumentacion(
                     this.fechaYHoraActual,
                     this.empleado
-                );
+                )
                 break;
             case 2:
                 //no realizada debido a que no sabemos quien decide si se registra o se da de baja la documentación
             case 3:
                 mensaje = `Documentacion no corresponde a la CM destino ${this.nombreCMEmpleado}`;
-                this.bolsinSeleccionado.recibir(
+                this.bolsinSeleccionado.rechazarDocumentacion(
                     this.fechaYHoraActual,
-                    this.empleado
-                );
+                    this.empleado,
+                )
                 break;
             case 4:
                 mensaje = "Documentación para redirigir a otra área";
-                this.bolsinSeleccionado.registrarRecepcion(
+                this.bolsinSeleccionado.rechazarDocumentacion(
                     this.fechaYHoraActual,
                     this.empleado
                 );

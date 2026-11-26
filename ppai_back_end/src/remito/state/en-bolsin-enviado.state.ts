@@ -20,7 +20,6 @@ export class EnBolsinEnviado extends EstadoRemito{
     recibir(remito: Remito, fechaYHoraActual: Date, empleado: Empleado, detallesRemito: DetalleRemito[]): void {
         const recibidoYAceptado = this.crearEstadoRecibidoYAceptado();
         remito.setEstado(recibidoYAceptado);
-        this.aceptarDocumentacion(fechaYHoraActual, empleado, detallesRemito);
     }
 
     recibirParcial(): void {

@@ -17,11 +17,7 @@ export class Enviado extends EstadoBolsin{
     private crearEstadoRecibidoEnCMDestino(): RecibidoEnCMDestino{
         return new RecibidoEnCMDestino();
     }
-
-    private recibirRemitos(): void{
-
-    }
-    
+        
     cerrar(): void {
         
     }
