@@ -14,4 +14,12 @@ export class Usuario {
     public obtenerEmpleado(): Empleado {
         return this.empleado;
     }
+
+    public getNombre(): string {
+        return this.nombre;
+    }
+
+    public getHashContrasenia(): string {
+        return this.hashContrasenia;
+    }
 }

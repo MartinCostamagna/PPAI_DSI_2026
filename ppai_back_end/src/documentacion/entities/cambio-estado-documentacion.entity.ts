@@ -21,4 +21,20 @@ export class CambioEstadoDocumentacion {
     public setFechaYHoraFin(fechaYHoraFin: Date): void {
         this.fechaYHoraFin = fechaYHoraFin;
     }
+
+    public getEstado(): EstadoDocumentacion {
+        return this.estado;
+    }
+
+    public getEmpleado(): Empleado {
+        return this.empleado;
+    }
+
+    public getFechaYHoraInicio(): Date {
+        return this.fechaYHoraInicio;
+    }
+
+    public getFechaYHoraFin(): Date | undefined {
+        return this.fechaYHoraFin;
+    }
 }

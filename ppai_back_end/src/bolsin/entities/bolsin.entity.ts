@@ -66,7 +66,39 @@ export class Bolsin {
         this.estadoActual.recibir(this, fechaYHoraActual, this.cambiosEstado, empleado);
     }
 
+    public aceptarDocumentacion(fechaYHoraActual: Date, empleado: Empleado): void {
+        this.remitos.forEach(r => r.aceptarDocumentacion(fechaYHoraActual, empleado));
+    }
+
+    public rechazarDocumentacion(fechaYHoraActual: Date, empleado: Empleado): void {
+        
+    }
+
+    public redirigirDocumentacion(fechaYHoraActual: Date, empleado: Empleado): void {
+        
+    }
+
     public sosEnviado(): boolean {
         return this.estadoActual instanceof Enviado;
+    }
+
+    public getCambiosEstado(): CambioEstadoBolsin[] {
+        return this.cambiosEstado;
+    }
+
+    public getComisionMedicaOrigen(): ComisionMedica {
+        return this.comisionMedicaOrigen;
+    }
+
+    public getComisionMedicaDestino(): ComisionMedica {
+        return this.comisionMedicaDestino;
+    }
+
+    public getRemitos(): Remito[] {
+        return this.remitos;
+    }
+
+    public getEstadoActual(): EstadoBolsin {
+        return this.estadoActual;
     }
 }

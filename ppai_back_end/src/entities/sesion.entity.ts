@@ -16,4 +16,16 @@ export class Sesion {
     public obtenerEmpleadoLog(): Empleado {
         return this.usuario.obtenerEmpleado();        
     }
+
+    public getFechaYHoraInicio(): Date {
+        return this.fechaYHoraInicio;
+    }
+
+    public getFechaYHoraFin(): Date | undefined {
+        return this.fechaYHoraFin;
+    }
+
+    public getUsuario(): Usuario {
+        return this.usuario;
+    }
 }

@@ -1,0 +1,82 @@
+<div class="login-page">
+  <section class="login-branding" aria-label="Información del sistema">
+    <div class="branding-contenido">
+      <div class="logo-institucional">
+        <span class="logo-sigla" aria-hidden="true">GB</span>
+        <div>
+          <span class="logo-sub">Organismo Controlador · Comisiones Médicas</span>
+          <h1>Sistema de Gestión de Bolsines</h1>
+        </div>
+      </div>
+
+      <p class="branding-desc">
+        Plataforma para el registro, envío, seguimiento y recepción de bolsines con documentación entre las Comisiones
+        Médicas Jurisdiccionales (CMJ) y la Comisión Médica Central (CMC).
+      </p>
+
+      <ul class="branding-lista">
+        <li>Control trazable de bolsines precintados, remitos y documentación física.</li>
+        <li>Seguimiento satelital en tránsito mediante GPS Tracker y Google Maps.</li>
+        <li>Notificación automática por correo a Comisiones Médicas de origen y destino.</li>
+      </ul>
+
+      <div class="branding-footer">
+        <span class="badge badge-primary">PPAI · DSI 2026 · Bolsines</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="login-panel" aria-label="Formulario de acceso">
+    <div class="login-card panel">
+      <div class="login-header">
+        <h2>Iniciar sesión</h2>
+        <p>Ingresá con tu cuenta asignada a una Comisión Médica para operar el sistema.</p>
+      </div>
+
+      <form class="login-form" (ngSubmit)="iniciarSesion()">
+        <div class="campo">
+          <label for="usuario">Usuario de empleado</label>
+          <input id="usuario" name="usuario" type="text" [(ngModel)]="usuario" placeholder="Ej. eb_cordoba o jperez"
+            autocomplete="username" />
+        </div>
+
+        <div class="campo">
+          <label for="contrasena">Contraseña</label>
+          <div class="input-password">
+            <input id="contrasena" name="contrasena" [type]="mostrarContrasena() ? 'text' : 'password'"
+              [(ngModel)]="contrasena" placeholder="Ingresá tu contraseña" autocomplete="current-password" />
+            <button type="button" class="btn-ver-pass" (click)="alternarContrasena()"
+              [attr.aria-label]="mostrarContrasena() ? 'Ocultar contraseña' : 'Mostrar contraseña'">
+              <app-icon [name]="mostrarContrasena() ? 'eye-off' : 'eye'" [size]="17" />
+            </button>
+          </div>
+        </div>
+
+        <div class="opciones-login">
+          <label class="checkbox-label">
+            <input type="checkbox" name="recordar" [(ngModel)]="recordar" />
+            <span>Recordar sesión en este equipo</span>
+          </label>
+          <button type="button" class="link-btn" (click)="accionRelleno('Modificar credenciales de usuario (CU 2)')">
+            ¿Problemas con tu clave?
+          </button>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-ingresar">
+          Ingresar al sistema
+        </button>
+      </form>
+
+      <div class="login-ayuda">
+        <button type="button" class="link-btn"
+          (click)="accionRelleno('Registrar usuario — Parametrizador del sistema (CU 1)')">
+          Solicitar alta al Parametrizador
+        </button>
+        <span aria-hidden="true">·</span>
+        <button type="button" class="link-btn" (click)="accionRelleno('Consultar Comisiones Médicas (CU 26)')">
+          Directorio CMJ / CMC
+        </button>
+      </div>
+    </div>
+  </section>
+</div>

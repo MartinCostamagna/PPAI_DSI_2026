@@ -1,5 +1,17 @@
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
+import { AppIcon, IconName } from '../../components/app-icon/app-icon';
+import { AppShell } from '../../components/app-shell/app-shell';
+import { PantallaRecepcionBolsin } from '../../services/pantalla-recepcion-bolsin.service';
+import { ToastService } from '../../services/toast.service';
+
+interface AccionMenu {
+  titulo: string;
+  descripcion: string;
+  icono: IconName;
+  disponible: boolean;
+  etiqueta: string;
+}
 
 /**
  * Métodos mapeados del diagrama de secuencia de `PantallaRecepcionBolsin`:
@@ -7,17 +19,125 @@ import { Router } from '@angular/router';
  */
 @Component({
   selector: 'app-inicio',
-  imports: [],
+  imports: [AppShell, AppIcon],
   templateUrl: './inicio.html',
   styleUrl: './inicio.css',
 })
 export class Inicio {
   private router = inject(Router);
+  private toastService = inject(ToastService);
+  private pantallaRecepcionService = inject(PantallaRecepcionBolsin);
+
+  usuario = this.pantallaRecepcionService.getUsuarioFicticio();
+
+  // Casos de uso del actor principal: Encargado de Bolsines (EB)
+  readonly accionesBolsines: AccionMenu[] = [
+    {
+      titulo: 'Registrar recepción de bolsín',
+      descripcion: 'Controlar bolsines en estado Enviado para esta CM, verificar remitos y documentación y actualizar su estado.',
+      icono: 'inbox',
+      disponible: true,
+      etiqueta: 'CU 28 · Activo',
+    },
+    {
+      titulo: 'Generar bolsín',
+      descripcion: 'Dar de alta un bolsín para una única CM destino asociando remitos en estado Creado y registrando su peso en gramos.',
+      icono: 'package',
+      disponible: false,
+      etiqueta: 'CU 19',
+    },
+    {
+      titulo: 'Cerrar / Reabrir bolsín',
+      descripcion: 'Registrar el número de precinto al cerrar un bolsín o quitar el precinto para modificar sus remitos antes del retiro.',
+      icono: 'lock',
+      disponible: false,
+      etiqueta: 'CU 39 · CU 40',
+    },
+    {
+      titulo: 'Registrar el retiro de bolsines',
+      descripcion: 'Actualizar a estado Enviado los bolsines cerrados que retira el correo, junto a sus remitos y documentación.',
+      icono: 'truck',
+      disponible: false,
+      etiqueta: 'CU 27',
+    },
+    {
+      titulo: 'Consultar seguimiento de bolsines',
+      descripcion: 'Visualizar en Google Maps la ubicación en tránsito obtenida del GPS Tracker y notificar al GCM destino.',
+      icono: 'map-pin',
+      disponible: false,
+      etiqueta: 'CU 36 · GPS',
+    },
+    {
+      titulo: 'Consultar / Modificar bolsín',
+      descripcion: 'Visualizar trazabilidad y empleado responsable, quitar o agregar remitos completos, o dar de baja bolsines no enviados.',
+      icono: 'search',
+      disponible: false,
+      etiqueta: 'CU 20 - 22',
+    },
+  ];
+
+  // Otros módulos y actores definidos en la ERS (Encargado de Documentación, GCM y Parametrizador)
+  readonly accionesDominio: AccionMenu[] = [
+    {
+      titulo: 'Registrar y gestionar documentación',
+      descripcion: 'Cargar documentación (expediente, dictamen, estudio médico, carta documento) con fecha de pase y archivos PDF/imágenes.',
+      icono: 'folder',
+      disponible: false,
+      etiqueta: 'CU 7 - 10',
+    },
+    {
+      titulo: 'Generar y administrar remitos',
+      descripcion: 'Agrupar documentación registrada en un remito por CM destino, modificarlo o cancelarlo mientras esté en estado Creado.',
+      icono: 'file-text',
+      disponible: false,
+      etiqueta: 'CU 15 - 18',
+    },
+    {
+      titulo: 'Registrar revisión de documentación',
+      descripcion: 'Gestionar documentación rechazada o no recibida por una CM destino para su reenvío en nuevo remito o su baja.',
+      icono: 'rotate-ccw',
+      disponible: false,
+      etiqueta: 'CU 31',
+    },
+    {
+      titulo: 'Reporte de bolsines en tránsito',
+      descripcion: 'Generar en Power BI el listado de bolsines en tránsito entre una CM origen y una CM destino para un período.',
+      icono: 'trending-up',
+      disponible: false,
+      etiqueta: 'CU 37 · GCM',
+    },
+    {
+      titulo: 'Estadística de movimiento de bolsines',
+      descripcion: 'Generar en Power BI estadísticas de cantidad de bolsines intercambiados entre comisiones médicas.',
+      icono: 'bar-chart',
+      disponible: false,
+      etiqueta: 'CU 38 · GCM',
+    },
+    {
+      titulo: 'Parametrización del sistema',
+      descripcion: 'Administrar Comisiones Médicas (CMJ y CMC), Tipos de Documento y usuarios con sus permisos por CM.',
+      icono: 'building',
+      disponible: false,
+      etiqueta: 'CU 1 · 11 · 23',
+    },
+  ];
 
   /**
    * Comienza la ejecución de todo el caso de uso.
    */
   seleccionOpcRegistRecepBolsin() {
     this.router.navigate(['/bolsines-enviados-a-esta-comision-medica']);
+  }
+
+  ejecutarAccion(accion: AccionMenu) {
+    if (accion.disponible) {
+      this.seleccionOpcRegistRecepBolsin();
+    } else {
+      this.toastService.mostrarNoImplementado(`${accion.titulo} (${accion.etiqueta})`);
+    }
+  }
+
+  accionRelleno(nombre: string) {
+    this.toastService.mostrarNoImplementado(nombre);
   }
 }

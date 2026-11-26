@@ -21,4 +21,20 @@ export class CambioEstadoBolsin {
     public setFechaYHoraFin(fechaYHoraFin: Date): void {
         this.fechaYHoraFin = fechaYHoraFin;
     }
+
+    public getEstadoActual(): EstadoBolsin {
+        return this.estadoActual;
+    }
+
+    public getEmpleado(): Empleado {
+        return this.empleado;
+    }
+
+    public getFechaYHoraInicio(): Date {
+        return this.fechaYHoraInicio;
+    }
+
+    public getFechaYHoraFin(): Date | undefined {
+        return this.fechaYHoraFin;
+    }
 }

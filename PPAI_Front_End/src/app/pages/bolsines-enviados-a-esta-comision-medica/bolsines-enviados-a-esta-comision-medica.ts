@@ -1,6 +1,10 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
+import { AppIcon } from '../../components/app-icon/app-icon';
+import { AppShell } from '../../components/app-shell/app-shell';
+import { StepIndicator } from '../../components/step-indicator/step-indicator';
 import { PantallaRecepcionBolsin } from '../../services/pantalla-recepcion-bolsin.service';
+import { ToastService } from '../../services/toast.service';
 import { Bolsin } from '../../interfaces/bolsin.interface';
 
 /**
@@ -12,16 +16,20 @@ import { Bolsin } from '../../interfaces/bolsin.interface';
  */
 @Component({
   selector: 'app-bolsines-enviados-a-esta-comision-medica',
-  imports: [],
+  imports: [AppShell, StepIndicator, AppIcon],
   templateUrl: './bolsines-enviados-a-esta-comision-medica.html',
   styleUrl: './bolsines-enviados-a-esta-comision-medica.css',
 })
 export class BolsinesEnviadosAEstaComisionMedica {
   private router = inject(Router);
   private pantallaRecepcionService = inject(PantallaRecepcionBolsin);
+  private toastService = inject(ToastService);
 
   comisionMedica = this.pantallaRecepcionService.getComisionMedica();
   bolsines = this.pantallaRecepcionService.getBolsines();
+  cargando = this.pantallaRecepcionService.getCargando();
+  error = this.pantallaRecepcionService.getError();
+
   bolsinSeleccionado: Bolsin | undefined = undefined;
   filtro = signal<string>('');
 
@@ -44,17 +52,30 @@ export class BolsinesEnviadosAEstaComisionMedica {
     this.bolsinSeleccionado = bolsin;
   }
 
+  limpiarFiltro() {
+    this.filtro.set('');
+  }
+
+  recargar() {
+    this.bolsinSeleccionado = undefined;
+    this.pantallaRecepcionService.mostrarCMYBolsines();
+  }
+
+  accionRelleno(nombre: string) {
+    this.toastService.mostrarNoImplementado(nombre);
+  }
+
   // Tomamos el bolsín seleccionado por el usuario, y mandamos la opción al backend mediante el servicio.
   tomarSeleccionBolsin() {
-    if(!this.bolsinSeleccionado) return;
+    if (!this.bolsinSeleccionado) return;
 
     this.pantallaRecepcionService.tomarSeleccionBolsin(this.bolsinSeleccionado)
-        .subscribe(() => {
-          this.router.navigate(['/bolsinSeleccionado']);
-        });
+      .subscribe(() => {
+        this.router.navigate(['/bolsinSeleccionado']);
+      });
   }
 
   cancelar() {
-    this.router.navigate(["/inicio"]);
+    this.router.navigate(['/inicio']);
   }
 }

@@ -74,4 +74,16 @@ export class Documentacion {
     public agregarARemito(fechaYHoraActual: Date, empleado: Empleado): void {
         this.estadoActual.agregarARemito();
     }
+
+    public getTipoDocumento(): TipoDocumento {
+        return this.tipoDocumento;
+    }
+
+    public getCambiosEstadoDocumentacion(): CambioEstadoDocumentacion[] {
+        return this.cambiosEstadoDocumentacion;
+    }
+
+    public getEstadoActual(): EstadoDocumentacion {
+        return this.estadoActual;
+    }
 }

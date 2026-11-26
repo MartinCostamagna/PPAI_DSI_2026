@@ -1,31 +1,149 @@
-<div class="divComision">
-    <button type="button" class="btn-cancelar-nav" (click)="cancelar()">Cancelar</button>
-    <span class="labelComision">Comision Medica: {{ comisionMedica() }}</span>
-</div>
+<app-shell
+  seccionActiva="recepcion"
+  tituloPagina="Registrar Recepción de Bolsín"
+  [breadcrumbs]="[
+    { label: 'Inicio', route: '/inicio' },
+    { label: 'Recepción de Bolsín' }
+  ]"
+>
+  <app-step-indicator [pasoActual]="1" />
 
-<div class="divBolsines">
-    <div class="buscador">
-        <input type="text" placeholder="Filtrar por CM o precinto..." (input)="filtro.set($any($event.target).value)"/>
+  <section class="panel contenedor-lista">
+    <div class="lista-header">
+      <div>
+        <h2>Bolsines enviados a esta Comisión Médica</h2>
+        <p>
+          Seleccioná un bolsín pendiente de recepción para consultar sus remitos y documentación asociada.
+        </p>
+      </div>
+      <div class="header-herramientas">
+        <button type="button" class="btn btn-secondary" (click)="recargar()" [disabled]="cargando()">
+          <app-icon name="refresh" [size]="16" />
+          <span>Actualizar</span>
+        </button>
+        <button type="button" class="btn btn-ghost" (click)="accionRelleno('Consultar seguimiento de bolsines — GPS (CU 36)')">
+          <app-icon name="map-pin" [size]="16" />
+          <span>Ver en mapa GPS</span>
+        </button>
+      </div>
     </div>
-    <table class="bolsines">
-        <thead>
-            <th></th>
-            <th>Comision Medica de Origen</th>
-            <th>N° Precinto Bolsín</th>
-        </thead>
-        <!-- Mostramos los bolsines para selección al usuario -->
-        <tbody>
+
+    @if (error()) {
+      <div class="alert alert-error alerta-margen" role="alert">
+        <app-icon name="alert-triangle" [size]="19" />
+        <div class="alerta-contenido">
+          <strong>Error de conexión</strong>
+          <p>{{ error() }}</p>
+        </div>
+        <button type="button" class="btn btn-secondary" (click)="recargar()">Reintentar</button>
+      </div>
+    }
+
+    <div class="barra-busqueda">
+      <div class="input-busqueda-wrap">
+        <span class="icono-buscar" aria-hidden="true">
+          <app-icon name="search" [size]="16" />
+        </span>
+        <input
+          type="text"
+          [value]="filtro()"
+          placeholder="Filtrar por Comisión Médica de origen o N° de precinto..."
+          aria-label="Filtrar bolsines por Comisión Médica o precinto"
+          (input)="filtro.set($any($event.target).value)"
+        />
+        @if (filtro()) {
+          <button type="button" class="btn-limpiar" (click)="limpiarFiltro()" aria-label="Limpiar filtro">
+            <app-icon name="x" [size]="15" />
+          </button>
+        }
+      </div>
+      <span class="contador-resultados">
+        Mostrando <strong>{{ bolsinesFiltrados().length }}</strong> de {{ bolsines().length }} bolsines
+      </span>
+    </div>
+
+    @if (cargando() && bolsines().length === 0) {
+      <div class="estado-vacio" role="status">
+        <p class="estado-titulo">Cargando bolsines enviados...</p>
+        <p class="estado-sub">Consultando la Comisión Médica del usuario logueado.</p>
+      </div>
+    } @else {
+      <div class="tabla-wrap">
+        <table class="tabla-bolsines">
+          <thead>
+            <tr>
+              <th class="col-radio">Sel.</th>
+              <th>Comisión Médica de Origen</th>
+              <th>N° Precinto Bolsín</th>
+              <th>Estado actual</th>
+            </tr>
+          </thead>
+          <tbody>
             @for (bolsin of bolsinesFiltrados(); track bolsin.numeroPrecinto) {
-                <tr (click)="seleccionar(bolsin)">
-                    <td>
-                        <input type="radio" name="bolsinSelector" [checked]="bolsinSeleccionado === bolsin">
-                    </td>
-                    <td>{{ bolsin.nombreCMOrigen }}</td>
-                    <td>{{ bolsin.numeroPrecinto }}</td>
-                </tr>
+              <tr
+                (click)="seleccionar(bolsin)"
+                [class.seleccionada]="bolsinSeleccionado?.numeroPrecinto === bolsin.numeroPrecinto"
+              >
+                <td class="col-radio">
+                  <input
+                    type="radio"
+                    name="bolsinSelector"
+                    [checked]="bolsinSeleccionado?.numeroPrecinto === bolsin.numeroPrecinto"
+                    [attr.aria-label]="'Seleccionar bolsín ' + bolsin.numeroPrecinto"
+                  />
+                </td>
+                <td class="col-cm">{{ bolsin.nombreCMOrigen }}</td>
+                <td class="col-precinto">
+                  <span class="precinto-tag">#{{ bolsin.numeroPrecinto }}</span>
+                </td>
+                <td>
+                  <span class="badge badge-warning">Enviado</span>
+                </td>
+              </tr>
+            } @empty {
+              <tr>
+                <td colspan="4" class="celda-vacia">
+                  <div class="estado-vacio">
+                    <p class="estado-titulo">No se encontraron bolsines</p>
+                    <p class="estado-sub">
+                      @if (filtro()) {
+                        Probá limpiando el filtro de búsqueda actual.
+                      } @else {
+                        No hay bolsines pendientes de recepción para esta Comisión Médica.
+                      }
+                    </p>
+                  </div>
+                </td>
+              </tr>
             }
-        </tbody>
-    </table>
-    <!-- Tomamos el bolsín seleccionado por el usuario -->
-    <button type="button" class="btnSeleccion" (click)="tomarSeleccionBolsin()"> Seleccionar Bolsin </button>
-</div>
+          </tbody>
+        </table>
+      </div>
+    }
+
+    <div class="barra-acciones">
+      <button type="button" class="btn btn-danger-outline" (click)="cancelar()">
+        Cancelar
+      </button>
+
+      <div class="acciones-der">
+        @if (bolsinSeleccionado) {
+          <span class="resumen-sel">
+            Seleccionado: <strong>Precinto #{{ bolsinSeleccionado.numeroPrecinto }}</strong>
+          </span>
+        }
+        <button
+          type="button"
+          class="btn btn-primary"
+          [disabled]="!bolsinSeleccionado || cargando()"
+          (click)="tomarSeleccionBolsin()"
+        >
+          <span>{{ cargando() ? 'Cargando remitos...' : 'Seleccionar Bolsín' }}</span>
+          @if (!cargando()) {
+            <app-icon name="arrow-right" [size]="16" />
+          }
+        </button>
+      </div>
+    </div>
+  </section>
+</app-shell>

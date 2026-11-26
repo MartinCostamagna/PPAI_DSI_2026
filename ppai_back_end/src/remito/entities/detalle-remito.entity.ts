@@ -29,4 +29,8 @@ export class DetalleRemito {
     public redirigirDocumentacion(fechaYHoraActual: Date, empleado: Empleado): void {
         this.documentacion.redirigir(fechaYHoraActual, empleado);
     }
+
+    public getDocumentacion(): Documentacion {
+        return this.documentacion;
+    }
 }

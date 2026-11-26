@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { EmpleadoOrm } from "./empleado.orm-entity";
 
 @Entity('comision_medica')
 export class ComisionMedicaOrm {
@@ -7,4 +8,7 @@ export class ComisionMedicaOrm {
 
     @Column({ type: 'varchar', length: 70 })
     nombre!: string;
+
+    @OneToOne(() => EmpleadoOrm, (empelado) => empelado.comisionMedica)
+    empleado!: EmpleadoOrm;
 }
