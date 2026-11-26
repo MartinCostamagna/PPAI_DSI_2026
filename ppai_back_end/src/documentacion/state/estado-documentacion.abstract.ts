@@ -1,4 +1,4 @@
-import { Empleado } from "src/entities/empleado.entity";
+import { Empleado } from "../../entities/empleado.entity";
 import { CambioEstadoDocumentacion } from "../entities/cambio-estado-documentacion.entity";
 import { Documentacion } from "../entities/documentacion.entity";
 
@@ -38,5 +38,5 @@ export abstract class EstadoDocumentacion {
     }
     darDeBaja(): void {
         throw new Error("Transición no válida");
-    }  
+    }
 }

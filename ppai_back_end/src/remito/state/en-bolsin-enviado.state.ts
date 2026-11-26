@@ -1,10 +1,8 @@
-import { Empleado } from "src/entities/empleado.entity";
 import { Remito } from "../entities/remito.entity";
 import { EstadoRemito } from "./estado-remito.abstract";
 import { RecibidoYAceptado } from "./recibido-y-aceptado.state";
-import { DetalleRemito } from "../entities/detalle-remito.entity";
 
-export class EnBolsinEnviado extends EstadoRemito{
+export class EnBolsinEnviado extends EstadoRemito {
     incluirABolsin(): void {
         console.log('Remito incluido al bolsín.');
     }

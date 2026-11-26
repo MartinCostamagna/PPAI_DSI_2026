@@ -30,17 +30,17 @@ export class Remito {
     }
 
     public recibir(fechaYHoraActual: Date, empleado: Empleado): void {
-        this.estadoActual.recibir(this, fechaYHoraActual, empleado, this.detallesRemito);
+        this.estadoActual.recibir(this);
         this.detallesRemito.forEach(d => d.aceptarDocumentacion(fechaYHoraActual, empleado));
     }
 
     public rechazar(fechaYHoraActual: Date, empleado: Empleado): void {
-        this.estadoActual.recibir(this, fechaYHoraActual, empleado, this.detallesRemito);
+        this.estadoActual.recibir(this);
         this.detallesRemito.forEach(d => d.rechazarDocumentacion(fechaYHoraActual, empleado));
     }
 
     public redirigir(fechaYHoraActual: Date, empleado: Empleado): void {
-        this.estadoActual.recibir(this, fechaYHoraActual, empleado, this.detallesRemito);
+        this.estadoActual.recibir(this);
         this.detallesRemito.forEach(d => d.redirigirDocumentacion(fechaYHoraActual, empleado));
     }
 

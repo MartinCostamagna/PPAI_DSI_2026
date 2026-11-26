@@ -8,6 +8,7 @@ export class Documentacion {
     private asunto: string;
     private cambiosEstadoDocumentacion: CambioEstadoDocumentacion[];
     private estadoActual: EstadoDocumentacion;
+    
     constructor(tipoDocumento: TipoDocumento, asunto: string, cambioEstadoDocumentacion: CambioEstadoDocumentacion[], estado: EstadoDocumentacion) {
         this.tipoDocumento = tipoDocumento;
         this.asunto = asunto;

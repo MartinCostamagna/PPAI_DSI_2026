@@ -1,8 +1,6 @@
-import { Empleado } from "src/entities/empleado.entity";
-import { Remito } from "../entities/remito.entity";
 import { EstadoRemito } from "./estado-remito.abstract";
 
-export class RecibidoYAceptado extends EstadoRemito{
+export class RecibidoYAceptado extends EstadoRemito {
     incluirABolsin(): void {
         console.log('Remito incluido al bolsín.');
     }
@@ -13,10 +11,6 @@ export class RecibidoYAceptado extends EstadoRemito{
 
     enviar(): void {
         console.log('Remito enviado.');
-    }
-
-    recibir(remito: Remito, fechaYHoraActual: Date, empleado: Empleado): void {
-        
     }
 
     recibirParcial(): void {

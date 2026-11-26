@@ -1,10 +1,10 @@
-import { Empleado } from "src/entities/empleado.entity";
+import { Empleado } from "../../entities/empleado.entity";
 import { Bolsin } from "../entities/bolsin.entity";
 import { CambioEstadoBolsin } from "../entities/cambio-estado-bolsin.entity";
 import { EstadoBolsin } from "./estado-bolsin.abstract";
 import { RecibidoEnCMDestino } from "./recibido-en-cm-destino.state";
 
-export class Enviado extends EstadoBolsin{
+export class Enviado extends EstadoBolsin {
     recibir(bolsin: Bolsin, fechaYHoraActual: Date, cambiosEstado: CambioEstadoBolsin[], empleado: Empleado): void {
         const ceActual = cambiosEstado.find(c => c.sosActual());
         ceActual?.setFechaYHoraFin(fechaYHoraActual);
@@ -14,27 +14,7 @@ export class Enviado extends EstadoBolsin{
         bolsin.setEstado(recibido);
     }
 
-    private crearEstadoRecibidoEnCMDestino(): RecibidoEnCMDestino{
+    private crearEstadoRecibidoEnCMDestino(): RecibidoEnCMDestino {
         return new RecibidoEnCMDestino();
-    }
-        
-    cerrar(): void {
-        
-    }
-
-    reabrir(): void {
-        
-    }
-
-    enviar(): void {
-        
-    }
-
-    darDeBaja(): void {
-        
-    }
-
-    quitarRemito(): void {
-        
     }
 }

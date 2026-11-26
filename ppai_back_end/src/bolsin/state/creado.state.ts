@@ -1,6 +1,6 @@
 import { EstadoBolsin } from "./estado-bolsin.abstract";
 
-export class Creado extends EstadoBolsin{
+export class Creado extends EstadoBolsin {
     quitarRemito(): void {
         console.log('Bolsín creado.');
     }

@@ -1,4 +1,4 @@
-import { Empleado } from "src/entities/empleado.entity";
+import { Empleado } from "../../entities/empleado.entity";
 import { Bolsin } from "../entities/bolsin.entity";
 import { CambioEstadoBolsin } from "../entities/cambio-estado-bolsin.entity"
 
@@ -7,27 +7,23 @@ export abstract class EstadoBolsin {
         return new CambioEstadoBolsin(estado, empleado, fechaYHoraActual);
     }
 
-    cerrar(): void{
+    cerrar(): void {
         throw new Error("Transición no válida");
     }
     
-    reabrir(): void{
+    reabrir(): void {
         throw new Error("Transición no válida");
     }
 
-    enviar(): void{
+    enviar(): void {
         throw new Error("Transición no válida");
     }
 
-    recibir(bolsin: Bolsin, fechaYHoraActual: Date, cambiosEstado: CambioEstadoBolsin[], empleado: Empleado): void{
+    recibir(bolsin: Bolsin, fechaYHoraActual: Date, cambiosEstado: CambioEstadoBolsin[], empleado: Empleado): void {
         throw new Error("Transición no válida");
     }
 
-    darDeBaja(): void{
+    darDeBaja(): void {
         throw new Error("Transición no válida");
-    }
-
-    quitarRemito(): void{
-        throw new Error("Transición no válida");
-    }   
+    } 
 }

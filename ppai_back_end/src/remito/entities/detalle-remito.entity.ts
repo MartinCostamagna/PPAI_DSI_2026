@@ -1,6 +1,5 @@
 import { Documentacion } from "../../documentacion/entities/documentacion.entity";
 import { Empleado } from "../../entities/empleado.entity";
-import { EstadoDocumentacion } from "../../documentacion/state/estado-documentacion.abstract";
 
 export class DetalleRemito {
     private documentacion: Documentacion;

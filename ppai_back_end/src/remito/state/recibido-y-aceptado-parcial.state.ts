@@ -1,3 +1,3 @@
 import { EstadoRemito } from "./estado-remito.abstract";
 
-export class RecibidoYAceptadoParcial extends EstadoRemito{}
+export class RecibidoYAceptadoParcial extends EstadoRemito {}

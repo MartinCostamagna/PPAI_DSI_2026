@@ -1,6 +1,6 @@
 import { EstadoRemito } from "./estado-remito.abstract";
 
-export class Creado extends EstadoRemito{
+export class Creado extends EstadoRemito {
     incluirABolsin(): void {
         console.log('Remito creado.');
     }

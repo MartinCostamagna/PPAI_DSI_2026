@@ -2,8 +2,6 @@ import { CambioEstadoBolsin } from "./cambio-estado-bolsin.entity";
 import { ComisionMedica } from "../../entities/comision-medica.entity";
 import { Empleado } from "../../entities/empleado.entity";
 import { EstadoBolsin } from "../state/estado-bolsin.abstract";
-import { EstadoDocumentacion } from "../../documentacion/state/estado-documentacion.abstract";
-import { EstadoRemito } from "../../remito/state/estado-remito.abstract";
 import { Remito } from "../../remito/entities/remito.entity";
 import { Enviado } from "../state/enviado.state";
 
