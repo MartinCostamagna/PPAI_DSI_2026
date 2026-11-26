@@ -13,7 +13,7 @@ export class CambioEstadoBolsinMapper {
             orm.fechaYHoraInicio,
             orm.fechaYHoraFin ?? undefined // sosActual() compara contra undefined
         );
-        this.ids.set(cambio, orm.id);
+        CambioEstadoBolsinMapper.ids.set(cambio, orm.id);
         return cambio;
     }
 
@@ -23,7 +23,7 @@ export class CambioEstadoBolsinMapper {
     static toOrm(domain: CambioEstadoBolsin): CambioEstadoBolsinOrm {
         const orm = new CambioEstadoBolsinOrm();
 
-        const id = this.ids.get(domain);
+        const id = CambioEstadoBolsinMapper.ids.get(domain);
         if (id !== undefined) {
             orm.id = id;
         }

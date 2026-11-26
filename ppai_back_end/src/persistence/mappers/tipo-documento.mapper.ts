@@ -6,14 +6,14 @@ export class TipoDocumentoMapper {
 
     static toDomain(orm: TipoDocumentoOrm): TipoDocumento {
         const tipo = new TipoDocumento(orm.nombre);
-        this.ids.set(tipo, orm.id);
+        TipoDocumentoMapper.ids.set(tipo, orm.id);
         return tipo;
     }
 
     static toOrm(domain: TipoDocumento): TipoDocumentoOrm {
         const orm = new TipoDocumentoOrm();
 
-        const id = this.ids.get(domain);
+        const id = TipoDocumentoMapper.ids.get(domain);
         if (id !== undefined) {
             orm.id = id;
         }

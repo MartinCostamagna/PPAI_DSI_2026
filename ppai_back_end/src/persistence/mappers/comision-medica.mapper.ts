@@ -6,14 +6,14 @@ export class ComisionMedicaMapper {
 
     static toDomain(orm: ComisionMedicaOrm): ComisionMedica {
         const comision = new ComisionMedica(orm.nombre);
-        this.ids.set(comision, orm.id);
+        ComisionMedicaMapper.ids.set(comision, orm.id);
         return comision;
     }
 
     static toOrm(domain: ComisionMedica): ComisionMedicaOrm {
         const orm = new ComisionMedicaOrm();
 
-        const id = this.ids.get(domain);
+        const id = ComisionMedicaMapper.ids.get(domain);
         if (id !== undefined) {
             orm.id = id;
         }

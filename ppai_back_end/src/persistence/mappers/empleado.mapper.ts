@@ -11,14 +11,14 @@ export class EmpleadoMapper {
             orm.nombre,
             ComisionMedicaMapper.toDomain(orm.comisionMedica)
         );
-        this.ids.set(empleado, orm.id);
+        EmpleadoMapper.ids.set(empleado, orm.id);
         return empleado;
     }
 
     static toOrm(domain: Empleado): EmpleadoOrm {
         const orm = new EmpleadoOrm();
 
-        const id = this.ids.get(domain);
+        const id = EmpleadoMapper.ids.get(domain);
         if (id !== undefined) {
             orm.id = id;
         }

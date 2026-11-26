@@ -15,14 +15,14 @@ export class DocumentacionMapper {
             cambiosEstado,
             EstadoDocumentacionMapper.toDomain(orm.estadoActual)
         );
-        this.ids.set(documentacion, orm.id);
+        DocumentacionMapper.ids.set(documentacion, orm.id);
         return documentacion;
     }
 
     static toOrm(domain: Documentacion): DocumentacionOrm {
         const orm = new DocumentacionOrm();
 
-        const id = this.ids.get(domain);
+        const id = DocumentacionMapper.ids.get(domain);
         if (id !== undefined) {
             orm.id = id;
         }

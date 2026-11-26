@@ -7,7 +7,7 @@ export class DetalleRemitoMapper {
 
     static toDomain(orm: DetalleRemitoOrm): DetalleRemito {
         const detalle = new DetalleRemito(DocumentacionMapper.toDomain(orm.documentacion));
-        this.ids.set(detalle, orm.id);
+        DetalleRemitoMapper.ids.set(detalle, orm.id);
         return detalle;
     }
 
@@ -15,7 +15,7 @@ export class DetalleRemitoMapper {
     static toOrm(domain: DetalleRemito): DetalleRemitoOrm {
         const orm = new DetalleRemitoOrm();
 
-        const id = this.ids.get(domain);
+        const id = DetalleRemitoMapper.ids.get(domain);
         if (id !== undefined) {
             orm.id = id;
         }

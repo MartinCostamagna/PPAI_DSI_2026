@@ -19,7 +19,7 @@ export class EstadoBolsinMapper {
     ];
 
     static toDomain(nombre: string): EstadoBolsin {
-        const entrada = this.estados.find(([n]) => n === nombre);
+        const entrada = EstadoBolsinMapper.estados.find(([n]) => n === nombre);
         if (!entrada) {
             throw new Error(`Estado de bolsín desconocido: ${nombre}`);
         }
@@ -27,7 +27,7 @@ export class EstadoBolsinMapper {
     }
 
     static toOrm(estado: EstadoBolsin): string {
-        const entrada = this.estados.find(([, clase]) => estado instanceof clase);
+        const entrada = EstadoBolsinMapper.estados.find(([, clase]) => estado instanceof clase);
         if (!entrada) {
             throw new Error(`Estado de bolsín no mapeado: ${estado.constructor.name}`);
         }

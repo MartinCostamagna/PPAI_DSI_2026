@@ -12,14 +12,14 @@ export class UsuarioMapper {
             orm.hashContrasenia,
             EmpleadoMapper.toDomain(orm.empleado)
         );
-        this.ids.set(usuario, orm.id);
+        UsuarioMapper.ids.set(usuario, orm.id);
         return usuario;
     }
 
     static toOrm(domain: Usuario): UsuarioOrm {
         const orm = new UsuarioOrm();
 
-        const id = this.ids.get(domain);
+        const id = UsuarioMapper.ids.get(domain);
         if (id !== undefined) {
             orm.id = id;
         }

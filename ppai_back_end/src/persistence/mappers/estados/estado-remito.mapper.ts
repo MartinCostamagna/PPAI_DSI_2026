@@ -20,7 +20,7 @@ export class EstadoRemitoMapper {
     ];
 
     static toDomain(nombre: string): EstadoRemito {
-        const entrada = this.estados.find(([n]) => n === nombre);
+        const entrada = EstadoRemitoMapper.estados.find(([n]) => n === nombre);
         if (!entrada) {
             throw new Error(`Estado de remito desconocido: ${nombre}`);
         }
@@ -28,7 +28,7 @@ export class EstadoRemitoMapper {
     }
 
     static toOrm(estado: EstadoRemito): string {
-        const entrada = this.estados.find(([, clase]) => estado instanceof clase);
+        const entrada = EstadoRemitoMapper.estados.find(([, clase]) => estado instanceof clase);
         if (!entrada) {
             throw new Error(`Estado de remito no mapeado: ${estado.constructor.name}`);
         }

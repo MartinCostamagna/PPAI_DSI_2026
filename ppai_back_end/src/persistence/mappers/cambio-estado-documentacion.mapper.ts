@@ -13,7 +13,7 @@ export class CambioEstadoDocumentacionMapper {
             orm.fechaYHoraInicio,
             orm.fechaYHoraFin ?? undefined
         );
-        this.ids.set(cambio, orm.id);
+        CambioEstadoDocumentacionMapper.ids.set(cambio, orm.id);
         return cambio;
     }
 
@@ -23,7 +23,7 @@ export class CambioEstadoDocumentacionMapper {
     static toOrm(domain: CambioEstadoDocumentacion): CambioEstadoDocumentacionOrm {
         const orm = new CambioEstadoDocumentacionOrm();
 
-        const id = this.ids.get(domain);
+        const id = CambioEstadoDocumentacionMapper.ids.get(domain);
         if (id !== undefined) {
             orm.id = id;
         }

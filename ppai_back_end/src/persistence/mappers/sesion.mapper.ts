@@ -12,14 +12,14 @@ export class SesionMapper {
             orm.fechaYHoraInicio,
             orm.fechaYHoraFin ?? undefined
         );
-        this.ids.set(sesion, orm.id);
+        SesionMapper.ids.set(sesion, orm.id);
         return sesion;
     }
 
     static toOrm(domain: Sesion): SesionOrm {
         const orm = new SesionOrm();
 
-        const id = this.ids.get(domain);
+        const id = SesionMapper.ids.get(domain);
         if (id !== undefined) {
             orm.id = id;
         }

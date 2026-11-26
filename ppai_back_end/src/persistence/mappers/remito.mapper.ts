@@ -16,7 +16,7 @@ export class RemitoMapper {
             detalles,
             EstadoRemitoMapper.toDomain(orm.estadoActual)
         );
-        this.ids.set(remito, orm.id);
+        RemitoMapper.ids.set(remito, orm.id);
         return remito;
     }
 
@@ -24,7 +24,7 @@ export class RemitoMapper {
     static toOrm(domain: Remito): RemitoOrm {
         const orm = new RemitoOrm();
 
-        const id = this.ids.get(domain);
+        const id = RemitoMapper.ids.get(domain);
         if (id !== undefined) {
             orm.id = id;
         }

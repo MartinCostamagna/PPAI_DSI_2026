@@ -23,14 +23,14 @@ export class BolsinMapper {
             orm.numeroPrecinto,
             EstadoBolsinMapper.toDomain(orm.estadoActual)
         );
-        this.ids.set(bolsin, orm.id);
+        BolsinMapper.ids.set(bolsin, orm.id);
         return bolsin;
     }
 
     static toOrm(domain: Bolsin): BolsinOrm {
         const orm = new BolsinOrm();
 
-        const id = this.ids.get(domain);
+        const id = BolsinMapper.ids.get(domain);
         if (id !== undefined) {
             orm.id = id;
         }

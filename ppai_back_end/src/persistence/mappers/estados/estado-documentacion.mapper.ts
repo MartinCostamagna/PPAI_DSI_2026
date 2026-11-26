@@ -27,7 +27,7 @@ export class EstadoDocumentacionMapper {
     ];
 
     static toDomain(nombre: string): EstadoDocumentacion {
-        const entrada = this.estados.find(([n]) => n === nombre);
+        const entrada = EstadoDocumentacionMapper.estados.find(([n]) => n === nombre);
         if (!entrada) {
             throw new Error(`Estado de documentación desconocido: ${nombre}`);
         }
@@ -35,7 +35,7 @@ export class EstadoDocumentacionMapper {
     }
 
     static toOrm(estado: EstadoDocumentacion): string {
-        const entrada = this.estados.find(([, clase]) => estado instanceof clase);
+        const entrada = EstadoDocumentacionMapper.estados.find(([, clase]) => estado instanceof clase);
         if (!entrada) {
             throw new Error(`Estado de documentación no mapeado: ${estado.constructor.name}`);
         }
