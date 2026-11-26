@@ -67,15 +67,15 @@ export class Bolsin {
     }
 
     public aceptarDocumentacion(fechaYHoraActual: Date, empleado: Empleado): void {
-        this.remitos.forEach(r => r.aceptarDocumentacion(fechaYHoraActual, empleado));
+        this.remitos.forEach(r => r.recibir(fechaYHoraActual, empleado));
     }
 
     public rechazarDocumentacion(fechaYHoraActual: Date, empleado: Empleado): void {
-        this.remitos.forEach(r => r.rechazarDocumentacion(fechaYHoraActual, empleado));
+        this.remitos.forEach(r => r.rechazar(fechaYHoraActual, empleado));
     }
 
     public redirigirDocumentacion(fechaYHoraActual: Date, empleado: Empleado): void {
-        this.remitos.forEach(r => r.redirigirDocumentacion(fechaYHoraActual, empleado));
+        this.remitos.forEach(r => r.redirigir(fechaYHoraActual, empleado));
     }
 
     public sosEnviado(): boolean {
