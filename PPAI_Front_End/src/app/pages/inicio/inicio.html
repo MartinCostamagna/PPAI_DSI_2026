@@ -1,8 +1,99 @@
-<div>
-    <div class="divComision"></div>
-    <div>
-        <button type="button" (click)="seleccionOpcRegistRecepBolsin()">
-            Registrar Recepcion de Bolsin
-        </button>
+<app-shell
+  seccionActiva="inicio"
+  tituloPagina="Panel de Operaciones"
+  [breadcrumbs]="[{ label: 'Inicio' }]"
+>
+  <section class="banner-bienvenida panel">
+    <div class="banner-texto">
+      <span class="badge badge-success">Encargado de Bolsines · Sesión activa</span>
+      <h2>Bienvenido/a, {{ usuario() }}</h2>
+      <p>
+        Seleccioná una funcionalidad del sistema de bolsines. El caso de uso habilitado en este prototipo es
+        <strong>CU 28 · Registrar recepción de bolsín</strong>.
+      </p>
     </div>
-</div>
+    <div class="banner-acciones">
+      <button type="button" class="btn btn-primary" (click)="seleccionOpcRegistRecepBolsin()">
+        <app-icon name="inbox" [size]="18" />
+        <span>Registrar recepción de bolsín</span>
+      </button>
+      <button
+        type="button"
+        class="btn btn-secondary"
+        (click)="accionRelleno('Consultar seguimiento de bolsines (CU 36)')"
+      >
+        <app-icon name="map-pin" [size]="17" />
+        <span>Seguimiento GPS</span>
+      </button>
+    </div>
+  </section>
+
+  <section class="seccion-acciones" aria-labelledby="titulo-bolsines">
+    <div class="seccion-header">
+      <div>
+        <h3 id="titulo-bolsines">Gestión de Bolsines (Encargado de Bolsines)</h3>
+        <p>Armado, precintado, retiro por correo, seguimiento GPS y recepción de bolsines entre CMJ y CMC.</p>
+      </div>
+    </div>
+
+    <div class="grilla-acciones">
+      @for (accion of accionesBolsines; track accion.titulo) {
+        <button
+          type="button"
+          class="tarjeta-accion panel"
+          [class.destacada]="accion.disponible"
+          [class.relleno]="!accion.disponible"
+          (click)="ejecutarAccion(accion)"
+        >
+          <div class="tarjeta-top">
+            <span class="tarjeta-icono" aria-hidden="true">
+              <app-icon [name]="accion.icono" [size]="20" />
+            </span>
+            <span class="badge" [class.badge-success]="accion.disponible" [class.badge-neutral]="!accion.disponible">
+              {{ accion.etiqueta }}
+            </span>
+          </div>
+          <h4>{{ accion.titulo }}</h4>
+          <p>{{ accion.descripcion }}</p>
+          <span class="tarjeta-cta">
+            @if (accion.disponible) {
+              <span>Iniciar caso de uso</span>
+              <app-icon name="arrow-right" [size]="15" />
+            } @else {
+              <span>Fuera del alcance del prototipo</span>
+            }
+          </span>
+        </button>
+      }
+    </div>
+  </section>
+
+  <section class="seccion-acciones" aria-labelledby="titulo-gestion">
+    <div class="seccion-header">
+      <div>
+        <h3 id="titulo-gestion">Documentación, Remitos, Reportes y Parametrización</h3>
+        <p>Funcionalidades de Encargado de Documentación, Gerente de Comisión Médica (Power BI) y Parametrizador.</p>
+      </div>
+    </div>
+
+    <div class="grilla-acciones">
+      @for (accion of accionesDominio; track accion.titulo) {
+        <button
+          type="button"
+          class="tarjeta-accion panel relleno"
+          (click)="ejecutarAccion(accion)"
+        >
+          <div class="tarjeta-top">
+            <span class="tarjeta-icono" aria-hidden="true">
+              <app-icon [name]="accion.icono" [size]="20" />
+            </span>
+            <span class="badge badge-neutral">{{ accion.etiqueta }}</span>
+          </div>
+          <h4>{{ accion.titulo }}</h4>
+          <p>{{ accion.descripcion }}</p>
+          <span class="tarjeta-cta">Fuera del alcance del prototipo</span>
+        </button>
+      }
+    </div>
+  </section>
+</app-shell>

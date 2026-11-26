@@ -1,0 +1,165 @@
+<div class="shell">
+  <aside class="sidebar" aria-label="Menú principal">
+    <div class="marca" (click)="irAInicio()" role="button" tabindex="0" (keydown.enter)="irAInicio()">
+      <div class="marca-logo" aria-hidden="true">GB</div>
+      <div class="marca-texto">
+        <strong>Gestión Bolsines</strong>
+        <span>CMJ · CMC</span>
+      </div>
+    </div>
+
+    <nav class="nav-menu">
+      <div class="nav-grupo">
+        <span class="nav-etiqueta">Principal</span>
+        <button
+          type="button"
+          class="nav-item"
+          [class.activo]="seccionActiva() === 'inicio'"
+          (click)="irAInicio()"
+        >
+          <app-icon class="nav-icono" name="home" [size]="17" />
+          <span>Inicio</span>
+        </button>
+      </div>
+
+      <div class="nav-grupo">
+        <span class="nav-etiqueta">Encargado de Bolsines</span>
+        <button
+          type="button"
+          class="nav-item"
+          [class.activo]="seccionActiva() === 'recepcion'"
+          (click)="irARecepcion()"
+        >
+          <app-icon class="nav-icono" name="inbox" [size]="17" />
+          <span>Registrar recepción</span>
+        </button>
+        <button type="button" class="nav-item relleno" (click)="accionRelleno('Generar Bolsín (CU 19)')">
+          <app-icon class="nav-icono" name="package" [size]="17" />
+          <span>Generar bolsín</span>
+        </button>
+        <button type="button" class="nav-item relleno" (click)="accionRelleno('Cerrar / Reabrir Bolsín (CU 39 / 40)')">
+          <app-icon class="nav-icono" name="lock" [size]="17" />
+          <span>Cerrar / Reabrir bolsín</span>
+        </button>
+        <button type="button" class="nav-item relleno" (click)="accionRelleno('Registrar el retiro de bolsines (CU 27)')">
+          <app-icon class="nav-icono" name="truck" [size]="17" />
+          <span>Retiro de bolsines</span>
+        </button>
+        <button type="button" class="nav-item relleno" (click)="accionRelleno('Consultar seguimiento de bolsines — GPS (CU 36)')">
+          <app-icon class="nav-icono" name="map-pin" [size]="17" />
+          <span>Seguimiento GPS</span>
+        </button>
+        <button type="button" class="nav-item relleno" (click)="accionRelleno('Consultar / Modificar / Eliminar Bolsín (CU 20-22)')">
+          <app-icon class="nav-icono" name="search" [size]="17" />
+          <span>Consultar bolsines</span>
+        </button>
+      </div>
+
+      <div class="nav-grupo">
+        <span class="nav-etiqueta">Documentación y Remitos</span>
+        <button type="button" class="nav-item relleno" (click)="accionRelleno('Registrar / Consultar Documentación (CU 7-10)')">
+          <app-icon class="nav-icono" name="folder" [size]="17" />
+          <span>Documentación</span>
+        </button>
+        <button type="button" class="nav-item relleno" (click)="accionRelleno('Generar / Cancelar Remito (CU 15-18)')">
+          <app-icon class="nav-icono" name="file-text" [size]="17" />
+          <span>Remitos</span>
+        </button>
+        <button type="button" class="nav-item relleno" (click)="accionRelleno('Registrar Revisión de Documentación (CU 31)')">
+          <app-icon class="nav-icono" name="rotate-ccw" [size]="17" />
+          <span>Revisión doc.</span>
+        </button>
+      </div>
+
+      <div class="nav-grupo">
+        <span class="nav-etiqueta">Gerencia y Parámetros</span>
+        <button type="button" class="nav-item relleno" (click)="accionRelleno('Reportes y Estadísticas — Power BI (CU 37 / 38)')">
+          <app-icon class="nav-icono" name="bar-chart" [size]="17" />
+          <span>Reportes Power BI</span>
+        </button>
+        <button type="button" class="nav-item relleno" (click)="accionRelleno('Administrar Comisiones Médicas (CU 23-26)')">
+          <app-icon class="nav-icono" name="building" [size]="17" />
+          <span>Comisiones Médicas</span>
+        </button>
+        <button type="button" class="nav-item relleno" (click)="accionRelleno('Administrar Tipos de Documento (CU 11-14)')">
+          <app-icon class="nav-icono" name="tag" [size]="17" />
+          <span>Tipos de Documento</span>
+        </button>
+      </div>
+    </nav>
+
+    <div class="sidebar-footer">
+      <button type="button" class="btn-cerrar-sesion" (click)="cerrarSesion()">
+        <app-icon name="log-out" [size]="16" />
+        <span>Cerrar sesión</span>
+      </button>
+    </div>
+  </aside>
+
+  <div class="contenido-principal">
+    <header class="topbar">
+      <div class="topbar-izq">
+        @if (breadcrumbs().length > 0) {
+          <nav class="breadcrumbs" aria-label="Ruta de navegación">
+            @for (item of breadcrumbs(); track item.label; let ultimo = $last) {
+              @if (item.route && !ultimo) {
+                <a [routerLink]="item.route" class="crumb-link">{{ item.label }}</a>
+                <span class="crumb-sep" aria-hidden="true">/</span>
+              } @else {
+                <span class="crumb-actual">{{ item.label }}</span>
+              }
+            }
+          </nav>
+        }
+        <h1 class="topbar-titulo">{{ tituloPagina() }}</h1>
+      </div>
+
+      <div class="topbar-der">
+        @if (comisionMedica()) {
+          <div class="cm-chip" title="Comisión Médica asignada al empleado">
+            <span class="cm-dot" aria-hidden="true"></span>
+            <span>CM: <strong>{{ comisionMedica() }}</strong></span>
+          </div>
+        }
+
+        <button
+          type="button"
+          class="icon-btn"
+          title="Notificaciones por correo (CU 29 / CU 30)"
+          aria-label="Notificaciones de bolsines"
+          (click)="accionRelleno('Notificaciones por correo de recepción y ubicación (CU 29 / 30)')"
+        >
+          <app-icon name="mail" [size]="16" />
+          <span class="notif-badge" aria-hidden="true">2</span>
+        </button>
+
+        <button
+          type="button"
+          class="icon-btn"
+          title="Seguimiento satelital GPS (CU 36)"
+          aria-label="Seguimiento satelital"
+          (click)="accionRelleno('Consultar seguimiento de bolsines en mapa GPS (CU 36)')"
+        >
+          <app-icon name="map-pin" [size]="16" />
+        </button>
+
+        <div
+          class="usuario-chip"
+          (click)="accionRelleno('Consultar / Modificar usuario (CU 2 / CU 4)')"
+          role="button"
+          tabindex="0"
+        >
+          <span class="avatar" aria-hidden="true">{{ usuario().charAt(0).toUpperCase() }}</span>
+          <div class="usuario-datos">
+            <span class="usuario-nombre">{{ usuario() }}</span>
+            <span class="usuario-rol">Encargado de Bolsines (EB)</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="main-body">
+      <ng-content />
+    </main>
+  </div>
+</div>

@@ -1,22 +1,90 @@
 <!-- Mostramos los mensajes finales -->
 <!-- Primero un mensaje específico de la ejecución del registro de recepción del bolsín -->
 <!-- Luego un mensaje de éxito de la ejecución del caso de uso -->
-@if (!quiereSalir) {
-    <div class="overlay">
-        <div class="card">
-            <div class="icono">✔</div>
-            <h2 class="titulo">{{ mensaje() }}</h2>
+<app-shell
+  seccionActiva="recepcion"
+  tituloPagina="Resultado de la Recepción"
+  [breadcrumbs]="[
+    { label: 'Inicio', route: '/inicio' },
+    { label: 'Recepción de Bolsín', route: '/bolsines-enviados-a-esta-comision-medica' },
+    { label: 'Finalización' }
+  ]"
+>
+  <app-step-indicator [pasoActual]="3" />
+
+  <section class="resultado-wrap">
+    <div class="resultado-card panel">
+      @if (error()) {
+        <div class="icono-estado error" aria-hidden="true">
+          <app-icon name="alert-triangle" [size]="30" />
+        </div>
+        <h2>No se pudo completar la operación</h2>
+        <p class="mensaje-texto">{{ error() }}</p>
+        <div class="acciones-finales">
+          <button type="button" class="btn btn-secondary" (click)="volver()">Volver a bolsines</button>
+          <button type="button" class="btn btn-primary" (click)="irAlInicio()">Ir al inicio</button>
+        </div>
+      } @else if (cargando() && !mensaje()) {
+        <div class="icono-estado cargando" aria-hidden="true">
+          <app-icon name="loader" [size]="30" />
+        </div>
+        <h2>Procesando confirmación</h2>
+        <p class="mensaje-texto">Registrando recepción del bolsín en el sistema...</p>
+      } @else {
+        <div class="icono-estado exito" aria-hidden="true">
+          <app-icon name="check" [size]="32" />
+        </div>
+        <span class="badge badge-success">
+          {{ quiereSalir ? 'Caso de uso finalizado' : 'Recepción registrada' }}
+        </span>
+        <h2>{{ mensaje() }}</h2>
+
+        @if (bolsinSeleccionado) {
+          <div class="detalle-comprobante">
             <div>
-                <button class="btnVolver" (click)="volver()">Volver al inicio</button>
-                <button class="btnFinCU" (click)="informarEjecucionExitosaCU()">Fin CU</button>
+              <span>Precinto procesado</span>
+              <strong>#{{ bolsinSeleccionado.numeroPrecinto }}</strong>
             </div>
-        </div>
+            <div>
+              <span>Comisión Médica de origen</span>
+              <strong>{{ bolsinSeleccionado.nombreCMOrigen }}</strong>
+            </div>
+          </div>
+        }
+
+        @if (!quiereSalir) {
+          <div class="acciones-finales">
+            <button type="button" class="btn btn-secondary" (click)="volver()">
+              Registrar otro bolsín
+            </button>
+            <button
+              type="button"
+              class="btn btn-ghost"
+              (click)="accionRelleno('Notificar recepción de bolsín por correo a CM origen (CU 29)')"
+            >
+              <app-icon name="mail" [size]="16" />
+              <span>Ver notificación (CU 29)</span>
+            </button>
+            <button type="button" class="btn btn-primary" (click)="informarEjecucionExitosaCU()">
+              Fin CU
+            </button>
+          </div>
+        } @else {
+          <div class="acciones-finales">
+            <button
+              type="button"
+              class="btn btn-ghost"
+              (click)="accionRelleno('Consultar trazabilidad del bolsín (CU 22)')"
+            >
+              <app-icon name="search" [size]="16" />
+              <span>Ver trazabilidad (CU 22)</span>
+            </button>
+            <button type="button" class="btn btn-primary" (click)="irAlInicio()">
+              Volver al inicio
+            </button>
+          </div>
+        }
+      }
     </div>
-} @else {
-    <div class="overlay">
-        <div class="card">
-            <div class="icono">✔</div>
-            <h2 class="titulo">{{ mensaje() }}</h2>
-        </div>
-    </div>
-}
+  </section>
+</app-shell>

@@ -1,0 +1,19 @@
+@if (toastService.mensaje(); as msg) {
+  <div class="toast-contenedor" role="status" aria-live="polite">
+    <div class="toast" [class]="'toast toast-' + msg.tipo">
+      <span class="toast-icono" aria-hidden="true">
+        @if (msg.tipo === 'success') {
+          <app-icon name="check" [size]="15" />
+        } @else if (msg.tipo === 'warning') {
+          <app-icon name="alert-triangle" [size]="15" />
+        } @else {
+          <app-icon name="info" [size]="15" />
+        }
+      </span>
+      <span class="toast-texto">{{ msg.texto }}</span>
+      <button type="button" class="toast-cerrar" (click)="toastService.cerrar()" aria-label="Cerrar aviso">
+        <app-icon name="x" [size]="16" />
+      </button>
+    </div>
+  </div>
+}
