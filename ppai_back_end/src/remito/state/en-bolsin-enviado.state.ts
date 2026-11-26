@@ -17,7 +17,7 @@ export class EnBolsinEnviado extends EstadoRemito{
         console.log('Remito enviado.');
     }
 
-    recibir(remito: Remito, fechaYHoraActual: Date, empleado: Empleado, detallesRemito: DetalleRemito[]): void {
+    recibir(remito: Remito): void {
         const recibidoYAceptado = this.crearEstadoRecibidoYAceptado();
         remito.setEstado(recibidoYAceptado);
     }
@@ -28,10 +28,6 @@ export class EnBolsinEnviado extends EstadoRemito{
 
     cancelar(): void {
         console.log('Remito cancelado.');
-    }
-
-    private aceptarDocumentacion(fechaYHoraActual: Date, empleado: Empleado, detallesRemito: DetalleRemito[]): void{
-        detallesRemito.forEach(d => d.aceptarDocumentacion(fechaYHoraActual, empleado));
     }
 
     private crearEstadoRecibidoYAceptado(): RecibidoYAceptado {
