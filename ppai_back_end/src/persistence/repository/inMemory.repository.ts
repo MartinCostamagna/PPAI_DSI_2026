@@ -1,19 +1,19 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
 
-import { Bolsin } from '../bolsin/entities/bolsin.entity';
-import { CambioEstadoBolsin } from '../bolsin/entities/cambio-estado-bolsin.entity';
-import { CambioEstadoDocumentacion } from '../documentacion/entities/cambio-estado-documentacion.entity';
-import { ComisionMedica } from '../entities/comision-medica.entity';
-import { DetalleRemito } from '../remito/entities/detalle-remito.entity';
-import { Documentacion } from '../documentacion/entities/documentacion.entity';
-import { Empleado } from '../entities/empleado.entity';
-import { EstadoBolsin } from '../bolsin/state/estado-bolsin.abstract';
-import { EstadoDocumentacion } from '../documentacion/state/estado-documentacion.abstract';
-import { EstadoRemito } from '../remito/state/estado-remito.abstract';
-import { Remito } from '../remito/entities/remito.entity';
-import { Sesion } from '../entities/sesion.entity';
-import { TipoDocumento } from '../documentacion/entities/tipo-documento.entity';
-import { Usuario } from '../entities/usuario.entity';
+import { Bolsin } from '../../bolsin/entities/bolsin.entity';
+import { CambioEstadoBolsin } from '../../bolsin/entities/cambio-estado-bolsin.entity';
+import { CambioEstadoDocumentacion } from '../../documentacion/entities/cambio-estado-documentacion.entity';
+import { ComisionMedica } from '../../entities/comision-medica.entity';
+import { DetalleRemito } from '../../remito/entities/detalle-remito.entity';
+import { Documentacion } from '../../documentacion/entities/documentacion.entity';
+import { Empleado } from '../../entities/empleado.entity';
+import { EstadoBolsin } from '../../bolsin/state/estado-bolsin.abstract';
+import { EstadoDocumentacion } from '../../documentacion/state/estado-documentacion.abstract';
+import { EstadoRemito } from '../../remito/state/estado-remito.abstract';
+import { Remito } from '../../remito/entities/remito.entity';
+import { Sesion } from '../../entities/sesion.entity';
+import { TipoDocumento } from '../../documentacion/entities/tipo-documento.entity';
+import { Usuario } from '../../entities/usuario.entity';
 
 @Injectable()
 export class InMemoryRepository implements OnModuleInit {
