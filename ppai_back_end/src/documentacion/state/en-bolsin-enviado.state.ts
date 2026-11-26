@@ -28,10 +28,10 @@ export class EnBolsinEnviado extends EstadoDocumentacion{
     rechazar(documentacion: Documentacion, fechaYHoraActual: Date, cambiosEstado: CambioEstadoDocumentacion[], empleado: Empleado): void {
         const ceActual = cambiosEstado.find(c => c.sosActual());
         ceActual?.setFechaYHoraFin(fechaYHoraActual);
-        const recibida = this.crearEstadoParaRedirigir();
-        const nuevo = this.crearCambioEstado(recibida, empleado, fechaYHoraActual);
+        const paraRedirigir = this.crearEstadoParaRedirigir();
+        const nuevo = this.crearCambioEstado(paraRedirigir, empleado, fechaYHoraActual);
         documentacion.agregarCambioEstado(nuevo);
-        documentacion.setEstado(recibida);
+        documentacion.setEstado(paraRedirigir);
     }
 
     private crearEstadoRecibidaYAceptada(): RecibidaYAceptada{
