@@ -15,7 +15,7 @@ export class CambioEstadoDocumentacion {
     }
 
     public sosActual(): boolean {
-        return (this.fechaYHoraFin === null);
+        return (this.fechaYHoraFin === undefined);
     }
 
     public setFechaYHoraFin(fechaYHoraFin: Date): void {

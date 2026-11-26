@@ -5,6 +5,7 @@ import { EstadoBolsin } from "../state/estado-bolsin.abstract";
 import { EstadoDocumentacion } from "../../documentacion/state/estado-documentacion.abstract";
 import { EstadoRemito } from "../../remito/state/estado-remito.abstract";
 import { Remito } from "../../remito/entities/remito.entity";
+import { Enviado } from "../state/enviado.state";
 
 export class Bolsin {
     private cambiosEstado: CambioEstadoBolsin[];
@@ -12,20 +13,15 @@ export class Bolsin {
     private comisionMedicaDestino: ComisionMedica;
     private remitos: Remito[];
     private numeroPrecinto: number;
+    private estadoActual: EstadoBolsin;
 
-    constructor(cambiosEstado: CambioEstadoBolsin[], comisionMedicaOrigen: ComisionMedica, comisionMedicaDestino: ComisionMedica, remitos: Remito[], numeroPrecinto: number) {
+    constructor(cambiosEstado: CambioEstadoBolsin[], comisionMedicaOrigen: ComisionMedica, comisionMedicaDestino: ComisionMedica, remitos: Remito[], numeroPrecinto: number, estado: EstadoBolsin) {
         this.cambiosEstado = cambiosEstado;
         this.comisionMedicaOrigen = comisionMedicaOrigen;
         this.comisionMedicaDestino = comisionMedicaDestino;
         this.remitos = remitos;
         this.numeroPrecinto = numeroPrecinto;
-    }
-
-    // Busca el cambio de estado actual, mediante un mensaje hacia el (sosActual()).
-    // Luego de encontrado el cambio actual, se pregunta si su estado es "Enviado".
-    public sosEnviado(): boolean {
-        const actual = this.cambiosEstado.find(ce => ce.sosActual());   
-        return actual!.sosEnviado();
+        this.estadoActual = estado;
     }
 
     // Para corroborar la CM, utilizamos la ya almacenada en la busqueda anterior, la CM del empleado.
@@ -58,30 +54,19 @@ export class Bolsin {
         return remito.mostrarDocumentacion();
     }
 
-    /**
-     * Se crea un nuevo cambio de estado para el bolsín seleccionado y se cambia de estado al remito.
-     * Por cada remito, actualizamos el estado de todas sus documentaciones.
-     */
-    public registrarRecepcion(fechaYHoraActual: Date, estado: EstadoBolsin, estadoRemito: EstadoRemito, estadoDocumentacion: EstadoDocumentacion, empleado: Empleado): void {
-        this.crearCEBolsin(fechaYHoraActual, estado, empleado, estadoRemito);
-        this.remitos.forEach(r => {
-            r.actualizarEstadoDoc(fechaYHoraActual, estadoDocumentacion, empleado);
-        });
-        console.log(JSON.stringify(this));
+    public agregarCambioEstado(cambioEstado: CambioEstadoBolsin): void{
+        this.cambiosEstado.push(cambioEstado);
     }
-    
-    /**
-     * Seteamos la fecha y hora de fin del cambio de estado actual.
-     * Cada remito pasa al estado RecibidoYAceptado.
-     * Creamos un nuevo cambio de estado, asignandole la fecha actual, el nuevo estado, y el empleado responsable del cambio.
-    */
-    public crearCEBolsin(fechaYHoraActual: Date, estado: EstadoBolsin, empleado: Empleado, estadoRemito: EstadoRemito): void {
-        const actual = this.cambiosEstado.find(ce => ce.sosActual())!;
-        actual.setFechaYHoraFin(fechaYHoraActual);
 
-        this.remitos.forEach(r => r.recibir(estadoRemito));
-        
-        const nuevo: CambioEstadoBolsin = new CambioEstadoBolsin(estado, empleado, fechaYHoraActual);
-        this.cambiosEstado.push(nuevo);
+    public setEstado(estado: EstadoBolsin): void{
+        this.estadoActual = estado;
+    }
+
+    public recibir(fechaYHoraActual: Date, empleado: Empleado): void{
+        this.estadoActual.recibir(this, fechaYHoraActual, this.cambiosEstado, empleado);
+    }
+
+    public sosEnviado(): boolean {
+        return this.estadoActual instanceof Enviado;
     }
 }

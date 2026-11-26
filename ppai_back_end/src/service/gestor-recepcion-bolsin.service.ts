@@ -124,18 +124,12 @@ export class GestorRecepcionBolsin {
      */
     public registrarRecepcionBolsin() {
         this.fechaYHoraActual = this.tomarFechaYHoraActual();
-        this.estadoRecibidoEnCMDestino = this.buscarEstadoRecibidoEnCMDestino();
         let mensaje = "";
         switch (this.opcion){
             case 1:
                 mensaje = "Recepción bolsín Exitosa";
-                this.estadoRecibidoYAceptado = this.buscarEstadoRecibidoYAceptado();
-                this.estadoRecibidaYAceptada = this.buscarEstadoRecibidaYAceptada();
-                this.bolsinSeleccionado.registrarRecepcion(
+                this.bolsinSeleccionado.recibir(
                     this.fechaYHoraActual,
-                    this.estadoRecibidoEnCMDestino, 
-                    this.estadoRecibidoYAceptado, 
-                    this.estadoRecibidaYAceptada,
                     this.empleado
                 );
                 break;
@@ -143,25 +137,15 @@ export class GestorRecepcionBolsin {
                 //no realizada debido a que no sabemos quien decide si se registra o se da de baja la documentación
             case 3:
                 mensaje = `Documentacion no corresponde a la CM destino ${this.nombreCMEmpleado}`;
-                this.estadoRecibidoYAceptado = this.buscarEstadoRecibidoYAceptado();
-                this.estadoRecibidaYRechazada = this.buscarEstadoRecibidaYRechazada();
-                this.bolsinSeleccionado.registrarRecepcion(
+                this.bolsinSeleccionado.recibir(
                     this.fechaYHoraActual,
-                    this.estadoRecibidoEnCMDestino, 
-                    this.estadoRecibidoYAceptado,
-                    this.estadoRecibidaYRechazada,
                     this.empleado
                 );
                 break;
             case 4:
                 mensaje = "Documentación para redirigir a otra área";
-                this.estadoRecibidoYAceptado = this.buscarEstadoRecibidoYAceptado();
-                this.estadoParaRedirigir = this.buscarEstadoParaRedirigir();
                 this.bolsinSeleccionado.registrarRecepcion(
                     this.fechaYHoraActual,
-                    this.estadoRecibidoEnCMDestino, 
-                    this.estadoRecibidoYAceptado, 
-                    this.estadoParaRedirigir, 
                     this.empleado
                 );
                 break;
@@ -172,34 +156,6 @@ export class GestorRecepcionBolsin {
 
     public tomarFechaYHoraActual(): Date {
         return new Date();
-    }
-
-    /**
-     * Los siguientes métodos siguen el mismo patrón.
-     * Buscan el estado necesario en la lista de estados de su ámbito, según su nombre.
-     */
-    public buscarEstadoRecibidoEnCMDestino(): EstadoBolsin {
-        return this.estadosBolsin.find(e => e.esRecibidoEnCMDestino())!;
-    }
-
-    public buscarEstadoRecibidoYAceptado(): EstadoRemito {
-        return this.estadosRemito.find(e => e.esRecibidoYAceptado())!;
-    }
-
-    public buscarEstadoRecibidaYAceptada(): EstadoDocumentacion {
-        return this.estadosDocumentacion.find(e => e.esRecibidaYAceptada())!;
-    }
-    
-    public buscarEstadoRegistrada(): EstadoDocumentacion {
-        return this.estadosDocumentacion.find(e => e.esRegistrada())!;
-    }
-
-    public buscarEstadoRecibidaYRechazada(): EstadoDocumentacion {
-        return this.estadosDocumentacion.find(e => e.esRecibidaYRechazada())!;
-    }
-
-    public buscarEstadoParaRedirigir(): EstadoDocumentacion {
-        return this.estadosDocumentacion.find(e => e.esParaRedirigir())!;
     }
 
     // Se retorna el mensaje armado, simulando una llamada al caso de uso "Notificar recepción de bolsín".
