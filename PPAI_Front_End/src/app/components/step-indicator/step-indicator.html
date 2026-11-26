@@ -1,0 +1,24 @@
+<nav class="stepper" aria-label="Progreso de recepción de bolsín">
+  @for (paso of pasos; track paso.numero; let ultimo = $last) {
+    <div
+      class="step"
+      [class.activo]="paso.numero === pasoActual()"
+      [class.completado]="paso.numero < pasoActual()"
+    >
+      <div class="step-circulo" aria-hidden="true">
+        @if (paso.numero < pasoActual()) {
+          <app-icon name="check" [size]="16" />
+        } @else {
+          {{ paso.numero }}
+        }
+      </div>
+      <div class="step-info">
+        <span class="step-titulo">{{ paso.titulo }}</span>
+        <span class="step-subtitulo">{{ paso.subtitulo }}</span>
+      </div>
+    </div>
+    @if (!ultimo) {
+      <div class="step-linea" [class.completada]="paso.numero < pasoActual()" aria-hidden="true"></div>
+    }
+  }
+</nav>

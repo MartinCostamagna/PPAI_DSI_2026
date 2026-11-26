@@ -1,0 +1,92 @@
+.stepper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 1rem 1.4rem;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-xs);
+  margin-bottom: 1.5rem;
+}
+
+.step {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 0;
+}
+
+.step-circulo {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.9rem;
+  flex-shrink: 0;
+  background-color: #eef2f6;
+  color: var(--color-text-muted);
+  border: 2px solid var(--color-border);
+  transition: all var(--transition);
+}
+
+.step.activo .step-circulo {
+  background-color: var(--color-primary);
+  color: #ffffff;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 4px var(--color-primary-soft);
+}
+
+.step.completado .step-circulo {
+  background-color: var(--color-success);
+  color: #ffffff;
+  border-color: var(--color-success);
+}
+
+.step-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.step-titulo {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.step.activo .step-titulo,
+.step.completado .step-titulo {
+  color: var(--color-text);
+}
+
+.step-subtitulo {
+  font-size: 0.76rem;
+  color: var(--color-text-muted);
+}
+
+.step-linea {
+  flex: 1;
+  height: 2px;
+  background-color: var(--color-border);
+  min-width: 24px;
+}
+
+.step-linea.completada {
+  background-color: var(--color-success);
+}
+
+@media (max-width: 768px) {
+  .stepper {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .step-linea {
+    display: none;
+  }
+}
+

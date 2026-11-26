@@ -1,6 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { inject, Injectable, signal } from "@angular/core";
-import { tap } from "rxjs";
+import { catchError, finalize, tap, throwError } from "rxjs";
 import { Bolsin } from "../interfaces/bolsin.interface";
 import { CMYBolsin } from "../interfaces/cm-bolsin.interface";
 import { Remito } from "../interfaces/remito.interface";
@@ -14,7 +14,6 @@ import { Remito } from "../interfaces/remito.interface";
  *  36. tomarSeleccionOpcRecBolsin()
  *  39. tomarConfirmacion()
  *  64. informarEjecucionExitosaCU()
- *  
  */
 @Injectable({ providedIn: 'root' })
 export class PantallaRecepcionBolsin {
@@ -27,17 +26,31 @@ export class PantallaRecepcionBolsin {
     private bolsinSeleccionado!: Bolsin;
     private mensaje = signal<string>("");
 
+    private cargando = signal<boolean>(false);
+    private error = signal<string | null>(null);
+    private usuarioFicticio = signal<string>("Encargado de Bolsines");
+
     /**
      * Muestra la CM del usuario logueado y los bolsines para seleccionar.
      * Esto mediante la llamada http al controlador del backend.
      */
-    mostrarCMYBolsines() {   
-        return this.http.get<CMYBolsin>(this.url).subscribe(data => {
-            this.comisionMedica.set(data.nombreCMEmpleado);
-            this.bolsines.set(data.bolsinesInfo);
+    mostrarCMYBolsines() {
+        this.cargando.set(true);
+        this.error.set(null);
+
+        return this.http.get<CMYBolsin>(this.url).pipe(
+            finalize(() => this.cargando.set(false))
+        ).subscribe({
+            next: (data) => {
+                this.comisionMedica.set(data.nombreCMEmpleado);
+                this.bolsines.set(data.bolsinesInfo);
+            },
+            error: () => {
+                this.error.set("No se pudo conectar con el servidor de Comisiones Médicas. Verificá que el backend esté iniciado en el puerto 3000.");
+            }
         });
-    }   
-    
+    }
+
     /**
      * Mandamos el número de precinto del bolsín seleccionado al backend.
      * Este lo utilizará para identificar la instancia de Bolsin elegida.
@@ -45,25 +58,69 @@ export class PantallaRecepcionBolsin {
      */
     tomarSeleccionBolsin(bolsinSeleccionado: Bolsin) {
         this.bolsinSeleccionado = bolsinSeleccionado;
-        return this.http.get<Remito[]>(`${this.url}/${bolsinSeleccionado.numeroPrecinto}`)
-                        .pipe(tap(data => this.remitos.set(data)));
+        this.cargando.set(true);
+        this.error.set(null);
+
+        return this.http.get<Remito[]>(`${this.url}/${bolsinSeleccionado.numeroPrecinto}`).pipe(
+            tap(data => this.remitos.set(data)),
+            catchError(err => {
+                this.error.set("No se pudieron cargar los remitos del bolsín seleccionado.");
+                return throwError(() => err);
+            }),
+            finalize(() => this.cargando.set(false))
+        );
     }
-    
+
     // Mandamos al backend la opción elegida por el usuario, para actuar acorde a la misma.
     tomarSeleccionOpcRecBolsin(opcion: number) {
-        return this.http.post<void>(this.url, { opcion });
+        this.cargando.set(true);
+        this.error.set(null);
+
+        return this.http.post<void>(this.url, { opcion }).pipe(
+            catchError(err => {
+                this.error.set("Ocurrió un error al registrar la opción seleccionada.");
+                return throwError(() => err);
+            }),
+            finalize(() => this.cargando.set(false))
+        );
     }
 
     // Continúa el flujo de confirmación para comunicarse con el backend.
     tomarConfirmacion() {
-        return this.http.post<{ mensaje: string }>(`${this.url}/confirmar`, {})
-                        .pipe(tap(data => this.mensaje.set(data.mensaje)));
+        this.cargando.set(true);
+        this.error.set(null);
+
+        return this.http.post<{ mensaje: string }>(`${this.url}/confirmar`, {}).pipe(
+            tap(data => this.mensaje.set(data.mensaje)),
+            catchError(err => {
+                this.error.set("No se pudo confirmar la recepción del bolsín.");
+                return throwError(() => err);
+            }),
+            finalize(() => this.cargando.set(false))
+        );
     }
 
     // Obtenemos el mensaje de éxito del backend.
     informarEjecucionExitosaCU() {
-        return this.http.get<{ mensaje: string }>(`${this.url}/finalizar`);
+        this.cargando.set(true);
+        this.error.set(null);
+
+        return this.http.get<{ mensaje: string }>(`${this.url}/finalizar`).pipe(
+            tap(data => this.mensaje.set(data.mensaje)),
+            catchError(err => {
+                this.error.set("No se pudo obtener el mensaje de finalización del caso de uso.");
+                return throwError(() => err);
+            }),
+            finalize(() => this.cargando.set(false))
+        );
     }
+
+    setUsuarioFicticio(nombre: string) {
+        const limpio = nombre.trim();
+        this.usuarioFicticio.set(limpio || "Encargado de Bolsines");
+    }
+
+    getUsuarioFicticio() { return this.usuarioFicticio.asReadonly(); }
 
     getComisionMedica() { return this.comisionMedica; }
 
@@ -73,5 +130,9 @@ export class PantallaRecepcionBolsin {
 
     getBolsinSeleccionado() { return this.bolsinSeleccionado; }
 
-    getMensajeExito() { return this.mensaje;}
+    getMensajeExito() { return this.mensaje; }
+
+    getCargando() { return this.cargando.asReadonly(); }
+
+    getError() { return this.error.asReadonly(); }
 }
